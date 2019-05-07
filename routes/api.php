@@ -21,4 +21,4 @@ Route::post("time-entries","api\TimeEntriesController@getTimeEntries");
 Route::post("get-all-agents","api\TimeEntriesController@getAllAgents");
 Route::post("get-time-entries-api","api\TimeEntriesController@getTimeEntriesApi");
 Route::post("get-time-entries-latest","api\TimeEntriesController@getTimeEntriesThreeDaysAgo");
-Route::post("test","api\TimeEntriesController@test");
+Route::get("test","api\TimeEntriesController@test");
