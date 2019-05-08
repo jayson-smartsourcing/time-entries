@@ -273,13 +273,13 @@ class TimeEntriesController extends Controller
             );
             $final_data[] = $time_entry;
 
-            if($count == 500) {
+            if($count == 200) {
                 $this->harris_sales_time_entries_api->bulkInsert($final_data);
                 $final_data = array();
                 $count = 0;
             }
 
-            if($count < 500 && $key == ($len-1) ){
+            if($count < 200 && $key == ($len-1) ){
                 $this->harris_sales_time_entries_api->bulkInsert($final_data);
             }
         }
@@ -383,7 +383,7 @@ class TimeEntriesController extends Controller
             }
             
 
-            if($count == 500) {
+            if($count == 200) {
                 $this->harris_sales_time_entries_api->bulkDeleteByTimeEntryId($latest_ids);
                 $this->harris_sales_time_entries_api->bulkInsert($final_data);
                 $final_data = array();
@@ -391,7 +391,7 @@ class TimeEntriesController extends Controller
                
             }
 
-            if($count < 500 && $key == ($len-1) ){
+            if($count < 200 && $key == ($len-1) ){
                 $this->harris_sales_time_entries_api->bulkDeleteByTimeEntryId($latest_ids);
                 $this->harris_sales_time_entries_api->bulkInsert($final_data);
             }
