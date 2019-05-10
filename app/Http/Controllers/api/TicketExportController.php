@@ -491,7 +491,7 @@ class TicketExportController extends Controller
                     $department_name = "";
                     $ids[] = $value->id;
                     
-                    if($group) {
+                    if(empty($group)) {
                         $group_data["id"] = $value->group_id;
                         $group_data["ticket_id"] = $value->id;
                         $group_data["entity"] = "group";
@@ -503,7 +503,7 @@ class TicketExportController extends Controller
                         $group_name = $group->name;
                     }
 
-                    if($department) {
+                    if(empty($department)) {
                         $department_data["id"] = $value->department_id;
                         $department_data["entity"] = "department";
                         $department_data["ticket_id"] = $value->id;
