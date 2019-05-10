@@ -427,7 +427,7 @@ class TicketExportController extends Controller
         $data = Input::only("username","password","link");
         $three_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
         
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_days_ago."&order_type=asc&include=stats&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_days_ago."&order_type=asc&include=stats&include=stats&per_page=50";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
