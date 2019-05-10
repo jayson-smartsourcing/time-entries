@@ -22,3 +22,8 @@ Route::post("get-all-agents","api\TimeEntriesController@getAllAgents");
 Route::post("get-time-entries-api","api\TimeEntriesController@getTimeEntriesApi");
 Route::post("get-time-entries-latest","api\TimeEntriesController@getTimeEntriesThreeDaysAgo");
 Route::get("test","api\TimeEntriesController@test");
+Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExport");
+Route::post("bp-requester","api\TicketExportController@getAllRequester");
+Route::post("bp-departments","api\TicketExportController@getAllDepartments");
+Route::post("bp-groups","api\TicketExportController@getAllGroups");
+Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
