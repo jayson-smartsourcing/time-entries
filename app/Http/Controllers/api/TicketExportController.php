@@ -82,7 +82,7 @@ class TicketExportController extends Controller
             } else {
                 $body = json_decode($response->getBody());
             }
-
+           
             if(count($body->tickets) != 0) {
                 $ticket_export_data = $body->tickets;
                 $x++;
@@ -142,8 +142,8 @@ class TicketExportController extends Controller
                         "resolution_status" => $resolution_status,
                         'category' => $value->category,
                         'task' => $value->custom_fields->task,
-                        'newprocess' => $value->custom_fields->newprocess,
-                        'new_subprocess' => $value->custom_fields->new_subprocess,
+                        'process' => $value->custom_fields->newprocess,
+                        'subprocess' => $value->custom_fields->new_subprocess,
                         'newtask' => $value->custom_fields->newtask,
                         'bill' => $value->custom_fields->bill,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
@@ -161,6 +161,7 @@ class TicketExportController extends Controller
                         "to_emails" => json_encode($value->to_emails),
                         "department_id" => $value->department_id,
                         "group_id" => $value->group_id,
+                        "agent_id" => $value->responder_id,
                         "type" => $value->type,
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
                         "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
@@ -531,8 +532,8 @@ class TicketExportController extends Controller
                         "resolution_status" => $resolution_status,
                         'category' => $value->category,
                         'task' => $value->custom_fields->task,
-                        'newprocess' => $value->custom_fields->newprocess,
-                        'new_subprocess' => $value->custom_fields->new_subprocess,
+                        'process' => $value->custom_fields->newprocess,
+                        'subprocess' => $value->custom_fields->new_subprocess,
                         'newtask' => $value->custom_fields->newtask,
                         'bill' => $value->custom_fields->bill,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
@@ -550,6 +551,7 @@ class TicketExportController extends Controller
                         "to_emails" => json_encode($value->to_emails),
                         "department_id" => $value->department_id,
                         "group_id" => $value->group_id,
+                        "agent_id" => $value->responder_id,
                         "type" => $value->type,
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
                         "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
