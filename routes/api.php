@@ -28,3 +28,4 @@ Route::post("bp-departments","api\TicketExportController@getAllDepartments");
 Route::post("bp-groups","api\TicketExportController@getAllGroups");
 Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
 Route::get("bp-test","api\TicketExportController@test");
+Route::post("bp-agents","api\TicketExportController@getAllAgents");

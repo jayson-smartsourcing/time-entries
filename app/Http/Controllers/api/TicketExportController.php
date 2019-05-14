@@ -13,7 +13,8 @@ use App\BPDepartment as BPDepartment;
 use App\BPGroup as BPGroup;
 use App\BPNotFoundId as BPNotFoundId;
 use App\TicketExportStatus as TicketExportStatus;
-
+use App\BPAgents as BPAgents;
+use App\EmployeeRef as EmployeeRef;
 
 class TicketExportController extends Controller
 {
@@ -24,7 +25,10 @@ class TicketExportController extends Controller
         BPDepartment $bp_department,
         BPGroup $bp_group,
         BPNotFoundId $bp_not_found,
-        TicketExportStatus $bp_ticket_status
+        TicketExportStatus $bp_ticket_status,
+        BPAgents $bp_agents,
+        EmployeeRef $employee_ref
+
     )
     {  
         $this->guzzle = $guzzle;
@@ -34,8 +38,9 @@ class TicketExportController extends Controller
         $this->bp_group = $bp_group;
         $this->bp_not_found = $bp_not_found;
         $this->bp_ticket_status = $bp_ticket_status;
+        $this->bp_agents = $bp_agents;
+        $this->employee_ref = $employee_ref;
     }
-
 
     public function getAllTicketExport() {
         $client = new $this->guzzle();
@@ -66,14 +71,14 @@ class TicketExportController extends Controller
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
 
-                    if($status_code != 100 && $tries == 2) {
+                    if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
                         break 2;
                     } 
 
-                    if($status_code == 100) {
+                    if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
@@ -213,14 +218,14 @@ class TicketExportController extends Controller
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
 
-                    if($status_code != 100 && $tries == 2) {
+                    if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
                         break 2;
                     } 
 
-                    if($status_code == 100) {
+                    if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
@@ -295,14 +300,14 @@ class TicketExportController extends Controller
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
 
-                    if($status_code != 100 && $tries == 2) {
+                    if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
                         break 2;
                     } 
 
-                    if($status_code == 100) {
+                    if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
@@ -373,14 +378,14 @@ class TicketExportController extends Controller
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
 
-                    if($status_code != 100 && $tries == 2) {
+                    if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
                         break 2;
                     } 
 
-                    if($status_code == 100) {
+                    if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
@@ -451,7 +456,7 @@ class TicketExportController extends Controller
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
 
-                    if($status_code != 100 && $tries == 2) {
+                    if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
@@ -462,7 +467,7 @@ class TicketExportController extends Controller
                         break 2;
                     } 
 
-                    if($status_code == 100) {
+                    if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
@@ -581,6 +586,91 @@ class TicketExportController extends Controller
         $this->bp_ticket_status->insert($success);
         return response()->json(['success'=> true], 200);
         
+    }
+
+    public function getAllAgents() {
+       
+        $client = new $this->guzzle();
+        $data = Input::only("username","password","link");
+        $three_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
+        
+        $link = $data["link"]. "/api/v2/agents?per_page=50";
+        $ticket_export_data = array();
+        $x = 1;
+        $y = 3;
+
+        for( $i = 1; $i<= $x; $i++ ) {
+            $link .= "&page=".$i;
+            //call to api
+            $response = $client->request('GET', $link, [
+                    'auth' => [$data["username"], $data["password"]]
+            ]);
+            // get Status Code
+            $status_code = $response->getStatusCode();  
+
+            if($status_code != 200 ) {
+               for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
+                        'auth' => [$data["username"], $data["password"]]
+                    ]);
+                    //get status Code    
+                    $status_code = $response_retry->getStatusCode(); 
+
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        $final_data["account"] = "BP";
+                        $final_data["created_at"] = Carbon::now()->setTimezone('Asia/Manila');
+                        $final_data["updated_at"] = Carbon::now()->setTimezone('Asia/Manila');
+                        $this->bp_ticket_status->insert($failed_data);
+                        break 2;
+                    } 
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody());
+                        break;
+                    }
+               }
+                
+            } else {
+                $body = json_decode($response->getBody());
+            }
+
+            if(count($body->agents) != 0) {
+                $agents = $body->agents;
+                $x++;
+
+                $final_data = array();
+                $count = 0;
+                $len = count($agents);
+                $ref_data = array();
+                $now = Carbon::now();
+                foreach($agents as $key => $value) {
+                    $agent = array(
+                        "id" => $value->id,
+                        "first_name" => $value->first_name,
+                        "last_name" => $value->last_name,
+                        "created_at" => $now->setTimezone('Asia/Manila'),
+                        "updated_at" => $now->setTimezone('Asia/Manila')
+
+                    );
+
+                    $ref_data = array(
+                        "SYSTEM NAME" => $value->first_name." ".$value->last_name,
+                        "SYSTEM ID" => $value->id
+                    );
+                    //update agent Id
+                    $this->employee_ref->updateSystemIdByName($ref_data);
+
+                    $final_data[] = $agent;
+                }
+
+                $this->bp_agents->bulkInsert($final_data);
+                return response()->json(['success'=> true], 200);
+            } 
+        }    
     }
 
     public function test() {
