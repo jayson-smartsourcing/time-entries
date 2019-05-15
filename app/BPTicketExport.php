@@ -16,7 +16,6 @@ class BPTicketExport extends Model
        'task',
        'process',
        'subprocess',
-       'newtask',
        'bill',
        'resolved_at',
        'closed_at',
