@@ -40,6 +40,7 @@ class BPTicketExport extends Model
        'channel',
        'created_at',
        'updated_at',
+       'attendance_id',
        'deleted'
     ];
 

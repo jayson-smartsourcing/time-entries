@@ -531,6 +531,10 @@ class TicketExportController extends Controller
                         }
                     }
 
+                    $agent_detail = $this->employee_ref->getEmployeeData($value->agent_id);
+                    $date_executed = Carbon::parse($value->created_at)->format("Ymd");
+                    $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
+
                     $ticket_export = array(
                         "id" => $value->id,
                         "unique_id" => $unique_id,
@@ -556,6 +560,7 @@ class TicketExportController extends Controller
                         "department_id" => $value->department_id,
                         "group_id" => $value->group_id,
                         "agent_id" => $value->responder_id,
+                        
                         "type" => $value->type,
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
                         "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
@@ -563,7 +568,8 @@ class TicketExportController extends Controller
                         "channel" => $value->custom_fields->channel,
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                        "deleted" => $value->deleted
+                        "deleted" => $value->deleted,
+                        'attendance_id' => $attendance_id
 
                     );
                     $final_data[] = $ticket_export;
@@ -592,7 +598,6 @@ class TicketExportController extends Controller
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
         $three_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
-        
         $link = $data["link"]. "/api/v2/agents?per_page=50";
         $ticket_export_data = array();
         $x = 1;
