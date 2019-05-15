@@ -531,7 +531,7 @@ class TicketExportController extends Controller
                         }
                     }
 
-                    $agent_detail = $this->employee_ref->getEmployeeData($value->agent_id);
+                    $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
                     $date_executed = Carbon::parse($value->created_at)->format("Ymd");
                     $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
