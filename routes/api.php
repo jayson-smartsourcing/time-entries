@@ -34,3 +34,4 @@ Route::post("hr-departments","api\HarrisFreshServiceController@getAllDepartments
 Route::post("hr-requesters","api\HarrisFreshServiceController@getAllRequester");
 Route::post("hr-agents","api\HarrisFreshServiceController@getAllAgents");
 Route::post("hr-ticket-export","api\HarrisFreshServiceController@getAllTicketExport");
+Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExport");

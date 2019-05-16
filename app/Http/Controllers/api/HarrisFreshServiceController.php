@@ -517,5 +517,169 @@ class HarrisFreshServiceController extends Controller
         
     }
 
+
+    public function getLatestTicketExport() {
+        $client = new $this->guzzle();
+        $data = Input::only("username","password","link");
+        $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
+        
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&include=stats&per_page=50";
+        $ticket_export_data = array();
+        $x = 1;
+        $y = 3;
+
+        for( $i = 1; $i<= $x; $i++ ) {
+            $link .= "&page=".$i;
+            //call to api
+            $response = $client->request('GET', $link, [
+                    'auth' => [$data["username"], $data["password"]]
+            ]);
+            // get Status Code
+            $status_code = $response->getStatusCode();  
+
+            if($status_code != 200 ) {
+               for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
+                        'auth' => [$data["username"], $data["password"]]
+                    ]);
+                    //get status Code    
+                    $status_code = $response_retry->getStatusCode(); 
+
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        $final_data["account"] = "HarrisFS";
+                        $final_data["created_at"] = Carbon::now()->setTimezone('Asia/Manila');
+                        $final_data["updated_at"] = Carbon::now()->setTimezone('Asia/Manila');
+                        $this->bp_ticket_status->insert($failed_data);
+                        break 2;
+                    } 
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody());
+                        break;
+                    }
+               }
+                
+            } else {
+                $body = json_decode($response->getBody());
+            }
+
+            if(count($body->tickets) != 0) {
+                $ticket_export_data = $body->tickets;
+                $x++;
+
+                $final_data = array();
+                $count = 0;
+                $len = count($ticket_export_data);
+                $not_found = array();
+                $ids = array();  
+
+                foreach($ticket_export_data as $key => $value) {
+                    $now = Carbon::now();
+                    $group = $this->harris_fs_group->getDataById($value->group_id);
+                    $department = $this->harris_fs_department->getDataById($value->department_id);
+                    $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
+                    $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
+                    $group_name = ""; 
+                    $department_name = "";
+                    $ids[] = $value->id;
+                    
+                    if(empty($group)) {
+                        $group_data["id"] = $value->group_id;
+                        $group_data["ticket_id"] = $value->id;
+                        $group_data["entity"] = "group";
+                        $group_data["created_at"] = $now;
+                        $group_data["updated_at"] = $now;
+                        $not_found[] = $group_data;
+                        
+                    } else {
+                        $group_name = $group->name;
+                    }
+
+                    if(empty($department)) {
+                        $department_data["id"] = $value->department_id;
+                        $department_data["entity"] = "department";
+                        $department_data["ticket_id"] = $value->id;
+                        $department_data["created_at"] = $now;
+                        $department_data["updated_at"] = $now;
+                        $not_found[] = $department_data;
+                    } else {
+                        $department_name = $department->name;
+                    }
+                    
+                    $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task.$department_name;
+                    if($value->category == "No SLA") {
+                        $resolution_status = "Within SLA";
+                    } else {
+                        if($resolved_at < $due_by) {
+                            $resolution_status = "Within SLA";
+                        } else {
+                            $resolution_status = "SLA Violated";    
+                        }
+                    }
+
+                    $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
+                    $date_executed = Carbon::parse($value->created_at)->format("Ymd");
+                    $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
+
+                    $ticket_export = array(
+                        "id" => $value->id,
+                        "unique_id" => $unique_id,
+                        "resolution_status" => $resolution_status,
+                        'category' => $value->category,
+                        'task' => $value->custom_fields->task,
+                        'process' => $value->custom_fields->process,
+                        'subprocess' => $value->custom_fields->sub_process,
+                        'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
+                        'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
+                        "cc_emails" => json_encode($value->cc_emails),
+                        "fwd_emails" => json_encode($value->fwd_emails),
+                        "reply_cc_emails" => json_encode($value->reply_cc_emails),
+                        "fr_escalated" => $value->fr_escalated,
+                        "spam" => $value->spam,
+                        "priority" => $value->priority,
+                        "requester_id" => $value->requester_id,
+                        "source" => $value->source,
+                        "status" => $value->status,
+                        "subject" => $value->subject,
+                        "to_emails" => json_encode($value->to_emails),
+                        "department_id" => $value->department_id,
+                        "group_id" => $value->group_id,
+                        "agent_id" => $value->responder_id,
+                        "type" => $value->type,
+                        "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
+                        "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                        "is_escalated" => $value->is_escalated,
+                        "channel" => $value->custom_fields->channel,
+                        "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
+                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
+                        "deleted" => $value->deleted,
+                        'attendance_id' => $attendance_id
+
+                    );
+                    $final_data[] = $ticket_export;
+                }
+                $this->harris_fs_ticket->bulkDeleteByTicketExportId($ids);
+                $this->harris_fs_ticket->bulkInsert($final_data);
+                if(count($not_found) > 0) {
+                    $this->bp_not_found->bulkInsert($not_found);
+                }
+               
+            } 
+        }
+
+        $success["status"] = 200;
+        $success["link"] = $data["link"];
+        $success["account"] = "BP";
+        $success["created_at"] = $now->setTimezone('Asia/Manila');
+        $success["updated_at"] = $now->setTimezone('Asia/Manila');
+        $this->bp_ticket_status->insert($success);
+        return response()->json(['success'=> true], 200);
+        
+    }
+
     
 }
