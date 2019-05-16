@@ -15,6 +15,7 @@ use App\BPNotFoundId as BPNotFoundId;
 use App\TicketExportStatus as TicketExportStatus;
 use App\BPAgents as BPAgents;
 use App\EmployeeRef as EmployeeRef;
+use App\FailedTimeEntries as FailedTimeEntries;
 
 class TicketExportController extends Controller
 {
@@ -27,8 +28,8 @@ class TicketExportController extends Controller
         BPNotFoundId $bp_not_found,
         TicketExportStatus $bp_ticket_status,
         BPAgents $bp_agents,
-        EmployeeRef $employee_ref
-
+        EmployeeRef $employee_ref,
+        FailedTimeEntries $failed_time_entries
     )
     {  
         $this->guzzle = $guzzle;
@@ -40,6 +41,8 @@ class TicketExportController extends Controller
         $this->bp_ticket_status = $bp_ticket_status;
         $this->bp_agents = $bp_agents;
         $this->employee_ref = $employee_ref;
+        $this->failed_time_entries = $failed_time_entries;
+
     }
 
     public function getAllTicketExport() {
@@ -680,5 +683,9 @@ class TicketExportController extends Controller
     public function test() {
         echo 1;
         die;
+    }
+
+    public function update_attendance_id() {
+        
     }
 }

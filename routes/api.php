@@ -29,3 +29,8 @@ Route::post("bp-groups","api\TicketExportController@getAllGroups");
 Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
 Route::get("bp-test","api\TicketExportController@test");
 Route::post("bp-agents","api\TicketExportController@getAllAgents");
+Route::post("hr-groups","api\HarrisFreshServiceController@getAllGroups");
+Route::post("hr-departments","api\HarrisFreshServiceController@getAllDepartments");
+Route::post("hr-requesters","api\HarrisFreshServiceController@getAllRequester");
+Route::post("hr-agents","api\HarrisFreshServiceController@getAllAgents");
+Route::post("hr-ticket-export","api\HarrisFreshServiceController@getAllTicketExport");
