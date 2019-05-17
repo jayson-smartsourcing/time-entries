@@ -7,47 +7,44 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use \GuzzleHttp\Client as Guzzle;
 use Carbon\Carbon as Carbon;
-//models
-use App\HarrisFSGroup as HarrisFSGroup;
-use App\HarrisFSDepartment as HarrisFSDepartment;
-use App\FailedTimeEntries as FailedTimeEntries;
-use App\HarrisFSRequester as HarrisFSRequester;
-use App\HarrisFSAgent as HarrisFSAgent;
+//model
 use App\EmployeeRef as EmployeeRef;
-use App\TicketExportStatus as TicketExportStatus;
 use App\BPNotFoundId as BPNotFoundId;
-use App\HarrisFSTicket as HarrisFSTicket;
+use App\FailedTimeEntries as FailedTimeEntries;
+use App\JCFSGroup as JCFSGroup;
+use App\JCFSDepartment as JCFSDepartment;
+use App\JCFSRequester as JCFSRequester;
+use App\JCFSAgent as JCFSAgent;
+use App\TicketExportStatus as TicketExportStatus;
+use App\JCFSTicket as JCFSTicket;
 
-
-class HarrisFreshServiceController extends Controller
+class JellisCraigFSController extends Controller
 {   
     public function __construct(
         Guzzle $guzzle, 
-        HarrisFSGroup $harris_fs_group,
-        HarrisFSDepartment $harris_fs_department,
-        FailedTimeEntries $failed_time_entries,
-        HarrisFSRequester $harris_fs_requester,
-        HarrisFSAgent $harris_fs_agent,
+        JCFSGroup $jc_fs_group,
+        JCFSDepartment $jc_fs_department,
+        JCFSRequester $jc_fs_requester,
+        JCFSAgent $jc_fs_agent,
+        JCFSTicket $jc_fs_ticket,
         EmployeeRef $employee_ref,
         TicketExportStatus $bp_ticket_status,
-        BPNotFoundId $bp_not_found,
-        HarrisFSTicket $harris_fs_ticket
+        FailedTimeEntries $failed_time_entries,
+        BPNotFoundId $bp_not_found
 
     )
     {  
         $this->guzzle = $guzzle;
-        $this->harris_fs_group = $harris_fs_group;
-        $this->harris_fs_department = $harris_fs_department;
-        $this->failed_time_entries = $failed_time_entries;
-        $this->harris_fs_requester = $harris_fs_requester;
-        $this->harris_fs_agent = $harris_fs_agent;
-        $this->employee_ref = $employee_ref;
+        $this->jc_fs_group = $jc_fs_group;
+        $this->jc_fs_department = $jc_fs_department;
+        $this->jc_fs_requester = $jc_fs_requester;
+        $this->jc_fs_agent = $jc_fs_agent;
         $this->bp_ticket_status = $bp_ticket_status;
+        $this->employee_ref = $employee_ref;
+        $this->failed_time_entries = $failed_time_entries;
+        $this->jc_fs_ticket = $jc_fs_ticket;
         $this->bp_not_found = $bp_not_found;
-        $this->harris_fs_ticket = $harris_fs_ticket;
-       
     }
-
     public function getAllGroups() {
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
@@ -117,7 +114,7 @@ class HarrisFreshServiceController extends Controller
                     $final_data[] = $group;
                 }
 
-                $this->harris_fs_group->bulkInsert($final_data);
+                $this->jc_fs_group->bulkInsert($final_data);
             } 
 
         }
@@ -195,7 +192,7 @@ class HarrisFreshServiceController extends Controller
                     $final_data[] = $department;
                 }
 
-                $this->harris_fs_department->bulkInsert($final_data);
+                $this->jc_fs_department->bulkInsert($final_data);
             } 
 
         }
@@ -273,7 +270,7 @@ class HarrisFreshServiceController extends Controller
 
                     $final_data[] = $requester;
                 }
-                $this->harris_fs_requester->bulkInsert($final_data);
+                $this->jc_fs_requester->bulkInsert($final_data);
             } 
 
         }
@@ -358,7 +355,7 @@ class HarrisFreshServiceController extends Controller
                     $final_data[] = $agent;
                 }
 
-                $this->harris_fs_agent->bulkInsert($final_data);
+                $this->jc_fs_agent->bulkInsert($final_data);
                 return response()->json(['success'=> true], 200);
             } 
         }    
@@ -421,8 +418,7 @@ class HarrisFreshServiceController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->harris_fs_group->getDataById($value->group_id);
-                    $department = $this->harris_fs_department->getDataById($value->department_id);
+                    $group = $this->jc_fs_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -439,17 +435,6 @@ class HarrisFreshServiceController extends Controller
                         
                     } else {
                         $group_name = $group->name;
-                    }
-
-                    if(count($department) == 0) {
-                        $department_data["id"] = $value->department_id;
-                        $department_data["entity"] = "department";
-                        $department_data["ticket_id"] = $value->id;
-                        $department_data["created_at"] = $now;
-                        $department_data["updated_at"] = $now;
-                        $not_found[] = $department_data;
-                    } else {
-                        $department_name = $department->name;
                     }
                     
                     $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
@@ -475,7 +460,6 @@ class HarrisFreshServiceController extends Controller
                         'task' => $value->custom_fields->task,
                         'process' => $value->custom_fields->process,
                         'subprocess' => $value->custom_fields->sub_process,
-                        //'bill' => $value->custom_fields->bill,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -505,7 +489,7 @@ class HarrisFreshServiceController extends Controller
                     );
                     $final_data[] = $ticket_export;
                 }
-                $this->harris_fs_ticket->bulkInsert($final_data);
+                $this->jc_fs_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
@@ -550,7 +534,7 @@ class HarrisFreshServiceController extends Controller
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
-                        $final_data["account"] = "HarrisFS";
+                        $final_data["account"] = "JCFS";
                         $final_data["created_at"] = Carbon::now()->setTimezone('Asia/Manila');
                         $final_data["updated_at"] = Carbon::now()->setTimezone('Asia/Manila');
                         $this->bp_ticket_status->insert($failed_data);
@@ -579,8 +563,7 @@ class HarrisFreshServiceController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->harris_fs_group->getDataById($value->group_id);
-                    $department = $this->harris_fs_department->getDataById($value->department_id);
+                    $group = $this->jc_fs_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -599,17 +582,6 @@ class HarrisFreshServiceController extends Controller
                         $group_name = $group->name;
                     }
 
-                    if(empty($department)) {
-                        $department_data["id"] = $value->department_id;
-                        $department_data["entity"] = "department";
-                        $department_data["ticket_id"] = $value->id;
-                        $department_data["created_at"] = $now;
-                        $department_data["updated_at"] = $now;
-                        $not_found[] = $department_data;
-                    } else {
-                        $department_name = $department->name;
-                    }
-                    
                     $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
@@ -662,8 +634,8 @@ class HarrisFreshServiceController extends Controller
                     );
                     $final_data[] = $ticket_export;
                 }
-                $this->harris_fs_ticket->bulkDeleteByTicketExportId($ids);
-                $this->harris_fs_ticket->bulkInsert($final_data);
+                $this->jc_fs_ticket->bulkDeleteByTicketExportId($ids);
+                $this->jc_fs_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
@@ -673,7 +645,7 @@ class HarrisFreshServiceController extends Controller
 
         $success["status"] = 200;
         $success["link"] = $data["link"];
-        $success["account"] = "JC FS";
+        $success["account"] = "JCFS";
         $success["created_at"] = $now->setTimezone('Asia/Manila');
         $success["updated_at"] = $now->setTimezone('Asia/Manila');
         $this->bp_ticket_status->insert($success);
@@ -681,5 +653,8 @@ class HarrisFreshServiceController extends Controller
         
     }
 
-    
+
+
+
+
 }
