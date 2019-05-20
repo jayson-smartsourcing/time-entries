@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class JCFSAgent extends Model
 {
-    protected $table = 'jc_fs_agents';
+    protected $table = 'jck_fs_agents';
     protected $fillable = [
        'id',
        'first_name',
@@ -18,7 +18,7 @@ class JCFSAgent extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jc_fs_agents')->insert($data);
+        return DB::table('jck_fs_agents')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){

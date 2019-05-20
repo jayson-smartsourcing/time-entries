@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class JCFSGroup extends Model
 {
-    protected $table = 'jc_fs_groups';
+    protected $table = 'jck_fs_groups';
     protected $fillable = [
        'id',
        'name',
@@ -22,7 +22,7 @@ class JCFSGroup extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jc_fs_groups')->insert($data);
+        return DB::table('jck_fs_groups')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){

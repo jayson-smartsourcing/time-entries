@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class JCFSRequester extends Model
 {
-    protected $table = 'jc_fs_requesters';
+    protected $table = 'jck_fs_requesters';
     protected $fillable = [
        'id',
        'first_name',
@@ -24,7 +24,7 @@ class JCFSRequester extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jc_fs_requesters')->insert($data);
+        return DB::table('jck_fs_requesters')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){

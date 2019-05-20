@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class JCFSDepartment extends Model
 {
-    protected $table = 'jc_fs_departments';
+    protected $table = 'jck_fs_departments';
     protected $fillable = [
        'id',
        'name',
@@ -21,7 +21,7 @@ class JCFSDepartment extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jc_fs_departments')->insert($data);
+        return DB::table('jck_fs_departments')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){
