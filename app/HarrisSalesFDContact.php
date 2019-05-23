@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class HarrisSalesFDContact extends Model
 {
-    protected $table = 'harris_sales_fd_contacts';
+    protected $table = 'harris_fd_contacts';
     protected $fillable = [
        'id',
        'name',
@@ -17,7 +17,7 @@ class HarrisSalesFDContact extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('harris_sales_fd_contacts')->insert($data);
+        return DB::table('harris_fd_contacts')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){

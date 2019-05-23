@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class HarrisSalesFDTimeEntry extends Model
 {
-    protected $table = 'harris_sales_fd_time_entries';
+    protected $table = 'harris_fd_time_entries';
     protected $fillable = [
         'id',
         'attendance_id',
@@ -29,7 +29,7 @@ class HarrisSalesFDTimeEntry extends Model
     }
 
     public function bulkInsert($data){
-        return DB::table('harris_sales_fd_time_entries')->insert($data);
+        return DB::table('harris_fd_time_entries')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){

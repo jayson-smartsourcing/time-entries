@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class HarrisSalesFDTicket extends Model
 {
-    protected $table = 'harris_sales_fd_tickets';
+    protected $table = 'harris_fd_tickets';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class HarrisSalesFDTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('harris_sales_fd_tickets')->insert($data);
+        return DB::table('harris_fd_tickets')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
