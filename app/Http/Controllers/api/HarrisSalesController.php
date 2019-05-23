@@ -734,7 +734,7 @@ class HarrisSalesController extends Controller
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
         $three_month_ago = Carbon::now()->subDays(60)->format("Y-m-d");
-        $three_days_ago = Carbon::now()->subDays(3)->format("Y-m-d");
+        $three_days_ago = Carbon::now()->subDays(2)->format("Y-m-d");
         
         $link = $data["link"]. "/api/v2/time_entries?executed_after=".$three_month_ago."&per_page=50";
         $time_entries_data = array();
