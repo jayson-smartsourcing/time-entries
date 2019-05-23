@@ -44,3 +44,13 @@ Route::post("jc-fs-requesters","api\JellisCraigFSController@getAllRequester");
 Route::post("jc-fs-agents","api\JellisCraigFSController@getAllAgents");
 Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExport");
 Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExport");
+//harris fd
+Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTickets");
+Route::post("hs-fd-groups","api\HarrisSalesController@getAllGroups");
+Route::post("hs-fd-companies","api\HarrisSalesController@getAllCompanies");
+Route::post("hs-fd-agents","api\HarrisSalesController@getAllAgents");
+Route::post("hs-fd-contacts","api\HarrisSalesController@getAllContacts");
+Route::post("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExport");
+Route::post("hs-fd-time-entries","api\HarrisSalesController@getAllTimeEntries");
+Route::post("hs-fd-time-entries-latest","api\HarrisSalesController@getTimeEntriesThreeDaysAgo");
+

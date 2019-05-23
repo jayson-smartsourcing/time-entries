@@ -30,4 +30,8 @@ class BPRequester extends Model
     public function bulkDeleteByTimeEntryId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
     }
+
+    public function truncateTable() {
+        return static::truncate();
+    }
 }

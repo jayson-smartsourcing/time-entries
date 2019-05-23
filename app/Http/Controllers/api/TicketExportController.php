@@ -202,7 +202,7 @@ class TicketExportController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-
+        $this->bp_requester->truncateTable();
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
             //call to api
@@ -279,7 +279,7 @@ class TicketExportController extends Controller
 
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
-
+        $this->bp_department->truncateTable();
         $link = $data["link"]. "/api/v2/departments?per_page=100";
         $ticket_export_data = array();
         $x = 1;
@@ -362,7 +362,7 @@ class TicketExportController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-
+        $this->bp_group->truncateTable();
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
             //call to api
@@ -605,7 +605,7 @@ class TicketExportController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-
+        $this->bp_agents->truncateTable();
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
             //call to api

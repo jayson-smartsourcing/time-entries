@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class BPAgents extends Model
+class HarrisSalesFDAgent extends Model
 {
-    protected $table = 'BPAgents';
+    protected $table = 'harris_sales_fd_agents';
     protected $fillable = [
        'id',
        'first_name',
@@ -18,7 +18,7 @@ class BPAgents extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('BPAgents')->insert($data);
+        return DB::table('harris_sales_fd_agents')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){
@@ -27,9 +27,5 @@ class BPAgents extends Model
 
     public function getAgentById($id) {
         return static::where('id',$id)->first();
-    }
-    
-    public function truncateTable() {
-        return static::truncate();
     }
 }
