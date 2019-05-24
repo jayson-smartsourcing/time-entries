@@ -51,4 +51,8 @@ class BPTicketExport extends Model
     public function bulkDeleteByTicketExportId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
     }
+
+    public function runStoredProcedure() {
+        return DB::select('EXEC Create_BPTicketExport');
+    }
 }

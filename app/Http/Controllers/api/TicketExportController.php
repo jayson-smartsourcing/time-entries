@@ -585,7 +585,7 @@ class TicketExportController extends Controller
                
             } 
         }
-
+        $this->bp_ticket_export->runStoredProcedure();
         $success["status"] = 200;
         $success["link"] = $data["link"];
         $success["account"] = "BP";
