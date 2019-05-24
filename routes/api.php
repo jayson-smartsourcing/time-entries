@@ -53,4 +53,10 @@ Route::post("hs-fd-contacts","api\HarrisSalesController@getAllContacts");
 Route::post("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExport");
 Route::post("hs-fd-time-entries","api\HarrisSalesController@getAllTimeEntries");
 Route::post("hs-fd-time-entries-latest","api\HarrisSalesController@getTimeEntriesThreeDaysAgo");
-
+//dingles fd
+Route::post("dingles-fd-groups","api\DinglesFDController@getAllGroups");
+Route::post("dingles-fd-companies","api\DinglesFDController@getAllCompanies");
+Route::post("dingles-fd-agents","api\DinglesFDController@getAllAgents");
+Route::post("dingles-fd-contacts","api\DinglesFDController@getAllContacts");
+Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
+Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
