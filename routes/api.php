@@ -67,3 +67,10 @@ Route::post("emurun-fd-agents","api\EmurunFDController@getAllAgents");
 Route::post("emurun-fd-contacts","api\EmurunFDController@getAllContacts");
 Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTickets");
 Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");
+//jcn fd
+Route::post("jcn-fd-groups","api\JCNFDController@getAllGroups");
+Route::post("jcn-fd-companies","api\JCNFDController@getAllCompanies");
+Route::post("jcn-fd-agents","api\JCNFDController@getAllAgents");
+Route::post("jcn-fd-contacts","api\JCNFDController@getAllContacts");
+Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
+Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
