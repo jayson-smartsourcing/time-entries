@@ -60,3 +60,10 @@ Route::post("dingles-fd-agents","api\DinglesFDController@getAllAgents");
 Route::post("dingles-fd-contacts","api\DinglesFDController@getAllContacts");
 Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
 Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+//emurun fd
+Route::post("emurun-fd-groups","api\EmurunFDController@getAllGroups");
+Route::post("emurun-fd-companies","api\EmurunFDController@getAllCompanies");
+Route::post("emurun-fd-agents","api\EmurunFDController@getAllAgents");
+Route::post("emurun-fd-contacts","api\EmurunFDController@getAllContacts");
+Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTickets");
+Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");

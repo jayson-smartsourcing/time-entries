@@ -11,35 +11,36 @@ use Carbon\Carbon as Carbon;
 use App\EmployeeRef as EmployeeRef;
 use App\BPNotFoundId as BPNotFoundId;
 use App\FailedTimeEntries as FailedTimeEntries;
-use App\DinglesFDGroup as DinglesFDGroup;
-use App\DinglesFDCompanies as DinglesFDCompanies;
-use App\DinglesFDAgent as DinglesFDAgent;
-use App\DinglesFDContact as DinglesFDContact;
-use App\DinglesFDTicket as DinglesFDTicket;
+use App\EmurunFDGroup as EmurunFDGroup;
+use App\EmurunFDCompany as EmurunFDCompany;
+use App\EmurunFDAgent as EmurunFDAgent;
+use App\EmurunFDContact as EmurunFDContact;
+use App\EmurunFDTicket as EmurunFDTicket;
 
 
-class DinglesFDController extends Controller
+
+class EmurunFDController extends Controller
 {
     public function __construct(
         Guzzle $guzzle,
         BPNotFoundId  $bp_not_found,
         EmployeeRef $employee_ref,
-        DinglesFDGroup $dingles_group,
-        DinglesFDCompanies $dingles_company,
-        DinglesFDAgent $dingles_agent,
-        DinglesFDContact $dingles_contact,
-        DinglesFDTicket $dingles_ticket
+        EmurunFDGroup $emurun_fd_group,
+        EmurunFDCompany $emurun_fd_company,
+        EmurunFDAgent $emurun_fd_agent,
+        EmurunFDContact $emurun_fd_contact,
+        EmurunFDTicket $emurun_fd_ticket
 
     )
     {  
         $this->guzzle = $guzzle;
         $this->bp_not_found = $bp_not_found;
         $this->employee_ref = $employee_ref;
-        $this->dingles_group = $dingles_group;
-        $this->dingles_company = $dingles_company;
-        $this->dingles_agent = $dingles_agent;
-        $this->dingles_contact = $dingles_contact;
-        $this->dingles_ticket = $dingles_ticket;
+        $this->emurun_fd_group = $emurun_fd_group;
+        $this->emurun_fd_company = $emurun_fd_company;
+        $this->emurun_fd_agent = $emurun_fd_agent;
+        $this->emurun_fd_contact = $emurun_fd_contact;
+        $this->emurun_fd_ticket = $emurun_fd_ticket;
         
     }  
 
@@ -51,7 +52,7 @@ class DinglesFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->dingles_group->truncateTable();
+        $this->emurun_fd_group->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -112,7 +113,7 @@ class DinglesFDController extends Controller
                     $final_data[] = $group;
                 }
 
-                $this->dingles_group->bulkInsert($final_data);
+                $this->emurun_fd_group->bulkInsert($final_data);
             } 
 
         }
@@ -129,7 +130,7 @@ class DinglesFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->dingles_company->truncateTable();
+        $this->emurun_fd_company->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -187,7 +188,7 @@ class DinglesFDController extends Controller
                     $final_data[] = $company;
                 }
 
-                $this->dingles_company->bulkInsert($final_data);
+                $this->emurun_fd_company->bulkInsert($final_data);
             } 
 
         }
@@ -204,7 +205,7 @@ class DinglesFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->dingles_agent->truncateTable();
+        $this->emurun_fd_agent->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -268,7 +269,7 @@ class DinglesFDController extends Controller
                    // $this->employee_ref->updateSystemIdByName($ref_data);
                 }
 
-                $this->dingles_agent->bulkInsert($final_data);
+                $this->emurun_fd_agent->bulkInsert($final_data);
             } 
 
         }
@@ -285,7 +286,7 @@ class DinglesFDController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-        $this->dingles_contact->truncateTable();
+        $this->emurun_fd_contact->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -343,7 +344,7 @@ class DinglesFDController extends Controller
                     $final_data[] = $agent;
                 }
 
-                $this->dingles_contact->bulkInsert($final_data);
+                $this->emurun_fd_contact->bulkInsert($final_data);
             } 
 
         }
@@ -351,9 +352,7 @@ class DinglesFDController extends Controller
         return response()->json(['success'=> true], 200); 
     }
 
-
     public function getAllTickets(){
-
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
         $three_month_ago = new Carbon("Last Day of September 2018");
@@ -364,7 +363,7 @@ class DinglesFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->dingles_ticket->truncateTable();
+        $this->emurun_fd_ticket->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -412,7 +411,7 @@ class DinglesFDController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->dingles_group->getDataById($value->group_id);
+                    $group = $this->emurun_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -430,7 +429,7 @@ class DinglesFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process.$value->custom_fields->cf_sub_process.$value->custom_fields->cf_task;
+                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -451,9 +450,9 @@ class DinglesFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task,
-                        'process' => $value->custom_fields->cf_process,
-                        'subprocess' => $value->custom_fields->cf_sub_process,
+                        'task' => $value->custom_fields->cf_newtask,
+                        'process' => $value->custom_fields->cf_newprocess,
+                        'subprocess' => $value->custom_fields->cf_newsubprocess,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -482,7 +481,7 @@ class DinglesFDController extends Controller
                     
                     $final_data[] = $ticket_export;
                 }
-                $this->dingles_ticket->bulkInsert($final_data);
+                $this->emurun_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
@@ -493,11 +492,12 @@ class DinglesFDController extends Controller
         
         return response()->json(['success'=> true], 200);
     }
-    
+
     public function getLatestTicketExport() {
+
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
-        $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
+        $two_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=50";
         $ticket_export_data = array();
@@ -551,7 +551,7 @@ class DinglesFDController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->dingles_group->getDataById($value->group_id);
+                    $group = $this->emurun_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -570,7 +570,7 @@ class DinglesFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process.$value->custom_fields->cf_sub_process.$value->custom_fields->cf_task;
+                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -591,9 +591,9 @@ class DinglesFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task,
-                        'process' => $value->custom_fields->cf_process,
-                        'subprocess' => $value->custom_fields->cf_sub_process,
+                        'task' => $value->custom_fields->cf_newtask,
+                        'process' => $value->custom_fields->cf_newprocess,
+                        'subprocess' => $value->custom_fields->cf_newsubprocess,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -622,8 +622,8 @@ class DinglesFDController extends Controller
                     
                     $final_data[] = $ticket_export;
                 }
-                $this->dingles_ticket->bulkDeleteByTicketExportId($ids);
-                $this->dingles_ticket->bulkInsert($final_data);
+                $this->emurun_fd_ticket->bulkDeleteByTicketExportId($ids);
+                $this->emurun_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
@@ -634,4 +634,7 @@ class DinglesFDController extends Controller
         
         return response()->json(['success'=> true], 200);
     }
+
+
+
 }
