@@ -74,3 +74,10 @@ Route::post("jcn-fd-agents","api\JCNFDController@getAllAgents");
 Route::post("jcn-fd-contacts","api\JCNFDController@getAllContacts");
 Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
 Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
+//cameron fd
+Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
+Route::post("cameron-fd-companies","api\CameronFDController@getAllCompanies");
+Route::post("cameron-fd-agents","api\CameronFDController@getAllAgents");
+Route::post("cameron-fd-contacts","api\CameronFDController@getAllContacts");
+Route::post("cameron-fd-tickets","api\CameronFDController@getAllTickets");
+Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExport");
