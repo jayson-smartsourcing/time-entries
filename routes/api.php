@@ -88,3 +88,10 @@ Route::post("toureast-fd-agents","api\ToureastFDController@getAllAgents");
 Route::post("toureast-fd-contacts","api\ToureastFDController@getAllContacts");
 Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTickets");
 Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExport");
+//raywhite fd
+Route::post("raywhite-fd-groups","api\RaywhiteFDController@getAllGroups");
+Route::post("raywhite-fd-companies","api\RaywhiteFDController@getAllCompanies");
+Route::post("raywhite-fd-agents","api\RaywhiteFDController@getAllAgents");
+Route::post("raywhite-fd-contacts","api\RaywhiteFDController@getAllContacts");
+Route::post("raywhite-fd-tickets","api\RaywhiteFDController@getAllTickets");
+Route::post("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
