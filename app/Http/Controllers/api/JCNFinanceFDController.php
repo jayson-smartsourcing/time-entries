@@ -10,36 +10,36 @@ use Carbon\Carbon as Carbon;
 //model
 use App\EmployeeRef as EmployeeRef;
 use App\BPNotFoundId as BPNotFoundId;
-use App\JCNFDGroup as JCNFDGroup;
-use App\JCNFDCompany as JCNFDCompany;
-use App\JCNFDAgent as JCNFDAgent;
-use App\JCNFDContact as JCNFDContact;
-use App\JCNFDTicket as JCNFDTicket;
+use App\JCNFinanceFDGroup as JCNFinanceFDGroup;
+use App\JCNFinanceFDCompany as JCNFinanceFDCompany;
+use App\JCNFinanceFDAgent as JCNFinanceFDAgent;
+use App\JCNFinanceFDContact as JCNFinanceFDContact;
+use App\JCNFinanceFDTicket as JCNFinanceFDTicket;
 
 
-class JCNFDController extends Controller
+class JCNFinanceFDController extends Controller
 {
     public function __construct(
         Guzzle $guzzle,
         BPNotFoundId  $bp_not_found,
         EmployeeRef $employee_ref,
-        JCNFDGroup $jcn_fd_group,
-        JCNFDCompany $jcn_fd_company,
-        JCNFDAgent $jcn_fd_agent,
-        JCNFDContact $jcn_fd_contact,
-        JCNFDTicket $jcn_fd_ticket
+        JCNFinanceFDGroup $jcn_finance_fd_group,
+        JCNFinanceFDCompany $jcn_finance_fd_company,
+        JCNFinanceFDAgent $jcn_finance_fd_agent,
+        JCNFinanceFDContact $jcn_finance_fd_contact,
+        JCNFinanceFDTicket $jcn_finance_fd_ticket
     )
     {  
         $this->guzzle = $guzzle;
         $this->bp_not_found = $bp_not_found;
         $this->employee_ref = $employee_ref;
-        $this->jcn_fd_group = $jcn_fd_group;
-        $this->jcn_fd_company = $jcn_fd_company;
-        $this->jcn_fd_agent = $jcn_fd_agent;
-        $this->jcn_fd_contact = $jcn_fd_contact;
-        $this->jcn_fd_ticket = $jcn_fd_ticket;
-    }
-    
+        $this->jcn_finance_fd_group = $jcn_finance_fd_group;
+        $this->jcn_finance_fd_company = $jcn_finance_fd_company;
+        $this->jcn_finance_fd_agent = $jcn_finance_fd_agent;
+        $this->jcn_finance_fd_contact = $jcn_finance_fd_contact;
+        $this->jcn_finance_fd_ticket = $jcn_finance_fd_ticket;
+    } 
+
     public function getAllGroups() {
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
@@ -48,7 +48,7 @@ class JCNFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->jcn_fd_group->truncateTable();
+        $this->jcn_finance_fd_group->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -109,7 +109,7 @@ class JCNFDController extends Controller
                     $final_data[] = $group;
                 }
 
-                $this->jcn_fd_group->bulkInsert($final_data);
+                $this->jcn_finance_fd_group->bulkInsert($final_data);
             } 
 
         }
@@ -125,7 +125,7 @@ class JCNFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->jcn_fd_company->truncateTable();
+        $this->jcn_finance_fd_company->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -183,7 +183,7 @@ class JCNFDController extends Controller
                     $final_data[] = $company;
                 }
 
-                $this->jcn_fd_company->bulkInsert($final_data);
+                $this->jcn_finance_fd_company->bulkInsert($final_data);
             } 
 
         }
@@ -200,7 +200,7 @@ class JCNFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->jcn_fd_agent->truncateTable();
+        $this->jcn_finance_fd_agent->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -264,7 +264,7 @@ class JCNFDController extends Controller
                    // $this->employee_ref->updateSystemIdByName($ref_data);
                 }
 
-                $this->jcn_fd_agent->bulkInsert($final_data);
+                $this->jcn_finance_fd_agent->bulkInsert($final_data);
             } 
 
         }
@@ -280,7 +280,7 @@ class JCNFDController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-        $this->jcn_fd_contact->truncateTable();
+        $this->jcn_finance_fd_contact->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -338,7 +338,7 @@ class JCNFDController extends Controller
                     $final_data[] = $agent;
                 }
 
-                $this->jcn_fd_contact->bulkInsert($final_data);
+                $this->jcn_finance_fd_contact->bulkInsert($final_data);
             } 
 
         }
@@ -347,6 +347,7 @@ class JCNFDController extends Controller
     }
 
     public function getAllTickets(){
+
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
         $three_month_ago = new Carbon("Last Day of September 2018");
@@ -357,7 +358,7 @@ class JCNFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->jcn_fd_ticket->truncateTable();
+        $this->jcn_finance_fd_ticket->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -405,7 +406,7 @@ class JCNFDController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->jcn_fd_group->getDataById($value->group_id);
+                    $group = $this->jcn_finance_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -423,7 +424,7 @@ class JCNFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
+                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsub_process.$value->custom_fields->cf_newtask;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -434,7 +435,6 @@ class JCNFDController extends Controller
                         }
                     }
                 
-
                     $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
                     $date_executed = Carbon::parse($value->created_at)->format("Ymd");
                     $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
@@ -444,9 +444,9 @@ class JCNFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task_beta,
-                        'process' => $value->custom_fields->cf_process_beta,
-                        'subprocess' => $value->custom_fields->cf_sub_process_beta,
+                        'task' => $value->custom_fields->cf_newtask,
+                        'process' => $value->custom_fields->cf_newprocess,
+                        'subprocess' => $value->custom_fields->cf_newsub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -466,7 +466,7 @@ class JCNFDController extends Controller
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
                         "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
                         "is_escalated" => $value->is_escalated,
-                        "channel" => $value->custom_fields->cf_source,
+                        "channel" => $value->custom_fields->cf_channel,
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
                         'attendance_id' => $attendance_id
@@ -475,20 +475,18 @@ class JCNFDController extends Controller
                     
                     $final_data[] = $ticket_export;
                 }
-                $this->jcn_fd_ticket->bulkInsert($final_data);
+                $this->jcn_finance_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
                
-            } 
-
+            }
         }
         
         return response()->json(['success'=> true], 200);
     }
 
     public function getLatestTicketExport() {
-
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
         $two_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
@@ -545,7 +543,7 @@ class JCNFDController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->jcn_fd_group->getDataById($value->group_id);
+                    $group = $this->jcn_finance_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
@@ -564,7 +562,7 @@ class JCNFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
+                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsub_process.$value->custom_fields->cf_newtask;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -585,9 +583,9 @@ class JCNFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task_beta,
-                        'process' => $value->custom_fields->cf_process_beta,
-                        'subprocess' => $value->custom_fields->cf_sub_process_beta,
+                        'task' => $value->custom_fields->cf_newtask,
+                        'process' => $value->custom_fields->cf_newprocess,
+                        'subprocess' => $value->custom_fields->cf_newsub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -607,7 +605,7 @@ class JCNFDController extends Controller
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
                         "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
                         "is_escalated" => $value->is_escalated,
-                        "channel" => $value->custom_fields->cf_source,
+                        "channel" => $value->custom_fields->cf_channel,
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
                         'attendance_id' => $attendance_id
@@ -616,8 +614,8 @@ class JCNFDController extends Controller
                     
                     $final_data[] = $ticket_export;
                 }
-                $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
-                $this->jcn_fd_ticket->bulkInsert($final_data);
+                $this->jcn_finance_fd_ticket->bulkDeleteByTicketExportId($ids);
+                $this->jcn_finance_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
@@ -628,146 +626,4 @@ class JCNFDController extends Controller
         
         return response()->json(['success'=> true], 200);
     }
-
-    public function insertMissingTicket() {
-        $client = new $this->guzzle();
-        $missing_ids = $this->jcn_fd_ticket->getAllMissingTicket();
-        $data = Input::only("username","password","link");
-        $ids = array();
-        $len = count($missing_ids);
-
-        foreach ($missing_ids as $key => $value) {
-            $id = $value->id;
-            $link = $data["link"]. "/api/v2/tickets";
-            $link = $link. "/".$id."?include=stats";
-
-            $response = $client->request('GET', $link, [
-                'auth' => [$data["username"], $data["password"]]
-            ]);
-
-            $status_code = $response->getStatusCode();  
-
-            if($status_code != 200 ) {
-               for($tries = 0; $tries < $y; $tries++) {
-                    //retry call api
-                    $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
-                    ]);
-                    //get status Code    
-                    $status_code = $response_retry->getStatusCode(); 
-
-                    if($status_code != 200 && $tries == 2) {
-                        $failed_data["link"] = $link;
-                        $failed_data["status"] = $status_code;
-                        $this->failed_time_entries->addData($failed_data);
-                        break 2;
-                    } 
-
-                    if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
-                        break;
-                    }
-               }
-                
-            } else {
-                $body = json_decode($response->getBody());
-            }
-
-            if(count($body) != 0) {
-                $value = $body;
-                $now = Carbon::now();
-                $group = $this->jcn_fd_group->getDataById($value->group_id);
-                $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
-                $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
-                $group_name = ""; 
-                $department_name = ""; 
-                $ids[] = $value->id;
-                
-                if(count($group) == 0) {
-                    $group_data["id"] = $value->group_id;
-                    $group_data["ticket_id"] = $value->id;
-                    $group_data["entity"] = "group";
-                    $group_data["created_at"] = $now;
-                    $group_data["updated_at"] = $now;
-                    $not_found[] = $group_data;
-                    
-                } else {
-                    $group_name = $group->name;
-                }
-
-                $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
-                if($value->type == "No SLA") {
-                    $resolution_status = "Within SLA";
-                } else {
-                    if($resolved_at < $due_by) {
-                        $resolution_status = "Within SLA";
-                    } else {
-                        $resolution_status = "SLA Violated";    
-                    }
-                }
-            
-
-                $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
-                $date_executed = Carbon::parse($value->created_at)->format("Ymd");
-                $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
-
-                $ticket_export = array(
-                    "id" => $value->id,
-                    "hierarchy_id" => $hierarchy_id,
-                    "resolution_status" => $resolution_status,
-                    'type' => $value->type,
-                    'task' => $value->custom_fields->cf_task_beta,
-                    'process' => $value->custom_fields->cf_process_beta,
-                    'subprocess' => $value->custom_fields->cf_sub_process_beta,
-                    'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
-                    'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
-                    "cc_emails" => json_encode($value->cc_emails),
-                    "fwd_emails" => json_encode($value->fwd_emails),
-                    "reply_cc_emails" => json_encode($value->reply_cc_emails),
-                    "fr_escalated" => $value->fr_escalated,
-                    "spam" => $value->spam,
-                    "priority" => $value->priority,
-                    "requester_id" => $value->requester_id,
-                    "source" => $value->source,
-                    "status" => $value->status,
-                    "subject" => $value->subject,
-                    "to_emails" => json_encode($value->to_emails),
-                    "company_id" => $value->company_id,
-                    "group_id" => $value->group_id,
-                    "agent_id" => $value->responder_id,
-                    "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
-                    "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
-                    "is_escalated" => $value->is_escalated,
-                    "channel" => $value->custom_fields->cf_source,
-                    "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
-                    "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                    'attendance_id' => $attendance_id
-
-                );
-                
-                $final_data[] = $ticket_export;
-                
-                if(count($final_data) == 50) {
-                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
-                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
-                    $this->jcn_fd_ticket->bulkInsert($final_data);
-                    $ids = array();
-                    $final_data = array();
-                }
-                
-                if($key == $len - 1 && count($final_data) < 50) {
-                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
-                    $this->jcn_fd_ticket->bulkInsert($final_data);
-                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
-                }
-            
-            }
-            
-        }
-        return response()->json(['success'=> true], 200);
-    }
-
-
 }
-
-

@@ -74,6 +74,7 @@ Route::post("jcn-fd-agents","api\JCNFDController@getAllAgents");
 Route::post("jcn-fd-contacts","api\JCNFDController@getAllContacts");
 Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
 Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
+Route::post("jcn-fd-tickets-missing","api\JCNFDController@insertMissingTicket");
 //cameron fd
 Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
 Route::post("cameron-fd-companies","api\CameronFDController@getAllCompanies");
@@ -95,3 +96,10 @@ Route::post("raywhite-fd-agents","api\RaywhiteFDController@getAllAgents");
 Route::post("raywhite-fd-contacts","api\RaywhiteFDController@getAllContacts");
 Route::post("raywhite-fd-tickets","api\RaywhiteFDController@getAllTickets");
 Route::post("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
+//JCN Finance fd
+Route::post("jcn-finace-fd-groups","api\JCNFinanceFDController@getAllGroups");
+Route::post("jcn-finace-fd-companies","api\JCNFinanceFDController@getAllCompanies");
+Route::post("jcn-finace-fd-agents","api\JCNFinanceFDController@getAllAgents");
+Route::post("jcn-finace-fd-contacts","api\JCNFinanceFDController@getAllContacts");
+Route::post("jcn-finace-fd-tickets","api\JCNFinanceFDController@getAllTickets");
+Route::post("jcn-finace-fd-tickets-latests","api\JCNFinanceFDController@getLatestTicketExport");

@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class JCNFDTicket extends Model
+class JCNFinanceFDTicket extends Model
 {
-    protected $table = 'jcn_fd_tickets';
+    protected $table = 'jcn_finance_fd_tickets';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class JCNFDTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jcn_fd_tickets')->insert($data);
+        return DB::table('jcn_finance_fd_tickets')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
@@ -52,21 +52,5 @@ class JCNFDTicket extends Model
 
     public function truncateTable() {
         return static::truncate();
-    }
-
-    public function getAllMissingTicket() {
-        return DB::table('jcn_fd_missing_tickets')->get();
-    }
-
-    public function deleteTicket($id) {
-        return static::where("id",$id)->delete();
-    }
-
-    public function deleteMissingTickets($id) {
-        return DB::table('jcn_fd_missing_tickets')->where("id",$id)->delete();
-    }
-
-    public function bulkDeleteMissingTicket($ids_to_delete) {
-        return DB::table('jcn_fd_missing_tickets')->whereIn('id',$ids_to_delete)->delete();
     }
 }
