@@ -635,6 +635,144 @@ class EmurunFDController extends Controller
         return response()->json(['success'=> true], 200);
     }
 
+    public function insertMissingTicket() {
+        $client = new $this->guzzle();
+        $missing_ids = $this->jcn_fd_ticket->getAllMissingTicket();
+        $data = Input::only("username","password","link");
+        $ids = array();
+        $len = count($missing_ids);
+
+        foreach ($missing_ids as $key => $value) {
+            $id = $value->id;
+            $link = $data["link"]. "/api/v2/tickets";
+            $link = $link. "/".$id."?include=stats";
+
+            $response = $client->request('GET', $link, [
+                'auth' => [$data["username"], $data["password"]]
+            ]);
+
+            $status_code = $response->getStatusCode();  
+
+            if($status_code != 200 ) {
+               for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
+                        'auth' => [$data["username"], $data["password"]]
+                    ]);
+                    //get status Code    
+                    $status_code = $response_retry->getStatusCode(); 
+
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        break 2;
+                    } 
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody());
+                        break;
+                    }
+               }
+                
+            } else {
+                $body = json_decode($response->getBody());
+            }
+
+            if(count($body) != 0) {
+                $value = $body;
+                $now = Carbon::now();
+                $group = $this->jcn_fd_group->getDataById($value->group_id);
+                $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
+                $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
+                $group_name = ""; 
+                $department_name = ""; 
+                $ids[] = $value->id;
+                
+                if(count($group) == 0) {
+                    $group_data["id"] = $value->group_id;
+                    $group_data["ticket_id"] = $value->id;
+                    $group_data["entity"] = "group";
+                    $group_data["created_at"] = $now;
+                    $group_data["updated_at"] = $now;
+                    $not_found[] = $group_data;
+                    
+                } else {
+                    $group_name = $group->name;
+                }
+
+                $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
+                if($value->type == "No SLA") {
+                    $resolution_status = "Within SLA";
+                } else {
+                    if($resolved_at < $due_by) {
+                        $resolution_status = "Within SLA";
+                    } else {
+                        $resolution_status = "SLA Violated";    
+                    }
+                }
+            
+
+                $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
+                $date_executed = Carbon::parse($value->created_at)->format("Ymd");
+                $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
+
+                $ticket_export = array(
+                    "id" => $value->id,
+                    "hierarchy_id" => $hierarchy_id,
+                    "resolution_status" => $resolution_status,
+                    'type' => $value->type,
+                    'task' => $value->custom_fields->cf_task_beta,
+                    'process' => $value->custom_fields->cf_process_beta,
+                    'subprocess' => $value->custom_fields->cf_sub_process_beta,
+                    'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
+                    'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
+                    "cc_emails" => json_encode($value->cc_emails),
+                    "fwd_emails" => json_encode($value->fwd_emails),
+                    "reply_cc_emails" => json_encode($value->reply_cc_emails),
+                    "fr_escalated" => $value->fr_escalated,
+                    "spam" => $value->spam,
+                    "priority" => $value->priority,
+                    "requester_id" => $value->requester_id,
+                    "source" => $value->source,
+                    "status" => $value->status,
+                    "subject" => $value->subject,
+                    "to_emails" => json_encode($value->to_emails),
+                    "company_id" => $value->company_id,
+                    "group_id" => $value->group_id,
+                    "agent_id" => $value->responder_id,
+                    "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
+                    "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                    "is_escalated" => $value->is_escalated,
+                    "channel" => $value->custom_fields->cf_source,
+                    "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
+                    "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
+                    'attendance_id' => $attendance_id
+
+                );
+                
+                $final_data[] = $ticket_export;
+                
+                if(count($final_data) == 50) {
+                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
+                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
+                    $this->jcn_fd_ticket->bulkInsert($final_data);
+                    $ids = array();
+                    $final_data = array();
+                }
+                
+                if($key == $len - 1 && count($final_data) < 50) {
+                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
+                    $this->jcn_fd_ticket->bulkInsert($final_data);
+                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
+                }
+            
+            }
+            
+        }
+        return response()->json(['success'=> true], 200);
+    }
+
 
 
 }

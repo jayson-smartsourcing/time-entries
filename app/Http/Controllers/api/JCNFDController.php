@@ -768,6 +768,21 @@ class JCNFDController extends Controller
     }
 
 
+    public function duplicateData() {
+        $path = storage_path() . "/json/jcn_duplicate_ids.json";
+        $json = json_decode(file_get_contents($path), true);
+        
+        foreach ($json as $key => $value) {
+            $final = array(); 
+            $data = $this->jcn_fd_ticket->getById($value["id"]);
+            $final[] = $data;
+            $this->jcn_fd_ticket->deleteTicket($value["id"]);
+            $this->jcn_fd_ticket->bulkInsert($final);
+        }
+        return response()->json(['success'=> true], 200);
+    }
+
+
 }
 
 

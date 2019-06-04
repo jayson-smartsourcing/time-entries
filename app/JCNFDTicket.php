@@ -42,6 +42,11 @@ class JCNFDTicket extends Model
        'attendance_id'
     ];
 
+    public function getDates()
+    {
+        return [];
+    }
+
     public function bulkInsert($data){
         return DB::table('jcn_fd_tickets')->insert($data);
     }
@@ -68,5 +73,9 @@ class JCNFDTicket extends Model
 
     public function bulkDeleteMissingTicket($ids_to_delete) {
         return DB::table('jcn_fd_missing_tickets')->whereIn('id',$ids_to_delete)->delete();
+    }
+
+    public function getById($id) {
+        return static::where('id',$id)->first()->toArray();
     }
 }
