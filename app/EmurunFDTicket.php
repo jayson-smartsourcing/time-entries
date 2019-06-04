@@ -53,4 +53,16 @@ class EmurunFDTicket extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function deleteMissingTickets($id) {
+        return DB::table('jcn_fd_missing_tickets')->where("id",$id)->delete();
+    }
+
+    public function bulkDeleteMissingTicket($ids_to_delete) {
+        return DB::table('jcn_fd_missing_tickets')->whereIn('id',$ids_to_delete)->delete();
+    }
+
+    public function getAllMissingTicket() {
+        return DB::table('jcn_fd_missing_tickets')->get();
+    }
 }

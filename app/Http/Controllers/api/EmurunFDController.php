@@ -634,13 +634,14 @@ class EmurunFDController extends Controller
         
         return response()->json(['success'=> true], 200);
     }
-
+    
     public function insertMissingTicket() {
         $client = new $this->guzzle();
-        $missing_ids = $this->jcn_fd_ticket->getAllMissingTicket();
+        $missing_ids = $this->emurun_fd_ticket->getAllMissingTicket();
         $data = Input::only("username","password","link");
         $ids = array();
         $len = count($missing_ids);
+        $x = 0;
 
         foreach ($missing_ids as $key => $value) {
             $id = $value->id;
@@ -682,7 +683,7 @@ class EmurunFDController extends Controller
             if(count($body) != 0) {
                 $value = $body;
                 $now = Carbon::now();
-                $group = $this->jcn_fd_group->getDataById($value->group_id);
+                $group = $this->emurun_fd_group->getDataById($value->group_id);
                 $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                 $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                 $group_name = ""; 
@@ -701,7 +702,7 @@ class EmurunFDController extends Controller
                     $group_name = $group->name;
                 }
 
-                $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
+                $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
                 if($value->type == "No SLA") {
                     $resolution_status = "Within SLA";
                 } else {
@@ -717,58 +718,65 @@ class EmurunFDController extends Controller
                 $date_executed = Carbon::parse($value->created_at)->format("Ymd");
                 $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
-                $ticket_export = array(
-                    "id" => $value->id,
-                    "hierarchy_id" => $hierarchy_id,
-                    "resolution_status" => $resolution_status,
-                    'type' => $value->type,
-                    'task' => $value->custom_fields->cf_task_beta,
-                    'process' => $value->custom_fields->cf_process_beta,
-                    'subprocess' => $value->custom_fields->cf_sub_process_beta,
-                    'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
-                    'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
-                    "cc_emails" => json_encode($value->cc_emails),
-                    "fwd_emails" => json_encode($value->fwd_emails),
-                    "reply_cc_emails" => json_encode($value->reply_cc_emails),
-                    "fr_escalated" => $value->fr_escalated,
-                    "spam" => $value->spam,
-                    "priority" => $value->priority,
-                    "requester_id" => $value->requester_id,
-                    "source" => $value->source,
-                    "status" => $value->status,
-                    "subject" => $value->subject,
-                    "to_emails" => json_encode($value->to_emails),
-                    "company_id" => $value->company_id,
-                    "group_id" => $value->group_id,
-                    "agent_id" => $value->responder_id,
-                    "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
-                    "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
-                    "is_escalated" => $value->is_escalated,
-                    "channel" => $value->custom_fields->cf_source,
-                    "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
-                    "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                    'attendance_id' => $attendance_id
+                $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
+                    $date_executed = Carbon::parse($value->created_at)->format("Ymd");
+                    $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
-                );
+                    $ticket_export = array(
+                        "id" => $value->id,
+                        "hierarchy_id" => $hierarchy_id,
+                        "resolution_status" => $resolution_status,
+                        'type' => $value->type,
+                        'task' => $value->custom_fields->cf_newtask,
+                        'process' => $value->custom_fields->cf_newprocess,
+                        'subprocess' => $value->custom_fields->cf_newsubprocess,
+                        'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
+                        'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
+                        "cc_emails" => json_encode($value->cc_emails),
+                        "fwd_emails" => json_encode($value->fwd_emails),
+                        "reply_cc_emails" => json_encode($value->reply_cc_emails),
+                        "fr_escalated" => $value->fr_escalated,
+                        "spam" => $value->spam,
+                        "priority" => $value->priority,
+                        "requester_id" => $value->requester_id,
+                        "source" => $value->source,
+                        "status" => $value->status,
+                        "subject" => $value->subject,
+                        "to_emails" => json_encode($value->to_emails),
+                        "company_id" => $value->company_id,
+                        "group_id" => $value->group_id,
+                        "agent_id" => $value->responder_id,
+                        "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
+                        "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                        "is_escalated" => $value->is_escalated,
+                        "channel" => $value->custom_fields->cf_channel,
+                        "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
+                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
+                        'attendance_id' => $attendance_id
+
+                    );
                 
                 $final_data[] = $ticket_export;
-                
-                if(count($final_data) == 50) {
-                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
-                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
-                    $this->jcn_fd_ticket->bulkInsert($final_data);
-                    $ids = array();
-                    $final_data = array();
-                }
-                
-                if($key == $len - 1 && count($final_data) < 50) {
-                    $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
-                    $this->jcn_fd_ticket->bulkInsert($final_data);
-                    $this->jcn_fd_ticket->bulkDeleteMissingTicket($ids);
-                }
-            
+            }
+
+            if(count($final_data) == 100) {
+                $this->emurun_fd_ticket->bulkDeleteByTicketExportId($ids);
+                $this->emurun_fd_ticket->bulkDeleteMissingTicket($ids);
+                $this->emurun_fd_ticket->bulkInsert($final_data);
+                $ids = array();
+                $final_data = array();
+                $x = $x + 100;
             }
             
+            if($key == $len - 1 && count($final_data) < 100) {
+                $this->emurun_fd_ticket->bulkDeleteByTicketExportId($ids);
+                $this->emurun_fd_ticket->bulkInsert($final_data);
+                $this->emurun_fd_ticket->bulkDeleteMissingTicket($ids);
+            }
+
+            if($x == 3000){
+                break;
+            } 
         }
         return response()->json(['success'=> true], 200);
     }
