@@ -5,29 +5,35 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class RaywhiteAgent extends Model
+class RECDFDGroup extends Model
 {
-    protected $table = 'raywhite_fd_agents';
+    protected $table = 'recd_fd_groups';
     protected $fillable = [
        'id',
        'name',
+       'description',
+       'unassigned_for',
+       'business_hours_id',
+       'escalate_to',
+       'agent_ids',
+       'auto_ticket_assign',
        'created_at',
        'updated_at'
     ];
 
     public function bulkInsert($data){
-        return DB::table('raywhite_fd_agents')->insert($data);
+        return DB::table('recd_fd_groups')->insert($data);
     }
     //$ids_to_delete must be array
-    public function bulkDeleteAgentId($ids_to_delete){
+    public function bulkDeleteByTimeEntryId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
     }
 
-    public function getAgentById($id) {
+    public function getDataById($id) {
         return static::where('id',$id)->first();
     }
 
     public function truncateTable() {
         return static::truncate();
-     }
+    }
 }

@@ -3,20 +3,22 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 
-class RaywhiteAgent extends Model
+class RECDFDAgent extends Model
 {
-    protected $table = 'raywhite_fd_agents';
+    protected $table = 'recd_fd_agents';
     protected $fillable = [
        'id',
-       'name',
+       'first_name',
+       'last_name',
        'created_at',
        'updated_at'
+       
     ];
 
     public function bulkInsert($data){
-        return DB::table('raywhite_fd_agents')->insert($data);
+        return DB::table('recd_fd_agents')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){
