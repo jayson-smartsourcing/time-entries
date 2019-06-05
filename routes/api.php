@@ -106,6 +106,16 @@ Route::post("jcn-finace-fd-contacts","api\JCNFinanceFDController@getAllContacts"
 Route::post("jcn-finace-fd-tickets","api\JCNFinanceFDController@getAllTickets");
 Route::post("jcn-finace-fd-tickets-latests","api\JCNFinanceFDController@getLatestTicketExport");
 
+//Dixon fd
+Route::post("dixon-fd-groups","api\DixonFDController@getAllGroups");
+Route::post("dixon-fd-companies","api\DixonFDController@getAllCompanies");
+Route::post("dixon-fd-agents","api\DixonFDController@getAllAgents");
+Route::post("dixon-fd-contacts","api\DixonFDController@getAllContacts");
+Route::post("dixon-fd-tickets","api\DixonFDController@getAllTickets");
+Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExport");
+
+
+
 
 //sample
 Route::post("test-insert", "SampleController@testMethod");
