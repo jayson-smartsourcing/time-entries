@@ -669,7 +669,7 @@ class TicketExportController extends Controller
                         "SYSTEM ID" => $value->id
                     );
                     //update agent Id
-                    $this->employee_ref->updateSystemIdByName($ref_data);
+                    //$this->employee_ref->updateSystemIdByName($ref_data);
 
                     $final_data[] = $agent;
                 }

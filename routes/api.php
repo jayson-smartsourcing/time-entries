@@ -105,3 +105,7 @@ Route::post("jcn-finace-fd-agents","api\JCNFinanceFDController@getAllAgents");
 Route::post("jcn-finace-fd-contacts","api\JCNFinanceFDController@getAllContacts");
 Route::post("jcn-finace-fd-tickets","api\JCNFinanceFDController@getAllTickets");
 Route::post("jcn-finace-fd-tickets-latests","api\JCNFinanceFDController@getLatestTicketExport");
+
+
+//sample
+Route::post("test-insert", "SampleController@testMethod");
