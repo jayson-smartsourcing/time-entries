@@ -122,5 +122,13 @@ Route::post("recd-fd-contacts","api\RECDFDController@getAllContacts");
 Route::post("recd-fd-tickets","api\RECDFDController@getAllTickets");
 Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExport");
 
+//HBurgers fd
+Route::post("hburgers-fd-groups","api\HBurgersController@getAllGroups");
+Route::post("hburgers-fd-companies","api\HBurgersController@getAllCompanies");
+Route::post("hburgers-fd-agents","api\HBurgersController@getAllAgents");
+Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
+Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTickets");
+Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExport");
+
 //sample
 Route::post("test-insert", "SampleController@testMethod");
