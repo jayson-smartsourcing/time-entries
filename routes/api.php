@@ -22,6 +22,7 @@ Route::post("get-all-agents","api\TimeEntriesController@getAllAgents");
 Route::post("get-time-entries-api","api\TimeEntriesController@getTimeEntriesApi");
 Route::post("get-time-entries-latest","api\TimeEntriesController@getTimeEntriesThreeDaysAgo");
 Route::get("test","api\TimeEntriesController@test");
+
 //barry plant fs
 Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExport");
 Route::post("bp-requester","api\TicketExportController@getAllRequester");
@@ -30,6 +31,7 @@ Route::post("bp-groups","api\TicketExportController@getAllGroups");
 Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
 Route::get("bp-test","api\TicketExportController@test");
 Route::post("bp-agents","api\TicketExportController@getAllAgents");
+
 //harris fs
 Route::post("hr-groups","api\HarrisFreshServiceController@getAllGroups");
 Route::post("hr-departments","api\HarrisFreshServiceController@getAllDepartments");
@@ -37,6 +39,7 @@ Route::post("hr-requesters","api\HarrisFreshServiceController@getAllRequester");
 Route::post("hr-agents","api\HarrisFreshServiceController@getAllAgents");
 Route::post("hr-ticket-export","api\HarrisFreshServiceController@getAllTicketExport");
 Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExport");
+
 //jellis craig fs
 Route::post("jc-fs-groups","api\JellisCraigFSController@getAllGroups");
 Route::post("jc-fs-departments","api\JellisCraigFSController@getAllDepartments");
@@ -44,6 +47,7 @@ Route::post("jc-fs-requesters","api\JellisCraigFSController@getAllRequester");
 Route::post("jc-fs-agents","api\JellisCraigFSController@getAllAgents");
 Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExport");
 Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExport");
+
 //harris fd
 Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTickets");
 Route::post("hs-fd-groups","api\HarrisSalesController@getAllGroups");
@@ -53,6 +57,7 @@ Route::post("hs-fd-contacts","api\HarrisSalesController@getAllContacts");
 Route::post("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExport");
 Route::post("hs-fd-time-entries","api\HarrisSalesController@getAllTimeEntries");
 Route::post("hs-fd-time-entries-latest","api\HarrisSalesController@getTimeEntriesThreeDaysAgo");
+
 //dingles fd
 Route::post("dingles-fd-groups","api\DinglesFDController@getAllGroups");
 Route::post("dingles-fd-companies","api\DinglesFDController@getAllCompanies");
@@ -60,6 +65,7 @@ Route::post("dingles-fd-agents","api\DinglesFDController@getAllAgents");
 Route::post("dingles-fd-contacts","api\DinglesFDController@getAllContacts");
 Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
 Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+
 //emurun fd
 Route::post("emurun-fd-groups","api\EmurunFDController@getAllGroups");
 Route::post("emurun-fd-companies","api\EmurunFDController@getAllCompanies");
@@ -68,6 +74,7 @@ Route::post("emurun-fd-contacts","api\EmurunFDController@getAllContacts");
 Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTickets");
 Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");
 Route::post("emurun-fd-tickets-missing","api\EmurunFDController@insertMissingTicket");
+
 //jcn fd
 Route::post("jcn-fd-groups","api\JCNFDController@getAllGroups");
 Route::post("jcn-fd-companies","api\JCNFDController@getAllCompanies");
@@ -77,6 +84,7 @@ Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
 Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
 Route::post("jcn-fd-tickets-missing","api\JCNFDController@insertMissingTicket");
 Route::post("jcn-fd-tickets-duplicates","api\JCNFDController@duplicateData");
+
 //cameron fd
 Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
 Route::post("cameron-fd-companies","api\CameronFDController@getAllCompanies");
@@ -84,6 +92,7 @@ Route::post("cameron-fd-agents","api\CameronFDController@getAllAgents");
 Route::post("cameron-fd-contacts","api\CameronFDController@getAllContacts");
 Route::post("cameron-fd-tickets","api\CameronFDController@getAllTickets");
 Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExport");
+
 //toureast fd
 Route::post("toureast-fd-groups","api\ToureastFDController@getAllGroups");
 Route::post("toureast-fd-companies","api\ToureastFDController@getAllCompanies");
@@ -91,6 +100,7 @@ Route::post("toureast-fd-agents","api\ToureastFDController@getAllAgents");
 Route::post("toureast-fd-contacts","api\ToureastFDController@getAllContacts");
 Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTickets");
 Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExport");
+
 //raywhite fd
 Route::post("raywhite-fd-groups","api\RaywhiteFDController@getAllGroups");
 Route::post("raywhite-fd-companies","api\RaywhiteFDController@getAllCompanies");
@@ -98,6 +108,7 @@ Route::post("raywhite-fd-agents","api\RaywhiteFDController@getAllAgents");
 Route::post("raywhite-fd-contacts","api\RaywhiteFDController@getAllContacts");
 Route::post("raywhite-fd-tickets","api\RaywhiteFDController@getAllTickets");
 Route::post("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
+
 //JCN Finance fd
 Route::post("jcn-finace-fd-groups","api\JCNFinanceFDController@getAllGroups");
 Route::post("jcn-finace-fd-companies","api\JCNFinanceFDController@getAllCompanies");
@@ -129,6 +140,17 @@ Route::post("hburgers-fd-agents","api\HBurgersController@getAllAgents");
 Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
 Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTickets");
 Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExport");
+
+//JCNE fd
+Route::post("jcne-fd-groups","api\JCNEFDController@getAllGroups");
+Route::post("jcne-fd-companies","api\JCNEFDController@getAllCompanies");
+Route::post("jcne-fd-agents","api\JCNEFDController@getAllAgents");
+Route::post("jcne-fd-contacts","api\JCNEFDController@getAllContacts");
+Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTickets");
+Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExport");
+
+
+
 
 //sample
 Route::post("test-insert", "SampleController@testMethod");
