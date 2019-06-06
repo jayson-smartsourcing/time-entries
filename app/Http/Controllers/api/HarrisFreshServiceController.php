@@ -290,6 +290,8 @@ class HarrisFreshServiceController extends Controller
         $x = 1;
         $y = 3;
 
+        $this->harris_fs_agent->truncateTable();
+
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
             //call to api
