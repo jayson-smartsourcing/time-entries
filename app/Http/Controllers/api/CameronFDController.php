@@ -95,7 +95,7 @@ class CameronFDController extends Controller
                 foreach($groups as $key => $value) {
                     $group = array(
                         "id" => $value->id,
-                        "name" => $value->name,
+                        "name" => html_entity_decode($value->name),
                         "description" => $value->description,
                         "business_hours_id" => $value->business_hour_id,
                         "escalate_to" => $value->escalate_to,
@@ -562,6 +562,13 @@ class CameronFDController extends Controller
                         $group_name = $group->name;
                     }
 
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_process);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_sub_process);
+                    $task = html_entity_decode($value->custom_fields->cf_task);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task;
+
                     $hierarchy_id = $group_name.$value->custom_fields->cf_process.$value->custom_fields->cf_sub_process.$value->custom_fields->cf_task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
@@ -572,8 +579,7 @@ class CameronFDController extends Controller
                             $resolution_status = "SLA Violated";    
                         }
                     }
-                
-
+            
                     $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
                     $date_executed = Carbon::parse($value->created_at)->format("Ymd");
                     $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
