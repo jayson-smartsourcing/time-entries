@@ -157,9 +157,13 @@ Route::post("jcs-fd-contacts","api\JCSFDController@getAllContacts");
 Route::post("jcs-fd-tickets","api\JCSFDController@getAllTickets");
 Route::post("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExport");
 
-
-
-
+//JG fd
+Route::post("jg-fd-groups","api\JGFDController@getAllGroups");
+Route::post("jg-fd-companies","api\JGFDController@getAllCompanies");
+Route::post("jg-fd-agents","api\JGFDController@getAllAgents");
+Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
+Route::post("jg-fd-tickets","api\JGFDController@getAllTickets");
+Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 
 
 //sample
