@@ -421,9 +421,9 @@ class JGFDController extends Controller
                     }
 
                     $group_name = html_entity_decode($group_name);
-                    $process = html_entity_decode($value->custom_fields->cf_process);
-                    $sub_process = html_entity_decode($value->custom_fields->cf_sub_process);
-                    $task = html_entity_decode($value->custom_fields->cf_task);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
 
                     $hierarchy_id = $group_name.$process.$sub_process.$task;
 
@@ -533,7 +533,7 @@ class JGFDController extends Controller
             } else {
                 $body = json_decode($response->getBody());
             }
-           
+
             if(count($body) != 0) {
                 $ticket_export_data = $body;
                 $x++;
@@ -565,9 +565,9 @@ class JGFDController extends Controller
                         $group_name = $group->name;
                     }
                     $group_name = html_entity_decode($group_name);
-                    $process = html_entity_decode($value->custom_fields->cf_process);
-                    $sub_process = html_entity_decode($value->custom_fields->cf_sub_process);
-                    $task = html_entity_decode($value->custom_fields->cf_task);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
 
                     $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
