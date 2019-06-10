@@ -436,8 +436,13 @@ class JellisCraigFSController extends Controller
                     } else {
                         $group_name = $group->name;
                     }
-                    
-                    $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
+
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->process);
+                    $sub_process = html_entity_decode($value->custom_fields->sub_process);
+                    $task = html_entity_decode($value->custom_fields->task);
+
+                    $unique_id = $group_name.$process.$sub_process.$task;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -457,9 +462,9 @@ class JellisCraigFSController extends Controller
                         "unique_id" => $unique_id,
                         "resolution_status" => $resolution_status,
                         'category' => $value->category,
-                        'task' => $value->custom_fields->task,
-                        'process' => $value->custom_fields->process,
-                        'subprocess' => $value->custom_fields->sub_process,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -582,7 +587,10 @@ class JellisCraigFSController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->process);
+                    $sub_process = html_entity_decode($value->custom_fields->sub_process);
+                    $task = html_entity_decode($value->custom_fields->task);
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -602,9 +610,9 @@ class JellisCraigFSController extends Controller
                         "unique_id" => $unique_id,
                         "resolution_status" => $resolution_status,
                         'category' => $value->category,
-                        'task' => $value->custom_fields->task,
-                        'process' => $value->custom_fields->process,
-                        'subprocess' => $value->custom_fields->sub_process,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
