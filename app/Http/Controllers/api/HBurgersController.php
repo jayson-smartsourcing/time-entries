@@ -422,8 +422,12 @@ class HBurgersController extends Controller
                     } else {
                         $group_name = $group->name;
                     }
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_process);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_sub_process);
+                    $task = html_entity_decode($value->custom_fields->cf_task);
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process.$value->custom_fields->cf_sub_process.$value->custom_fields->cf_task;
+                    $hierarchy_id = $group_name.$process.$sub_process.$task; 
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -444,9 +448,9 @@ class HBurgersController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task,
-                        'process' => $value->custom_fields->cf_process,
-                        'subprocess' => $value->custom_fields->cf_sub_process,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -562,7 +566,12 @@ class HBurgersController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_process.$value->custom_fields->cf_sub_process.$value->custom_fields->cf_task;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_process);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_sub_process);
+                    $task = html_entity_decode($value->custom_fields->cf_task);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task; 
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -583,9 +592,9 @@ class HBurgersController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_task,
-                        'process' => $value->custom_fields->cf_process,
-                        'subprocess' => $value->custom_fields->cf_sub_process,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
