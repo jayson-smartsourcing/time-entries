@@ -426,7 +426,12 @@ class ToureastFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -447,9 +452,9 @@ class ToureastFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_newtask,
-                        'process' => $value->custom_fields->cf_newprocess,
-                        'subprocess' => $value->custom_fields->cf_newsubprocess,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -565,7 +570,12 @@ class ToureastFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -586,9 +596,9 @@ class ToureastFDController extends Controller
                         "hierarchy_id" => $hierarchy_id,
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
-                        'task' => $value->custom_fields->cf_newtask,
-                        'process' => $value->custom_fields->cf_newprocess,
-                        'subprocess' => $value->custom_fields->cf_newsubprocess,
+                        'task' => $task,
+                        'process' => $process,
+                        'subprocess' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
