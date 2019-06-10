@@ -429,7 +429,12 @@ class EmurunFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -570,7 +575,12 @@ class EmurunFDController extends Controller
                         $group_name = $group->name;
                     }
 
-                    $hierarchy_id = $group_name.$value->custom_fields->cf_newprocess.$value->custom_fields->cf_newsubprocess.$value->custom_fields->cf_newtask;
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->cf_newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
+                    $task = html_entity_decode($value->custom_fields->cf_newtask);
+
+                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
