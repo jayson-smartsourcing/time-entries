@@ -591,6 +591,7 @@ class JellisCraigFSController extends Controller
                     $process = html_entity_decode($value->custom_fields->process);
                     $sub_process = html_entity_decode($value->custom_fields->sub_process);
                     $task = html_entity_decode($value->custom_fields->task);
+                    $unique_id = $group_name.$process.$sub_process.$task;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
