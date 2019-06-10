@@ -410,7 +410,7 @@ class TicketExportController extends Controller
 
                     $group = array(
                         "id" => $value->id,
-                        "name" => $value->name,
+                        "name" => html_entity_decode($value->name), 
                         "description" => $value->description,
                         "business_hours_id" => $value->business_hours_id,
                         "escalate_to" => $value->escalate_to,
@@ -522,8 +522,14 @@ class TicketExportController extends Controller
                     } else {
                         $department_name = $department->name;
                     }
+
+                    $department_name = html_entity_decode($department_name);
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->newprocess);
+                    $sub_process = html_entity_decode($value->custom_fields->new_subprocess);
+                    $task = html_entity_decode($value->custom_fields->newtask);
                     
-                    $unique_id = $group_name.$value->custom_fields->newprocess.$value->custom_fields->new_subprocess.$value->custom_fields->newtask.$department_name;
+                    $unique_id = $group_name.$process.$sub_process.$task.$department_name;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
