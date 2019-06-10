@@ -453,8 +453,12 @@ class HarrisFreshServiceController extends Controller
                     } else {
                         $department_name = $department->name;
                     }
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->process);
+                    $sub_process = html_entity_decode($value->custom_fields->sub_process);
+                    $task = html_entity_decode($value->custom_fields->task);
                     
-                    $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
+                    $unique_id = $group_name.$process.$sub_process.$task;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -611,8 +615,13 @@ class HarrisFreshServiceController extends Controller
                     } else {
                         $department_name = $department->name;
                     }
+
+                    $group_name = html_entity_decode($group_name);
+                    $process = html_entity_decode($value->custom_fields->process);
+                    $sub_process = html_entity_decode($value->custom_fields->sub_process);
+                    $task = html_entity_decode($value->custom_fields->task);
                     
-                    $unique_id = $group_name.$value->custom_fields->process.$value->custom_fields->sub_process.$value->custom_fields->task;
+                    $unique_id = $group_name.$process.$sub_process.$task;
                     if($value->category == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
