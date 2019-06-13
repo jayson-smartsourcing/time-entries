@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/poll/view', function () {
-    return view('poll/view');
+    return view('poll-view');
 });
