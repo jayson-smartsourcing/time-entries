@@ -17,11 +17,10 @@
                 background-color: #fff;
                 color: #0c0b0b;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 200;
+                font-weight: 900;
                 height: 100vh;
                 font-size:16px;
                 margin: 0;
-                min-height: 105%;
             }
 
             .full-height {
@@ -83,7 +82,6 @@
             .content {
                 background: #f6f6f6;
                 width: 50%;
-                min-height: 800px;
                 margin: auto;
             }
 
@@ -116,24 +114,29 @@
             }
 
             .main-container {
-               padding-left:40px;
-               padding-right:40px;
+               padding-left:50px;
+               padding-right:50px;
                padding-top:30px;
+               padding-bottom: 20px;
             }
 
 
             .text {
                 line-height:25px;
-                size: 8px;
                 text-align: justify;
             }
 
             .label {
                 text-align: justify;
+                padding-top:10px;
             }
 
             span + span {
-                margin-left: 60px;
+                margin-left: 57px;
+            }
+
+            input + input {
+                margin-left: 50px;
             }
 
             .form-input{
@@ -143,8 +146,7 @@
                 
             }
             span {
-                font-size:13px;
-                line-height:15px;
+                line-height:20px;
             }
             select {
                 height:40px;
@@ -179,6 +181,37 @@
                     width: 100%;
                 }
             }
+
+            .form-field * {
+                vertical-align: left;
+            }
+            .option-label {
+                margin-top:-10px;
+            }
+            
+            .wrapper {
+                list-style-type: none;
+                margin-left: -40px;
+            }
+
+            .wrapper li {
+                float:left;
+                width:8%;
+            }
+
+            .wrapper:after {
+                content:'';
+                display:block;
+                clear: both;
+            }
+            .wrapper-label {
+                margin-top:-10px;
+            }
+            .radio-input {
+                text-align:justify;
+                width:100%;
+            }
+
 
             /* iPads (portrait and landscape) ----------- */
             @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
@@ -266,23 +299,53 @@
                             <span>1 - Very Unlikely</span><span>10 - Very Likely</span>  
                         </div>
                     </div>
-                    <div class="form-input">
-                        <select name="rate" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            
-                        </select>
-                    </div>
+                    <div class="radio-input">
 
-                    <div class="label">
+                    <ul class="wrapper">
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="1" class="radio-button"/> 
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="2" class="radio-button"/>
+                        </li>       
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="3" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="4" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="5" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="6" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="7" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="8" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="9" class="radio-button"/>
+                        </li>
+                        <li>
+                            <input id="option1" type="radio" name="rate" value="10" class="radio-button"/>
+                        </li>
+                    </ul >
+                    <ul class="wrapper wrapper-label">
+                        <li><span>1</span></li>
+                        <li><span>2</span></li>
+                        <li><span>3</span></li>
+                        <li><span>4</span></li>
+                        <li><span>5</span></li>
+                        <li><span>6</span></li>
+                        <li><span>7</span></li>
+                        <li><span>8</span></li>
+                        <li><span>9</span></li>
+                        <li><span>10</span></li>
+                    </ul>                
+                    <div class="row label">
                         <span>
                             Could you please tell us why you choose that score?
                         </span>
