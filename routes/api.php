@@ -165,6 +165,6 @@ Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
 Route::post("jg-fd-tickets","api\JGFDController@getAllTickets");
 Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 
-
-//sample
-Route::post("test-insert", "SampleController@testMethod");
+//employee Ratings
+Route::post("insert-rating", "api\EmployeeSatisfactoryController@addEmployeeRatings");
+Route::get("email-rating", "api\EmployeeSatisfactoryController@emailToEmployee");

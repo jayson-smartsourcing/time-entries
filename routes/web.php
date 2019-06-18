@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/poll/view', function () {
+Route::get('/poll/view/{id}', function () {
     return view('poll-view');
+});
+
+Route::get('/poll/success', function () {
+    return view('poll-success');
 });

@@ -288,55 +288,9 @@
             /* Styles */
             }
 
-            #loader {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            z-index: 1;
-            margin: -75px 0 0 -75px;
-            border: 13px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 13px solid #3498db;
-            width: 60px;
-            height: 60px;  
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
-            }
-
-            @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-            }
-
-            @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-            }
-
-            /* Add animation to "page content" */
-            .animate-bottom {
-            position: relative;
-            -webkit-animation-name: animatebottom;
-            -webkit-animation-duration: 1s;
-            animation-name: animatebottom;
-            animation-duration: 1s
-            }
-
-            @-webkit-keyframes animatebottom {
-            from { bottom:-100px; opacity:0 } 
-            to { bottom:0px; opacity:1 }
-            }
-
-            @keyframes animatebottom { 
-            from{ bottom:-100px; opacity:0 } 
-            to{ bottom:0; opacity:1 }
-            }
-
-            #myDiv {
-                display: none;
-                text-align: center;
-            }
-
+            .green-text {
+                color:#155724
+            } 
         </style>
     </head>
     <body>
@@ -355,98 +309,8 @@
             <div class="pink float-left"></div>
             <div class="main-container">
                     <div class="heading">
-                        <h2>Smartsourcing Employee Satisfaction Score {{now()->format('F')}} {{now()->year}}</h2>
+                        <h2 class="green-text">Successfully rate for month of  {{now()->format('F')}} </h2>
                     </div>
-                    <div class="row">
-                        <div class="text">
-                            <p>
-                                We are always striving to make Smartsourcing a great place to work.
-                            </p>
-                            <p>
-                                With this poll, we want to find out how you feel about Smartsourcing as a place to work. 
-                            </p>
-                            <p>
-                                In the past years, you have been instrumental in implementing changes to Smartsourcing that has continuously made our culture what it is today. 
-                            </p>
-                            <p>
-                                Let’s take it one step further with you telling us your satisfaction score every month!
-                            </p>
-                            <p>
-                                The results of this survey will teach us insights on how we can make Smartsourcing even better.  Don’t worry, you’ll remain completely anonymous.
-                                Thank you for taking time to give us your feedback!
-                            </p>
-
-                        </div>
-                    </div>
-                    <div class="row poll-form">
-                        <div class="label">
-                            <span class="rate-label">
-                               <span class="red-font">*</span> How likely are you to recommend Smartsourcing to a friend as a place to work? 
-                            </span>
-                            <div class="row">
-                                <span>1 - Very Unlikely</span><span>10 - Very Likely</span>  
-                            </div>
-                        </div>
-                        <div class="radio-input">
-
-                        <ul class="wrapper">
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="1" class="radio-button"/> 
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="2" class="radio-button"/>
-                            </li>       
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="3" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="4" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="5" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="6" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="7" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="8" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="9" class="radio-button"/>
-                            </li>
-                            <li>
-                                <input id="option1" type="radio" name="rate" value="10" class="radio-button"/>
-                            </li>
-                        </ul >
-                        <ul class="wrapper wrapper-label">
-                            <li><span>1</span></li>
-                            <li><span>2</span></li>
-                            <li><span>3</span></li>
-                            <li><span>4</span></li>
-                            <li><span>5</span></li>
-                            <li><span>6</span></li>
-                            <li><span>7</span></li>
-                            <li><span>8</span></li>
-                            <li><span>9</span></li>
-                            <li><span>10</span></li>
-                        </ul>                
-                        <div class="row label">
-                            <span class="reason-label">
-                             <span class="red-font">*</span> Could you please tell us why you choose that score?
-                            </span>
-                        </div>
-                        <div class="form-input">
-                        <textarea name="reason" id="reason" rows="12" ></textarea>
-                        </div>
-                        <div class="form-input">
-                            <button class="submit">SUBMIT</button>
-                        </div>
-                    </div>
-                </div>
-            
         </div>
         
     </body>
