@@ -165,7 +165,7 @@ Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
 Route::post("jg-fd-tickets","api\JGFDController@getAllTickets");
 Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 
-//employee Ratings
+//employee Ratings live
 Route::post("insert-rating", "api\EmployeeSatisfactoryController@addEmployeeRatings");
 Route::get("email-rating", "api\EmployeeSatisfactoryController@emailToEmployee");
 Route::get("check-rating/{hash}", "api\EmployeeSatisfactoryController@checkCurrentMonthRate");
