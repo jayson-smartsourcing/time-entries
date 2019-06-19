@@ -38,9 +38,6 @@ class EmployeeSatisfactoryController extends Controller
     }
 
     public function emailToEmployee() {
-        echo 12323;
-        die;
-        
         //$employees = $this->employee_ref->getAllEmployee();
         $employees = array(array("first_name" => "Jayson", "id" => 1, "email" => "jayson@startsmartsourcing.com"));
         
@@ -60,7 +57,9 @@ class EmployeeSatisfactoryController extends Controller
             $employee["url"] = $url."/poll/view/".$id;
             Mail::to($employee["email"])
                 ->send(new MonthEndRating($employee));
-        }        
+        }
+        
+        return response()->json(['success'=> true], 200);
         
     }
     
