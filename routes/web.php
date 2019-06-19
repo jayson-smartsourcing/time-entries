@@ -22,3 +22,7 @@ Route::get('/poll/view/{id}', function () {
 Route::get('/poll/success', function () {
     return view('poll-success');
 });
+
+Route::get('/poll/email-view', function () {
+    return view('poll-email');
+});

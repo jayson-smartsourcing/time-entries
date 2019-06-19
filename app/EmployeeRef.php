@@ -38,5 +38,9 @@ class EmployeeRef extends Model
         return static::where("SYSTEM NAME",$data["SYSTEM NAME"])->update($data);
     }
 
+    public function getAllEmployee() {
+        return static::all();
+    }
+
 
 }

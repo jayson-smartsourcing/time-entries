@@ -23,6 +23,6 @@ class MonthEndRating extends Mailable
      */
     public function build()
     { 
-        return $this->subject("FBI Case Investigation")->view('poll-email')->with('employee',$this->employee);
+        return $this->subject("Smartsourcing Survey")->view('poll-email')->with('employee',$this->employee);
     }
 }

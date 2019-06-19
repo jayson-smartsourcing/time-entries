@@ -12,14 +12,17 @@ use App\Mail\MonthEndRating;
 use Illuminate\Support\Facades\Config as Config;
 
 use App\EmployeeSatisfactory as EmployeeSatisfactory;
+use App\EmployeeRef as EmployeeRef;
 
 class EmployeeSatisfactoryController extends Controller
 {   
     public function __construct(
-        EmployeeSatisfactory $emp_satisfactory_rate
+        EmployeeSatisfactory $emp_satisfactory_rate,
+        EmployeeRef $employee_ref
     )
     {  
         $this->emp_satisfactory_rate = $emp_satisfactory_rate;
+        $this->employee_ref = $employee_ref;
     }
 
     public function addEmployeeRatings(EmployeeRateRequest $request) {
@@ -35,11 +38,18 @@ class EmployeeSatisfactoryController extends Controller
 
     public function emailToEmployee() {
         
-        $employees = array(array("id" => 1, "email" => "jayson@startsmartsourcing.com","first_name" => "Jayson")
-                     ,array("id" => 2, "email" => "jonmartin.g@startsmartsourcing.com","first_name" => "Jon")
-                     ,array("id" => 3, "email" => "marky@startsmartsourcing.com","first_name" => "Marky Gwapa")
-                );
-
+        //$employees = $this->employee_ref->getAllEmployee();
+        $employees = array(array("first_name" => "Jayson", "id" => 1, "email" => "jayson@startsmartsourcing.com"));
+        
+        // foreach($employees as $employee) {
+        //     $id = $this->en_de_id($employee["id"]);
+        //     $url = Config::get("app.url_live");
+        //     $data["url"] = $url.":8000/poll/view/".$id;
+        //     $data["first_name"] = $employee["FIRST NAME"];
+        //     $data["email"] = $employee["EMAIL ADDRESS"];
+        //     Mail::to($employee["email"])
+        //     ->send(new MonthEndRating($data));
+        // }
 
         foreach($employees as $employee) {
             $id = $this->en_de_id($employee["id"]);
