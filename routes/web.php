@@ -26,3 +26,7 @@ Route::get('/poll/success', function () {
 Route::get('/poll/email-view', function () {
     return view('poll-email');
 });
+
+Route::get('/poll/not-found', function () {
+    return view('poll-not-found');
+});

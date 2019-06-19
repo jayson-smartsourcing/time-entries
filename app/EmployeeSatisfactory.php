@@ -9,6 +9,7 @@ class EmployeeSatisfactory extends Model
 {
     protected $table = 'employee_satisfactory';
     protected $fillable = [
+       'employee_id',
        'email',
        'rate',
        'reason',

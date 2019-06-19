@@ -337,6 +337,43 @@
                 text-align: center;
             }
 
+            .loading {
+                position: fixed;
+                z-index: 999;
+                height: 100%;
+                width: 100%;
+                overflow: show;
+                margin: auto;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background-color:#80808080;
+            }
+
+            .loader {
+                margin-top:25%;
+                margin-left:45%;
+                border: 10px solid #fff;
+                border-radius: 50%;
+                border-top: 10px solid #3498db;
+                width: 50px;
+                height: 50px;
+                -webkit-animation: spin 2s linear infinite; /* Safari */
+                animation: spin 2s linear infinite;
+            }
+
+            /* Safari */
+            @-webkit-keyframes spin {
+                0% { -webkit-transform: rotate(0deg); }
+                100% { -webkit-transform: rotate(360deg); }
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
         </style>
     </head>
     <body>
@@ -448,6 +485,7 @@
                 </div>
             
         </div>
+        <div class="loading hidden"><div class="loader"></div></div>
         
     </body>
 </html>

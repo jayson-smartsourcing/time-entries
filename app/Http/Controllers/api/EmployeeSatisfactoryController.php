@@ -27,7 +27,8 @@ class EmployeeSatisfactoryController extends Controller
 
     public function addEmployeeRatings(EmployeeRateRequest $request) {
         
-       $data = Input::only("email","rate","reason");
+       $data = Input::only("email","rate","reason","employee_id","id");
+       $data["employee_id"] = $this->en_de_id($data["id"],'d');
        $year = Carbon::now()->format("Y");
        $month = Carbon::now()->format("m");
        $data["year"] = $year;
@@ -53,15 +54,32 @@ class EmployeeSatisfactoryController extends Controller
 
         foreach($employees as $employee) {
             $id = $this->en_de_id($employee["id"]);
-            $url = Config::get("app.url");
+            $url = Config::get("app.url_live");
             $employee["url"] = $url.":8000/poll/view/".$id;
             Mail::to($employee["email"])
                 ->send(new MonthEndRating($employee));
         }        
-           
-
         
-    }   
+    }
+    
+    public function checkCurrentMonthRate($id) {
+        $id = $this->en_de_id($id,'d');
+        $year = Carbon::now()->format("Y");
+        $month = Carbon::now()->format("m");
+        $data["employee_id"] = $id;
+        $data["year"] = $year;
+        $data["month"] = $month;
+
+        $return = $this->emp_satisfactory_rate::where($data)->get();
+        $count = count($return);
+        
+        if($count) {
+            return response()->json(['success'=> true,'message'=> "done rating"], 200);
+        } else {
+            return response()->json(['success'=> true,'message'=>'not yet done rating' ], 200);
+        }       
+        
+    }
 
 
 

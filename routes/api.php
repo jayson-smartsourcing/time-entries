@@ -168,3 +168,4 @@ Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 //employee Ratings
 Route::post("insert-rating", "api\EmployeeSatisfactoryController@addEmployeeRatings");
 Route::get("email-rating", "api\EmployeeSatisfactoryController@emailToEmployee");
+Route::get("check-rating/{hash}", "api\EmployeeSatisfactoryController@checkCurrentMonthRate");

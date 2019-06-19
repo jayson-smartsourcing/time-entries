@@ -1,4 +1,23 @@
 $(function() {
+    var url = $(location).attr('href'),
+    parts = url.split("/"),
+    last_part_url = parts[parts.length-1];
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/check-rating/'+last_part_url,
+        beforeSend:function(){
+            $(".loading").removeClass("hidden");
+        },  
+        success:function(data) {
+            if(data.message == "done rating") {
+                window.location.replace("/poll/success");
+            } else {
+                $(".loading").addClass("hidden");
+            }
+        }
+    });
+
     $(".submit").on("click", function() {
         $(".submit").addClass("disabled");
         $(".submit").attr("disabled", true);
@@ -10,7 +29,8 @@ $(function() {
         var data = {
                         "rate" : rate, 
                         "reason" : reason,
-                        "email" : email
+                        "email" : email,
+                        "id": last_part_url
                    };
 
         $.ajax({
