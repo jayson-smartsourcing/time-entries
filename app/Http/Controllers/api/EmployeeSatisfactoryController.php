@@ -38,6 +38,8 @@ class EmployeeSatisfactoryController extends Controller
     }
 
     public function emailToEmployee() {
+        echo 12323;
+        die;
         
         //$employees = $this->employee_ref->getAllEmployee();
         $employees = array(array("first_name" => "Jayson", "id" => 1, "email" => "jayson@startsmartsourcing.com"));
