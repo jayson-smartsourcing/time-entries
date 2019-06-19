@@ -55,7 +55,7 @@ class EmployeeSatisfactoryController extends Controller
         foreach($employees as $employee) {
             $id = $this->en_de_id($employee["id"]);
             $url = Config::get("app.url_live");
-            $employee["url"] = $url.":8000/poll/view/".$id;
+            $employee["url"] = $url."/poll/view/".$id;
             Mail::to($employee["email"])
                 ->send(new MonthEndRating($employee));
         }        
