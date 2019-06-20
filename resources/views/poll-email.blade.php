@@ -97,13 +97,9 @@
     <body>
        <table class="em_full_wrap" valign="top" width="50%" cellspacing="0" cellpadding="0" border="0" align="center" style="min-height:350px; background-color:#9e9e9e17;">
             <tr bgcolor="#14a0fa" height="60px">
-                <td width="40%">
-                </td>
-                <td width="25%">
+                <td colspan=4 align="center" >
                     <span style="padding-left:-10px; font-size:20px; font-weight:bold; color:white">HELP US, HELP YOU</span> 
                 </td>
-                <td width="25%"></td>
-                <td width="25%"></td>
             </tr>
             <tr>
                 <td colspan=4>
@@ -117,22 +113,17 @@
                         </table>
                         <table class="em_full_wrap" valign="top" width="60%" cellspacing="0" cellpadding="0" border="0"  align="center" style="min-height:200px;background-color:#ffff">
                             <tr>
-                                <td style="padding-left:25px">Hi {{$employee["first_name"]}}<span style="font-weight:bold">,</span></td>
+                                <td align="center" style="padding-right:25px;color:gray;" colspan=4><h3> {{$employee["first_name"]}}, Tell us what you think</h3></td>
                             </tr>
-                            <tr>
-                                <td style="padding-left:25px;padding-right:25px" colspan=4>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span></td>
-                            </tr>
-                            <tr>
-                                <td style="padding-left:25px">
-                                    <a  href="{{$employee['url']}}"><button style="padding:8px;background-color:#E91E63;font-size:12px;font-weight:bold;color:white;border-radius:3px">Start Survey Here</button></a>
+                            <tr> 
+                                <td align="center">
+                                    <a  href="{{$employee['url']}}"><button style="padding:8px;font-size:12px;font-weight:bold;color:gray;border-radius:3px;border:solid gray 1px;">I'LL TAKE THE SURVEY</button></a>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding-left:25px">Thanks</td>
+                                <td align="center" style="padding-right:25px; color:gray" colspan=4><h5> Your opinion really matters to us</h5></td>
                             </tr>
-                            <tr>
-                                <td style="padding-left:25px">SmartSourcing Administrations</td>
-                            </tr>
+                           
                         </table>
 
                 </td>
