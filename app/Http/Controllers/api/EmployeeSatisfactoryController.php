@@ -44,7 +44,7 @@ class EmployeeSatisfactoryController extends Controller
         // foreach($employees as $employee) {
         //     $id = $this->en_de_id($employee["id"]);
         //     $url = Config::get("app.url_live");
-        //     $data["url"] = $url.":8000/poll/view/".$id;
+        //     $data["url"] = $url."/poll/view/".$id;
         //     $data["first_name"] = $employee["FIRST NAME"];
         //     $data["email"] = $employee["EMAIL ADDRESS"];
         //     Mail::to($employee["email"])
