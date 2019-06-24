@@ -67,7 +67,7 @@ class EmployeeSatisfactoryController extends Controller
         $id = $this->en_de_id($id,'d');
         $year = Carbon::now()->format("Y");
         $month = Carbon::now()->format("m");
-        $data["employee_id"] = $id;
+        $data["employee_id"] = 122;
         $data["year"] = $year;
         $data["month"] = $month;
 
@@ -77,7 +77,7 @@ class EmployeeSatisfactoryController extends Controller
         if($count) {
             return response()->json(['success'=> true,'message'=> "done rating"], 200);
         } else {
-            return response()->json(['success'=> true,'message'=>'not yet done rating' ], 200);
+            return response()->json(['success'=> true,'message'=>'not done rating' ], 200);
         }       
         
     }

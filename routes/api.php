@@ -172,16 +172,17 @@ Route::get("check-rating/{hash}", "api\EmployeeSatisfactoryController@checkCurre
 
 
 //user authentication
-Route::post('login', 'api\userController@login')->name('login');
+Route::post('login', 'api\userController@login');
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('check/token/a', 'api\userController@checkToken');
 });
 
-//JG fs
+//JG fs©
 Route::post("jcb-fs-groups","api\JCBFSController@getAllGroups");
 Route::post("jcb-fs-departments","api\JCBFSController@getAllDepartments");
 Route::post("jcb-fs-requesters","api\JCBFSController@getAllRequester");
 Route::post("jcb-fs-agents","api\JCBFSController@getAllAgents");
 Route::post("jcb-fs-tickets","api\JCBFSController@getAllTicketExport");
 Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExport");
+

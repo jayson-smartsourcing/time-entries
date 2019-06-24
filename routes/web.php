@@ -30,3 +30,6 @@ Route::get('/poll/email-view', function () {
 Route::get('/poll/not-found', function () {
     return view('poll-not-found');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
