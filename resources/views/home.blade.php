@@ -2,22 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
+<h4>EMPLOYEE SATISFACTORY RATING</h4>
+<iframe width="1140" height="800" src="https://app.powerbi.com/view?r=eyJrIjoiODA3OWNiOGMtODEzNS00ZmNhLTlhYjYtYjJkMDRlYzNkNDY1IiwidCI6Ijg1MDAzZjczLWRlNGYtNGY1ZS04YzUxLWVkYzhiNjZmNjcwMyJ9" frameborder="0" allowFullScreen="true"></iframe>
 </div>
 @endsection

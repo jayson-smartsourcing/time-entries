@@ -1,0 +1,12 @@
+body {
+    font-family: "Helvetica Neue";
+}
+
+.navbar-light {
+    background-color: #14a0fa;
+}
+
+img {
+    width: 200px;
+    height: auto;
+}

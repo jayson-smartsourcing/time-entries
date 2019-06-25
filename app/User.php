@@ -10,6 +10,12 @@ class User extends Authenticatable
 {
     use HasApiTokens,Notifiable;
 
+
+    public function getDates()
+    {
+        return [];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
