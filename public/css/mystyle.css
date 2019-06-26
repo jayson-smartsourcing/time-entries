@@ -10,3 +10,7 @@ img {
     width: 200px;
     height: auto;
 }
+
+.container {
+    max-width: 85%;
+}
