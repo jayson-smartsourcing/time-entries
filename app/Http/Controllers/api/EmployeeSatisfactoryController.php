@@ -10,6 +10,7 @@ use App\Http\Requests\EmployeeRateRequest;
 use Mail;
 use App\Mail\MonthEndRating;
 use Illuminate\Support\Facades\Config as Config;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\EmployeeSatisfactory as EmployeeSatisfactory;
 use App\EmployeeRef as EmployeeRef;
@@ -80,6 +81,28 @@ class EmployeeSatisfactoryController extends Controller
             return response()->json(['success'=> true,'message'=>'not done rating' ], 200);
         }       
         
+    }
+
+    public function importFromCSV() {
+        $path = storage_path("rating-may-2019.xls");
+        $excel = new Excel();
+        $file = Excel::load($path,'UTF-8')->get();
+        $key = 0;
+
+        foreach($file as $key => $value) {
+            $employee = $this->employee_ref->getEmployeeByEmail($value->email);
+            $rating["employee_id"] = $employee["id"];
+            $rating["email"] = $value->email;
+            $rating["rate"] = $value->rate;
+            $rating["reason"] = $value->reason;
+            $rating["month"] = "05";
+            $rating["year"] = "2019";
+
+            $this->emp_satisfactory_rate::create($rating);
+        }
+
+      
+        return response()->json(['success'=> true,'count' => $key], 200);
     }
 
 

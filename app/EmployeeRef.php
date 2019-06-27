@@ -42,5 +42,9 @@ class EmployeeRef extends Model
         return static::all();
     }
 
+    public function getEmployeeByEmail($email) {
+        return static::where("EMAIL ADDRESS",$email)->first();
+    }
+
 
 }

@@ -169,6 +169,8 @@ Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 Route::post("insert-rating", "api\EmployeeSatisfactoryController@addEmployeeRatings");
 Route::get("email-rating", "api\EmployeeSatisfactoryController@emailToEmployee");
 Route::get("check-rating/{hash}", "api\EmployeeSatisfactoryController@checkCurrentMonthRate");
+Route::get("insert-rating/import", "api\EmployeeSatisfactoryController@importFromCSV");
+
 
 
 //user authentication
