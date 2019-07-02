@@ -492,7 +492,7 @@ class JGFDController extends Controller
     public function getLatestTicketExport() {
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
-        $two_days_ago = Carbon::now(2)->format('Y-m-d');
+        $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=50";
         $ticket_export_data = array();
@@ -620,7 +620,10 @@ class JGFDController extends Controller
                     );
                     
                     $final_data[] = $ticket_export;
+
                 }
+
+
                 $this->jg_fd_ticket->bulkDeleteByTicketExportId($ids);
                 $this->jg_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
