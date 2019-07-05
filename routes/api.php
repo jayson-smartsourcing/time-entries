@@ -188,3 +188,6 @@ Route::post("jcb-fs-agents","api\JCBFSController@getAllAgents");
 Route::post("jcb-fs-tickets","api\JCBFSController@getAllTicketExport");
 Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExport");
 
+
+//insert Data
+Route::get("insert-resume-data","api\ImportBossJobToDBController@insertData");

@@ -498,7 +498,7 @@ class JCNFDController extends Controller
         $data = Input::only("username","password","link");
         $two_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
 
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=50";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=25";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
