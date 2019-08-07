@@ -200,6 +200,8 @@ class HarrisSalesController extends Controller
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
 
+        $this->hs_fd_agent->truncateTable();
+
         $link = $data["link"]. "/api/v2/agents?per_page=100";
         $ticket_export_data = array();
         $x = 1;
