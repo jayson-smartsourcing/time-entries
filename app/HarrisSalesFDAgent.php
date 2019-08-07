@@ -28,4 +28,8 @@ class HarrisSalesFDAgent extends Model
     public function getAgentById($id) {
         return static::where('id',$id)->first();
     }
+
+    public function truncateTable() {
+        return static::truncate();
+     }
 }
