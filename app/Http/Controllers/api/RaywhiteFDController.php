@@ -44,11 +44,13 @@ class RaywhiteFDController extends Controller
 
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = Input::only("username","password","link","api_key");
         $link = $data["link"]. "/api/v2/groups?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
+
+        $api_key = base64_encode($data["api_key"].":X");
 
         $this->raywhite_fd_group->truncateTable();
 
@@ -56,8 +58,11 @@ class RaywhiteFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
+
             // get Status Code
             $status_code = $response->getStatusCode();  
 
@@ -65,7 +70,9 @@ class RaywhiteFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -121,11 +128,13 @@ class RaywhiteFDController extends Controller
 
     public function getAllCompanies() {
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = Input::only("link","api_key");
         $link = $data["link"]. "/api/v2/companies?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
+
+        $api_key = base64_encode($data["api_key"].":X");
 
         $this->raywhite_fd_company->truncateTable();
 
@@ -133,7 +142,9 @@ class RaywhiteFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
         
             // get Status Code
@@ -142,8 +153,10 @@ class RaywhiteFDController extends Controller
             if($status_code != 200 ) {
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
-                    $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                    $response = $client->request('GET', $link, [
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 

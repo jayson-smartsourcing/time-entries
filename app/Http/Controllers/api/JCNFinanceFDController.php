@@ -353,7 +353,7 @@ class JCNFinanceFDController extends Controller
         $three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
 
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=50";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;

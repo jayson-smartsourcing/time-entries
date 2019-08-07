@@ -55,6 +55,7 @@ class TicketExportController extends Controller
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
+        $this->bp_ticket_export->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -434,8 +435,8 @@ class TicketExportController extends Controller
     public function getLatestTicketExport() {
         $client = new $this->guzzle();
         $data = Input::only("username","password","link");
-        $three_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
-        
+        $three_days_ago = Carbon::now()->subDays(7)->format('Y-m-d');
+
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_days_ago."&order_type=asc&include=stats&include=stats&per_page=50";
         $ticket_export_data = array();
         $x = 1;
