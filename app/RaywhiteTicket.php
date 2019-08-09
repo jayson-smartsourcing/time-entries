@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class RaywhiteTicket extends Model
 {
-    protected $table = 'raywhite_fd_tickets';
+    protected $table = 'raywhite_fd_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class RaywhiteTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('raywhite_fd_tickets')->insert($data);
+        return DB::table('raywhite_fd_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
@@ -53,4 +53,10 @@ class RaywhiteTicket extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function updateLatestFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_latest_fd_tickets ?', $values);
+    }
+
 }

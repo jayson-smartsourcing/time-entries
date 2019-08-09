@@ -36,4 +36,9 @@ class RaywhiteGroup extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function updateLatestFdReportRef($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_latest_fd_reporting_ref ?', $values);
+    }
 }

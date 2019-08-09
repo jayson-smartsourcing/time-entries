@@ -44,13 +44,13 @@ class RaywhiteFDController extends Controller
 
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link","api_key");
+        $data = config('constants.raywhite');
         $link = $data["link"]. "/api/v2/groups?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
 
-        $api_key = base64_encode($data["api_key"].":X");
+        $api_key = $data["api_key"];
 
         $this->raywhite_fd_group->truncateTable();
 
@@ -122,19 +122,19 @@ class RaywhiteFDController extends Controller
             } 
 
         }
-        
+        $this->raywhite_fd_group->updateLatestFdReportRef("raywhite_fd");
         return response()->json(['success'=> true], 200);
     }
 
     public function getAllCompanies() {
         $client = new $this->guzzle();
-        $data = Input::only("link","api_key");
+        $data = config('constants.raywhite');
         $link = $data["link"]. "/api/v2/companies?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
 
-        $api_key = base64_encode($data["api_key"].":X");
+        $api_key = $data["api_key"];
 
         $this->raywhite_fd_company->truncateTable();
 
@@ -208,12 +208,14 @@ class RaywhiteFDController extends Controller
 
     public function getAllAgents(){
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = config('constants.raywhite');
 
         $link = $data["link"]. "/api/v2/agents?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
+
+        $api_key = $data["api_key"];
 
         $this->raywhite_fd_agent->truncateTable();
 
@@ -221,7 +223,9 @@ class RaywhiteFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
         
             // get Status Code
@@ -231,7 +235,9 @@ class RaywhiteFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -289,7 +295,7 @@ class RaywhiteFDController extends Controller
 
     public function getAllContacts(){
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = config('constants.raywhite');
 
         $link = $data["link"]. "/api/v2/contacts?per_page=100";
         $ticket_export_data = array();
@@ -297,11 +303,15 @@ class RaywhiteFDController extends Controller
         $y = 3;
         $this->raywhite_fd_contact->truncateTable();
 
+        $api_key = $data["api_key"];
+
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
         
             // get Status Code
@@ -311,7 +321,9 @@ class RaywhiteFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -363,11 +375,12 @@ class RaywhiteFDController extends Controller
 
     public function getAllTickets(){
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = config('constants.raywhite');
         $three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
 
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=50";
+        $api_key = $data["api_key"];
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
@@ -378,7 +391,9 @@ class RaywhiteFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
             // get Status Code
             $status_code = $response->getStatusCode();  
@@ -387,7 +402,9 @@ class RaywhiteFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -419,31 +436,18 @@ class RaywhiteFDController extends Controller
                 $not_found = array();
 
                 foreach($ticket_export_data as $key => $value) {
+                    
                     $now = Carbon::now();
-                    $group = $this->raywhite_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
                     $department_name = ""; 
-                    
-                    if(count($group) == 0) {
-                        $group_data["id"] = $value->group_id;
-                        $group_data["ticket_id"] = $value->id;
-                        $group_data["entity"] = "group";
-                        $group_data["created_at"] = $now;
-                        $group_data["updated_at"] = $now;
-                        $not_found[] = $group_data;
-                        
-                    } else {
-                        $group_name = $group->name;
-                    }
 
                     $group_name = html_entity_decode($group_name);
                     $process = html_entity_decode($value->custom_fields->cf_newprocess);
                     $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
                     $task = html_entity_decode($value->custom_fields->cf_newtask);
 
-                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -453,20 +457,29 @@ class RaywhiteFDController extends Controller
                             $resolution_status = "SLA Violated";    
                         }
                     }
-                
 
-                    $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
+                    $first_responded_at = Carbon::parse($value->stats->first_responded_at)->setTimezone('Asia/Manila');
+                    $fr_due_by = Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila');
+                    if($first_responded_at == NULL || $first_responded_at == "") {
+                        $fr_resolution_status = "";
+                    } else {
+                        if($first_responded_at < $fr_due_by) {
+                            $fr_resolution_status = "Within SLA";
+                        } else {
+                            $fr_resolution_status = "SLA Violated";    
+                        }
+                    }
+                
                     $date_executed = Carbon::parse($value->created_at)->format("Ymd");
-                    $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
                     $ticket_export = array(
                         "id" => $value->id,
-                        "hierarchy_id" => $hierarchy_id,
+                        "hierarchy_id" => "",
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
                         'task' => $task,
                         'process' => $process,
-                        'subprocess' => $sub_process,
+                        'sub_process' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -484,34 +497,36 @@ class RaywhiteFDController extends Controller
                         "group_id" => $value->group_id,
                         "agent_id" => $value->responder_id,
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
-                        "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                        "fr_due_by" => $fr_due_by,
                         "is_escalated" => $value->is_escalated,
                         "channel" => $value->custom_fields->cf_channel,
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                        'attendance_id' => $attendance_id
-
+                        "attendance_id" => "",
+                        "first_responded_at" => $first_responded_at,
+                        "fr_resolution_status" => $fr_resolution_status
                     );
                     
                     $final_data[] = $ticket_export;
+                    
                 }
                 $this->raywhite_fd_ticket->bulkInsert($final_data);
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
-               
+                
             } 
         }
-        
         return response()->json(['success'=> true], 200);
     }
 
     public function getLatestTicketExport() {
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = config('constants.raywhite');
         $two_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=50";
+        $api_key = $data["api_key"];
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
@@ -520,7 +535,9 @@ class RaywhiteFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
             // get Status Code
             $status_code = $response->getStatusCode();  
@@ -529,7 +546,9 @@ class RaywhiteFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -563,30 +582,16 @@ class RaywhiteFDController extends Controller
 
                 foreach($ticket_export_data as $key => $value) {
                     $now = Carbon::now();
-                    $group = $this->raywhite_fd_group->getDataById($value->group_id);
                     $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                     $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                     $group_name = ""; 
                     $department_name = ""; 
                     $ids[] = $value->id;
-                    
-                    if(count($group) == 0) {
-                        $group_data["id"] = $value->group_id;
-                        $group_data["ticket_id"] = $value->id;
-                        $group_data["entity"] = "group";
-                        $group_data["created_at"] = $now;
-                        $group_data["updated_at"] = $now;
-                        $not_found[] = $group_data;
-                        
-                    } else {
-                        $group_name = $group->name;
-                    }
-                    $group_name = html_entity_decode($group_name);
+        
                     $process = html_entity_decode($value->custom_fields->cf_newprocess);
                     $sub_process = html_entity_decode($value->custom_fields->cf_newsubprocess);
                     $task = html_entity_decode($value->custom_fields->cf_newtask);
 
-                    $hierarchy_id = $group_name.$process.$sub_process.$task;
                     if($value->type == "No SLA") {
                         $resolution_status = "Within SLA";
                     } else {
@@ -596,20 +601,29 @@ class RaywhiteFDController extends Controller
                             $resolution_status = "SLA Violated";    
                         }
                     }
+   
+                    $first_responded_at = Carbon::parse($value->stats->first_responded_at)->setTimezone('Asia/Manila');
+                    $fr_due_by = Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila');
+                    if($first_responded_at == NULL || $first_responded_at == "") {
+                        $fr_resolution_status = "";
+                    } else {
+                        if($first_responded_at < $fr_due_by) {
+                            $fr_resolution_status = "Within SLA";
+                        } else {
+                            $fr_resolution_status = "SLA Violated";    
+                        }
+                    }
                 
-
-                    $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
                     $date_executed = Carbon::parse($value->created_at)->format("Ymd");
-                    $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
                     $ticket_export = array(
                         "id" => $value->id,
-                        "hierarchy_id" => $hierarchy_id,
+                        "hierarchy_id" => "",
                         "resolution_status" => $resolution_status,
                         'type' => $value->type,
                         'task' => $task,
                         'process' => $process,
-                        'subprocess' => $sub_process,
+                        'sub_process' => $sub_process,
                         'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                         'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                         "cc_emails" => json_encode($value->cc_emails),
@@ -627,13 +641,14 @@ class RaywhiteFDController extends Controller
                         "group_id" => $value->group_id,
                         "agent_id" => $value->responder_id,
                         "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
-                        "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                        "fr_due_by" => $fr_due_by,
                         "is_escalated" => $value->is_escalated,
                         "channel" => $value->custom_fields->cf_channel,
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                        'attendance_id' => $attendance_id
-
+                        "attendance_id" => "",
+                        "first_responded_at" => $first_responded_at,
+                        "fr_resolution_status" => $fr_resolution_status
                     );
                     
                     $final_data[] = $ticket_export;
@@ -647,7 +662,8 @@ class RaywhiteFDController extends Controller
             } 
 
         }
-        
+
+        $this->raywhite_fd_ticket->updateLatestFdTickets("raywhite_fd");
         return response()->json(['success'=> true], 200);
     }
 
