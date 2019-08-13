@@ -56,7 +56,12 @@ class RaywhiteTicket extends Model
 
     public function updateLatestFdTickets($table_name) {
         $values = [$table_name];
-        DB::insert('EXEC update_latest_fd_tickets ?', $values);
+        DB::insert('EXEC update_fd_latest_tickets ?', $values);
+    }
+
+    public function updateAllFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_all_tickets ?', $values);
     }
 
 }

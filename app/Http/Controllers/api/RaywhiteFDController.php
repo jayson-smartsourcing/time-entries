@@ -122,7 +122,7 @@ class RaywhiteFDController extends Controller
             } 
 
         }
-        $this->raywhite_fd_group->updateLatestFdReportRef("raywhite_fd");
+       // $this->raywhite_fd_group->updateLatestFdReportRef("raywhite_fd");
         return response()->json(['success'=> true], 200);
     }
 
@@ -517,6 +517,8 @@ class RaywhiteFDController extends Controller
                 
             } 
         }
+
+        $this->raywhite_fd_ticket->updateAllFdTickets("raywhite_fd");
         return response()->json(['success'=> true], 200);
     }
 
