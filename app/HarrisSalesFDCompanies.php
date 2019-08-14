@@ -26,4 +26,8 @@ class HarrisSalesFDCompanies extends Model
     public function getDataById($id) {
         return static::where('id',$id)->first();
     }
+
+    public function truncateTable() {
+        return static::truncate();
+    }
 }
