@@ -164,8 +164,11 @@ Route::post("jg-fd-groups","api\JGFDController@getAllGroups");
 Route::post("jg-fd-companies","api\JGFDController@getAllCompanies");
 Route::post("jg-fd-agents","api\JGFDController@getAllAgents");
 Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
-Route::post("jg-fd-tickets","api\JGFDController@getAllTickets");
-Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
+//Route::post("jg-fd-tickets","api\JGFDController@getAllTickets");
+//Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
+Route::post("jg-fd-tickets","api\JGFDController@getAllTicketsV2");
+Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExportV2");
+
 
 //employee Ratings live
 Route::post("insert-rating", "api\EmployeeSatisfactoryController@addEmployeeRatings");
