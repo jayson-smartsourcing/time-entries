@@ -92,8 +92,10 @@ Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
 Route::post("cameron-fd-companies","api\CameronFDController@getAllCompanies");
 Route::post("cameron-fd-agents","api\CameronFDController@getAllAgents");
 Route::post("cameron-fd-contacts","api\CameronFDController@getAllContacts");
-Route::post("cameron-fd-tickets","api\CameronFDController@getAllTickets");
-Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExport");
+//Route::post("cameron-fd-tickets","api\CameronFDController@getAllTickets")
+//Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExport");
+Route::post("cameron-fd-tickets","api\CameronFDController@getAllTicketsV2");
+Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExportV2");
 
 //toureast fd
 Route::post("toureast-fd-groups","api\ToureastFDController@getAllGroups");
