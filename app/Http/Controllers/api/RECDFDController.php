@@ -816,6 +816,7 @@ class RECDFDController extends Controller
         return response()->json(['success'=> true], 200);
     }
 
+    
     public function getLatestTicketExportV2() {
     
         $client = new $this->guzzle();
