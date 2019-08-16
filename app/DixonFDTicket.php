@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class DixonFDTicket extends Model
-{
-    protected $table = 'dixon_fd_tickets';
+{   //dixon_fd_tickets
+    protected $table = 'dixon_fd_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class DixonFDTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('dixon_fd_tickets')->insert($data);
+        return DB::table('dixon_fd_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
@@ -52,6 +52,16 @@ class DixonFDTicket extends Model
 
     public function truncateTable() {
         return static::truncate();
+    }
+
+    public function updateLatestFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_latest_tickets ?', $values);
+    }
+
+    public function updateAllFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_all_tickets ?', $values);
     }
     
 }

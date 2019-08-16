@@ -126,8 +126,10 @@ Route::post("dixon-fd-groups","api\DixonFDController@getAllGroups");
 Route::post("dixon-fd-companies","api\DixonFDController@getAllCompanies");
 Route::post("dixon-fd-agents","api\DixonFDController@getAllAgents");
 Route::post("dixon-fd-contacts","api\DixonFDController@getAllContacts");
-Route::post("dixon-fd-tickets","api\DixonFDController@getAllTickets");
-Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExport");
+//Route::post("dixon-fd-tickets","api\DixonFDController@getAllTickets");
+//Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExport");
+Route::post("dixon-fd-tickets","api\DixonFDController@getAllTicketsV2");
+Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExportV2");
 
 //RECD fd
 Route::post("recd-fd-groups","api\RECDFDController@getAllGroups");
