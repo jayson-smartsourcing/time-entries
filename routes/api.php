@@ -137,8 +137,10 @@ Route::post("recd-fd-groups","api\RECDFDController@getAllGroups");
 Route::post("recd-fd-companies","api\RECDFDController@getAllCompanies");
 Route::post("recd-fd-agents","api\RECDFDController@getAllAgents");
 Route::post("recd-fd-contacts","api\RECDFDController@getAllContacts");
-Route::post("recd-fd-tickets","api\RECDFDController@getAllTickets");
-Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExport");
+//Route::post("recd-fd-tickets","api\RECDFDController@getAllTickets");
+//Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExport");
+Route::post("recd-fd-tickets","api\RECDFDController@getAllTicketsV2");
+Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExportV2");
 
 //HBurgers fd
 Route::post("hburgers-fd-groups","api\HBurgersController@getAllGroups");
