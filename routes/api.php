@@ -102,9 +102,10 @@ Route::post("toureast-fd-groups","api\ToureastFDController@getAllGroups");
 Route::post("toureast-fd-companies","api\ToureastFDController@getAllCompanies");
 Route::post("toureast-fd-agents","api\ToureastFDController@getAllAgents");
 Route::post("toureast-fd-contacts","api\ToureastFDController@getAllContacts");
-Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTickets");
-Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExport");
-
+//Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTickets");
+//Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExport");
+Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTicketsV2");
+Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExportV2");
 //raywhite fd
 Route::post("raywhite-fd-groups","api\RaywhiteFDController@getAllGroups");
 Route::post("raywhite-fd-companies","api\RaywhiteFDController@getAllCompanies");
