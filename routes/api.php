@@ -165,8 +165,10 @@ Route::post("jcs-fd-groups","api\JCSFDController@getAllGroups");
 Route::post("jcs-fd-companies","api\JCSFDController@getAllCompanies");
 Route::post("jcs-fd-agents","api\JCSFDController@getAllAgents");
 Route::post("jcs-fd-contacts","api\JCSFDController@getAllContacts");
-Route::post("jcs-fd-tickets","api\JCSFDController@getAllTickets");
-Route::post("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExport");
+//Route::post("jcs-fd-tickets","api\JCSFDController@getAllTickets");
+//Route::post("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExport");
+Route::post("jcs-fd-tickets","api\JCSFDController@getAllTicketsV2");
+Route::post("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExportV2");
 
 //JG fd
 Route::post("jg-fd-groups","api\JGFDController@getAllGroups");
