@@ -147,8 +147,10 @@ Route::post("hburgers-fd-groups","api\HBurgersController@getAllGroups");
 Route::post("hburgers-fd-companies","api\HBurgersController@getAllCompanies");
 Route::post("hburgers-fd-agents","api\HBurgersController@getAllAgents");
 Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
-Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTickets");
-Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExport");
+//Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTickets");
+//Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExport");
+Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTicketsV2");
+Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
 
 //JCNE fd
 Route::post("jcne-fd-groups","api\JCNEFDController@getAllGroups");
