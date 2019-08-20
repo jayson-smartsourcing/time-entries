@@ -82,10 +82,12 @@ Route::post("jcn-fd-groups","api\JCNFDController@getAllGroups");
 Route::post("jcn-fd-companies","api\JCNFDController@getAllCompanies");
 Route::post("jcn-fd-agents","api\JCNFDController@getAllAgents");
 Route::post("jcn-fd-contacts","api\JCNFDController@getAllContacts");
-Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
-Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
+// Route::post("jcn-fd-tickets","api\JCNFDController@getAllTickets");
+// Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExport");
 Route::post("jcn-fd-tickets-missing","api\JCNFDController@insertMissingTicket");
 Route::post("jcn-fd-tickets-duplicates","api\JCNFDController@duplicateData");
+Route::post("jcn-fd-tickets","api\JCNFDController@getAllTicketsV2");
+Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExportV2");
 
 //cameron fd
 Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
