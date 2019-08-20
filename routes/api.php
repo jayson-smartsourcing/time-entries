@@ -157,8 +157,10 @@ Route::post("jcne-fd-groups","api\JCNEFDController@getAllGroups");
 Route::post("jcne-fd-companies","api\JCNEFDController@getAllCompanies");
 Route::post("jcne-fd-agents","api\JCNEFDController@getAllAgents");
 Route::post("jcne-fd-contacts","api\JCNEFDController@getAllContacts");
-Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTickets");
-Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExport");
+//Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTickets");
+//Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExport");
+Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTicketsV2");
+Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExportV2");
 
 //JCS fd
 Route::post("jcs-fd-groups","api\JCSFDController@getAllGroups");
