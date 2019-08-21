@@ -817,16 +817,16 @@ class JCNFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.jcn');
         $api_key = $data["api_key"];
-        //$three_month_ago = new Carbon("2019-01-01");
-        $three_month_ago = new Carbon("Last Day of September 2018");
+        $three_month_ago = new Carbon("2019-01-01");
+        //$three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
 
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/search/tickets?query=created_at:>".$three_month_ago."&order_type=asc&include=stats&per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
         
-        $this->jcn_fd_ticket->truncateTable();
+        //$this->jcn_fd_ticket->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;

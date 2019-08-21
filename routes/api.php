@@ -65,8 +65,10 @@ Route::post("dingles-fd-groups","api\DinglesFDController@getAllGroups");
 Route::post("dingles-fd-companies","api\DinglesFDController@getAllCompanies");
 Route::post("dingles-fd-agents","api\DinglesFDController@getAllAgents");
 Route::post("dingles-fd-contacts","api\DinglesFDController@getAllContacts");
-Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
-Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+// Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
+//Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTicketsV2");
+Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExportV2");
 
 //emurun fd
 Route::post("emurun-fd-groups","api\EmurunFDController@getAllGroups");

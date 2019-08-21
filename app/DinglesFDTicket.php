@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class DinglesFDTicket extends Model
 {
-    protected $table = 'dingles_fd_tickets';
+    protected $table = 'dingles_fd_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class DinglesFDTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('dingles_fd_tickets')->insert($data);
+        return DB::table('dingles_fd_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
@@ -52,5 +52,15 @@ class DinglesFDTicket extends Model
 
     public function truncateTable() {
         return static::truncate();
+    }
+
+    public function updateLatestFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_latest_tickets ?', $values);
+    }
+
+    public function updateAllFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_all_tickets ?', $values);
     }
 }
