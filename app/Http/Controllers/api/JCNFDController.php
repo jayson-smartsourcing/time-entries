@@ -662,7 +662,8 @@ class JCNFDController extends Controller
     public function insertMissingTicket() {
         $client = new $this->guzzle();
         $missing_ids = $this->jcn_fd_ticket->getAllMissingTicket();
-        $data = Input::only("username","password","link");
+        $data = config('constants.jcn');
+        $api_key = $data["api_key"];
         $ids = array();
         $len = count($missing_ids);
 
@@ -672,7 +673,9 @@ class JCNFDController extends Controller
             $link = $link. "/".$id."?include=stats";
 
             $response = $client->request('GET', $link, [
-                'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
 
             $status_code = $response->getStatusCode();  
@@ -681,7 +684,9 @@ class JCNFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -706,26 +711,16 @@ class JCNFDController extends Controller
             if(count($body) != 0) {
                 $value = $body;
                 $now = Carbon::now();
-                $group = $this->jcn_fd_group->getDataById($value->group_id);
                 $due_by = Carbon::parse($value->due_by)->setTimezone('Asia/Manila');
                 $resolved_at = Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila');
                 $group_name = ""; 
                 $department_name = ""; 
-                $ids[] = $value->id;
-                
-                if(count($group) == 0) {
-                    $group_data["id"] = $value->group_id;
-                    $group_data["ticket_id"] = $value->id;
-                    $group_data["entity"] = "group";
-                    $group_data["created_at"] = $now;
-                    $group_data["updated_at"] = $now;
-                    $not_found[] = $group_data;
-                    
-                } else {
-                    $group_name = $group->name;
-                }
 
-                $hierarchy_id = $group_name.$value->custom_fields->cf_process_beta.$value->custom_fields->cf_sub_process_beta.$value->custom_fields->cf_task_beta;
+                $group_name = html_entity_decode($group_name);
+                $process = html_entity_decode($value->custom_fields->cf_process_beta);
+                $sub_process = html_entity_decode($value->custom_fields->cf_sub_process_beta);
+                $task = html_entity_decode($value->custom_fields->cf_task_beta);
+
                 if($value->type == "No SLA") {
                     $resolution_status = "Within SLA";
                 } else {
@@ -735,20 +730,29 @@ class JCNFDController extends Controller
                         $resolution_status = "SLA Violated";    
                     }
                 }
-            
 
-                $agent_detail = $this->employee_ref->getEmployeeData($value->responder_id);
+                $first_responded_at = Carbon::parse($value->stats->first_responded_at)->setTimezone('Asia/Manila');
+                $fr_due_by = Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila');
+                if($first_responded_at == NULL || $first_responded_at == "") {
+                    $fr_resolution_status = "";
+                } else {
+                    if($first_responded_at < $fr_due_by) {
+                        $fr_resolution_status = "Within SLA";
+                    } else {
+                        $fr_resolution_status = "SLA Violated";    
+                    }
+                }
+            
                 $date_executed = Carbon::parse($value->created_at)->format("Ymd");
-                $attendance_id = $date_executed.$agent_detail["SAL EMP ID"];
 
                 $ticket_export = array(
                     "id" => $value->id,
-                    "hierarchy_id" => $hierarchy_id,
+                    "hierarchy_id" => "",
                     "resolution_status" => $resolution_status,
                     'type' => $value->type,
-                    'task' => $value->custom_fields->cf_task_beta,
-                    'process' => $value->custom_fields->cf_process_beta,
-                    'subprocess' => $value->custom_fields->cf_sub_process_beta,
+                    'task' => $task,
+                    'process' => $process,
+                    'sub_process' => $sub_process,
                     'resolved_at' => Carbon::parse($value->stats->resolved_at)->setTimezone('Asia/Manila'),
                     'closed_at' => Carbon::parse($value->stats->closed_at)->setTimezone('Asia/Manila'),
                     "cc_emails" => json_encode($value->cc_emails),
@@ -766,16 +770,18 @@ class JCNFDController extends Controller
                     "group_id" => $value->group_id,
                     "agent_id" => $value->responder_id,
                     "due_by" => Carbon::parse($value->due_by)->setTimezone('Asia/Manila'),
-                    "fr_due_by" => Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila'),
+                    "fr_due_by" => $fr_due_by,
                     "is_escalated" => $value->is_escalated,
                     "channel" => $value->custom_fields->cf_source,
                     "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
                     "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
-                    'attendance_id' => $attendance_id
-
+                    "attendance_id" => "",
+                    "first_responded_at" => $first_responded_at,
+                    "fr_resolution_status" => $fr_resolution_status
                 );
                 
                 $final_data[] = $ticket_export;
+                $ids[] = $id; 
                 
                 if(count($final_data) == 50) {
                     $this->jcn_fd_ticket->bulkDeleteByTicketExportId($ids);
@@ -794,6 +800,8 @@ class JCNFDController extends Controller
             }
             
         }
+
+        $this->jcn_fd_ticket->updateAllFdTickets("jcn_fd");
         return response()->json(['success'=> true], 200);
     }
 
@@ -817,11 +825,10 @@ class JCNFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.jcn');
         $api_key = $data["api_key"];
-        $three_month_ago = new Carbon("2019-01-01");
-        //$three_month_ago = new Carbon("Last Day of September 2018");
+        //$three_month_ago = new Carbon("2019-02-01");
+        $three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
-
-        $link = $data["link"]. "/api/v2/search/tickets?query=created_at:>".$three_month_ago."&order_type=asc&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_by=created_at&order_type=asc&include=stats&per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
