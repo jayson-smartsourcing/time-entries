@@ -816,7 +816,7 @@ class CameronFDController extends Controller
         $data = config('constants.cameron');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
-        $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
+        $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&sortorder_type=asc&include=stats&per_page=100";
         $api_key = $data["api_key"];
         $ticket_export_data = array();
         $x = 1;

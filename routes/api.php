@@ -75,9 +75,12 @@ Route::post("emurun-fd-groups","api\EmurunFDController@getAllGroups");
 Route::post("emurun-fd-companies","api\EmurunFDController@getAllCompanies");
 Route::post("emurun-fd-agents","api\EmurunFDController@getAllAgents");
 Route::post("emurun-fd-contacts","api\EmurunFDController@getAllContacts");
-Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTickets");
-Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");
+// Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTickets");
+// Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");
 Route::post("emurun-fd-tickets-missing","api\EmurunFDController@insertMissingTicket");
+Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTicketsV2");
+Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExportV2");
+
 
 //jcn fd
 Route::post("jcn-fd-groups","api\JCNFDController@getAllGroups");
