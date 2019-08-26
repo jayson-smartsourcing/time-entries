@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class JCFSTicket extends Model
 {
-    protected $table = 'jck_fs_tickets';
+    protected $table = 'jck_fs_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -45,10 +45,24 @@ class JCFSTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('jck_fs_tickets')->insert($data);
+        return DB::table('jck_fs_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
+    }
+
+    public function truncateTable() {
+        return static::truncate();
+    }
+
+    public function updateLatestFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fs_latest_tickets ?', $values);
+    }
+
+    public function updateAllFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fs_all_tickets ?', $values);
     }
 }

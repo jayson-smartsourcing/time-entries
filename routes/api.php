@@ -45,8 +45,10 @@ Route::post("jc-fs-groups","api\JellisCraigFSController@getAllGroups");
 Route::post("jc-fs-departments","api\JellisCraigFSController@getAllDepartments");
 Route::post("jc-fs-requesters","api\JellisCraigFSController@getAllRequester");
 Route::post("jc-fs-agents","api\JellisCraigFSController@getAllAgents");
-Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExport");
-Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExport");
+// Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExport");
+// Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExport");
+Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExportV2");
+Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExportV2");
 
 //harris fd
 //Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTickets");
@@ -212,8 +214,10 @@ Route::post("jcb-fs-groups","api\JCBFSController@getAllGroups");
 Route::post("jcb-fs-departments","api\JCBFSController@getAllDepartments");
 Route::post("jcb-fs-requesters","api\JCBFSController@getAllRequester");
 Route::post("jcb-fs-agents","api\JCBFSController@getAllAgents");
-Route::post("jcb-fs-tickets","api\JCBFSController@getAllTicketExport");
-Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExport");
+// Route::post("jcb-fs-tickets","api\JCBFSController@getAllTicketExport");
+// Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExport");
+Route::post("jcb-fs-tickets","api\JCBFSController@getAllTicketExportV2");
+Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExportV2");
 
 
 //insert Data
