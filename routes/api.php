@@ -81,7 +81,7 @@ Route::post("emurun-fd-contacts","api\EmurunFDController@getAllContacts");
 // Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExport");
 Route::post("emurun-fd-tickets-missing","api\EmurunFDController@insertMissingTicket");
 Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTicketsV2");
-Route::get("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExportV2");
+Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExportV2");
 
 
 //jcn fd
