@@ -972,6 +972,7 @@ class EmurunFDController extends Controller
     
     public function getLatestTicketExportV2() {
         $client = new $this->guzzle();
+        
         $data = config('constants.emurun');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
