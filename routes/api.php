@@ -228,3 +228,11 @@ Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExportV
 Route::get("insert-resume-data","api\ImportBossJobToDBController@insertData");
 
 Route::post("parse-json","api\XmlParserController@parseToJson");
+
+//LJ Hooker
+Route::post("lj-hooker-fd-groups","api\LJHookerFDController@getAllGroups");
+Route::post("lj-hooker-fd-companies","api\LJHookerFDController@getAllCompanies");
+Route::post("lj-hooker-fd-agents","api\LJHookerFDController@getAllAgents");
+Route::post("lj-hooker-fd-contacts","api\LJHookerFDController@getAllContacts");
+Route::post("lj-hooker-fd-tickets","api\LJHookerFDController@getAllTicketsV2");
+Route::post("lj-hooker-fd-tickets-latests","api\LJHookerFDController@getLatestTicketExportV2");
