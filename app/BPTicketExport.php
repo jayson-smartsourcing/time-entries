@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class BPTicketExport extends Model
 {
-    protected $table = 'BPTicketExport_API';
+    protected $table = 'bp_fs_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -45,7 +45,7 @@ class BPTicketExport extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('BPTicketExport_API')->insert($data);
+        return DB::table('bp_fs_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
@@ -54,5 +54,19 @@ class BPTicketExport extends Model
 
     public function runStoredProcedure() {
         return DB::select('EXEC Create_BPTicketExport');
+    }
+
+    public function truncateTable() {
+        return static::truncate();
+    }
+
+    public function updateLatestFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fs_latest_tickets ?', $values);
+    }
+
+    public function updateAllFdTickets($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fs_all_tickets ?', $values);
     }
 }

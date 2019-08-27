@@ -24,13 +24,15 @@ Route::post("get-time-entries-latest","api\TimeEntriesController@getTimeEntriesT
 Route::get("test","api\TimeEntriesController@test");
 
 //barry plant fs
-Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExport");
+//Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExport");
 Route::post("bp-requester","api\TicketExportController@getAllRequester");
 Route::post("bp-departments","api\TicketExportController@getAllDepartments");
 Route::post("bp-groups","api\TicketExportController@getAllGroups");
-Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
+// Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExport");
 Route::get("bp-test","api\TicketExportController@test");
 Route::post("bp-agents","api\TicketExportController@getAllAgents");
+Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExportV2");
+Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExportV2");
 
 //harris fs
 Route::post("hr-groups","api\HarrisFreshServiceController@getAllGroups");

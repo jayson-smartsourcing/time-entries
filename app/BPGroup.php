@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class BPGroup extends Model
 {
-    protected $table = 'BPGroups';
+    protected $table = 'bp_fs_groups';
     protected $fillable = [
        'id',
        'name',
@@ -23,7 +23,7 @@ class BPGroup extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('BPGroups')->insert($data);
+        return DB::table('bp_fs_groups')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){
