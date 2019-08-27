@@ -37,8 +37,10 @@ Route::post("hr-groups","api\HarrisFreshServiceController@getAllGroups");
 Route::post("hr-departments","api\HarrisFreshServiceController@getAllDepartments");
 Route::post("hr-requesters","api\HarrisFreshServiceController@getAllRequester");
 Route::post("hr-agents","api\HarrisFreshServiceController@getAllAgents");
-Route::post("hr-ticket-export","api\HarrisFreshServiceController@getAllTicketExport");
-Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExport");
+// Route::post("hr-ticket-export","api\HarrisFreshServiceController@getAllTicketExport");
+// Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExport");
+Route::post("hr-tickets","api\HarrisFreshServiceController@getAllTicketExportV2");
+Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExportV2");
 
 //jellis craig fs
 Route::post("jc-fs-groups","api\JellisCraigFSController@getAllGroups");
@@ -222,3 +224,5 @@ Route::post("jcb-fs-tickets-latests","api\JCBFSController@getLatestTicketExportV
 
 //insert Data
 Route::get("insert-resume-data","api\ImportBossJobToDBController@insertData");
+
+Route::post("parse-json","api\XmlParserController@parseToJson");
