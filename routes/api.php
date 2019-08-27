@@ -236,3 +236,11 @@ Route::post("lj-hooker-fd-agents","api\LJHookerFDController@getAllAgents");
 Route::post("lj-hooker-fd-contacts","api\LJHookerFDController@getAllContacts");
 Route::post("lj-hooker-fd-tickets","api\LJHookerFDController@getAllTicketsV2");
 Route::post("lj-hooker-fd-tickets-latests","api\LJHookerFDController@getLatestTicketExportV2");
+
+Route::post("avnu-fd-groups","api\AvnuFDController@getAllGroups");
+Route::post("avnu-fd-companies","api\AvnuFDController@getAllCompanies");
+Route::post("avnu-fd-agents","api\AvnuFDController@getAllAgents");
+Route::post("avnu-fd-contacts","api\AvnuFDController@getAllContacts");
+Route::post("avnu-fd-tickets","api\AvnuFDController@getAllTicketsV2");
+Route::post("avnu-fd-tickets-latests","api\AvnuFDController@getLatestTicketExportV2");
+
