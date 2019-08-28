@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class LJHookerFDCompany extends Model
 {
-    protected $table = 'lj_hooker_fd_companies';
+    protected $table = 'ljh_wl_fd_companies';
 
     protected $fillable = [
         'id',
@@ -17,7 +17,7 @@ class LJHookerFDCompany extends Model
      ];
  
      public function bulkInsert($data){
-         return DB::table('lj_hooker_fd_companies')->insert($data);
+         return DB::table('ljh_wl_fd_companies')->insert($data);
      }
      //$ids_to_delete must be array
      public function bulkDeleteByTimeEntryId($ids_to_delete){

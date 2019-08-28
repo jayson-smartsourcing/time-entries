@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class AvnuFDCompany extends Model
 {
-    protected $table = 'avnu_fd_companies';
+    protected $table = 'ljh_avnu_fd_companies';
     protected $fillable = [
        'id',
        'name',
@@ -22,7 +22,7 @@ class AvnuFDCompany extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('avnu_fd_companies')->insert($data);
+        return DB::table('ljh_avnu_fd_companies')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){

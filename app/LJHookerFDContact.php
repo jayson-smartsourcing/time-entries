@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class LJHookerFDContact extends Model
 {
-    protected $table = 'lj_hooker_fd_contacts';
+    protected $table = 'ljh_wl_fd_contacts';
     protected $fillable = [
        'id',
        'name',
@@ -16,7 +16,7 @@ class LJHookerFDContact extends Model
        
     ];
     public function bulkInsert($data){
-        return DB::table('lj_hooker_fd_contacts')->insert($data);
+        return DB::table('ljh_wl_fd_contacts')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){

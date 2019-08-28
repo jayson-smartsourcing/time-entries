@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class AvnuFDTicket extends Model
 {
-    protected $table = 'avnu_fd_tickets_v2';
+    protected $table = 'ljh_avnu_fd_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -43,7 +43,7 @@ class AvnuFDTicket extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('avnu_fd_tickets_v2')->insert($data);
+        return DB::table('ljh_avnu_fd_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){

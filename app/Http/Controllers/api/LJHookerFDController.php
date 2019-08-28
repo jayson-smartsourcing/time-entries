@@ -517,7 +517,7 @@ class LJHookerFDController extends Controller
             }
         }
 
-        $this->lj_hooker_fd_ticket->updateAllFdTickets("lj_hooker_fd");
+        $this->lj_hooker_fd_ticket->updateAllFdTickets("ljh_wl_fd");
         return response()->json(['success'=> true], 200);
     }
 
@@ -680,7 +680,7 @@ class LJHookerFDController extends Controller
 
         }
 
-        $this->lj_hooker_fd_ticket->updateLatestFdTickets("lj_hooker_fd");
+        $this->lj_hooker_fd_ticket->updateLatestFdTickets("ljh_wl_fd");
         return response()->json(['success'=> true], 200);
     }
 

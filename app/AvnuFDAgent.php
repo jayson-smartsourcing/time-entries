@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class AvnuFDAgent extends Model
 {
-    protected $table = 'avnu_fd_agents';
+    protected $table = 'ljh_avnu_fd_agents';
     protected $fillable = [
        'id',
        'first_name',
@@ -18,7 +18,7 @@ class AvnuFDAgent extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('avnu_fd_agents')->insert($data);
+        return DB::table('ljh_avnu_fd_agents')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){

@@ -518,7 +518,7 @@ class AvnuFDController extends Controller
             }
         }
 
-        $this->avnu_fd_ticket->updateAllFdTickets("avnu_fd");
+        $this->avnu_fd_ticket->updateAllFdTickets("ljh_avnu_fd");
         return response()->json(['success'=> true], 200);
     }
 
@@ -681,7 +681,7 @@ class AvnuFDController extends Controller
 
         }
 
-        $this->avnu_fd_ticket->updateLatestFdTickets("avnu_fd");
+        $this->avnu_fd_ticket->updateLatestFdTickets("ljh_avnu_fd");
         return response()->json(['success'=> true], 200);
     }
 

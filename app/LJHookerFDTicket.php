@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class LJHookerFDTicket extends Model
 {
-    protected $table = 'lj_hooker_fd_tickets_v2';
+    protected $table = 'ljh_wl_fd_tickets_v2';
     protected $fillable = [
        'id',
        'unique_id',
@@ -49,7 +49,7 @@ class LJHookerFDTicket extends Model
 
     public function bulkInsert($data){
         
-        return DB::table('lj_hooker_fd_tickets_v2')->insert($data);
+        return DB::table('ljh_wl_fd_tickets_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTicketExportId($ids_to_delete){
