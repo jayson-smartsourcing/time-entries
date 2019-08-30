@@ -62,11 +62,11 @@ class BPTicketExport extends Model
 
     public function updateLatestFdTickets($table_name) {
         $values = [$table_name];
-        DB::insert('EXEC update_fs_latest_tickets ?', $values);
+        DB::insert('EXEC update_bp_fs_latest_tickets ?', $values); 
     }
 
     public function updateAllFdTickets($table_name) {
         $values = [$table_name];
-        DB::insert('EXEC update_fs_all_tickets ?', $values);
+        DB::insert('EXEC update_bp_fs_all_tickets ?', $values);
     }
 }
