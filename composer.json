@@ -13,7 +13,7 @@
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "~2.1.0",
         "kylekatarnls/laravel-carbon-2": "^1.0.0",
-        "nesbot/carbon": "2.0.0-beta.2 as 1.25.0" 
+        "nesbot/carbon": "2.0.0-beta.2 as 1.25.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
@@ -61,4 +61,4 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true
-}
+} 
