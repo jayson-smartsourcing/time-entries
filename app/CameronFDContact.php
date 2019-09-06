@@ -30,4 +30,9 @@ class CameronFDContact extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function addAgentsToContacts($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC insert_fd_agents_to_contacts ?', $values);
+    }
 }

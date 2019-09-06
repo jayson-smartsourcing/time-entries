@@ -110,6 +110,7 @@ Route::post("cameron-fd-contacts","api\CameronFDController@getAllContacts");
 //Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExport");
 Route::post("cameron-fd-tickets","api\CameronFDController@getAllTicketsV2");
 Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExportV2");
+Route::get("cameron-fd-update-all","api\CameronFDController@updateAll");
 
 //toureast fd
 Route::post("toureast-fd-groups","api\ToureastFDController@getAllGroups");
