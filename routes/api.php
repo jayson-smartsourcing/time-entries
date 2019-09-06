@@ -176,6 +176,7 @@ Route::post("jcne-fd-contacts","api\JCNEFDController@getAllContacts");
 //Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExport");
 Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTicketsV2");
 Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExportV2");
+Route::get("jcne-fd-update-all","api\JCNEFDController@updateAll");
 
 //JCS fd
 Route::post("jcs-fd-groups","api\JCSFDController@getAllGroups");
