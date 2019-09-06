@@ -294,7 +294,8 @@ class DinglesFDController extends Controller
     public function getAllContacts(){
 
         $client = new $this->guzzle();
-        $data = Input::only("username","password","link");
+        $data = config('constants.dingles');
+        $api_key = $data["api_key"];
 
         $link = $data["link"]. "/api/v2/contacts?per_page=100";
         $ticket_export_data = array();
@@ -306,7 +307,9 @@ class DinglesFDController extends Controller
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
-                    'auth' => [$data["username"], $data["password"]]
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
             ]);
         
             // get Status Code
@@ -316,7 +319,9 @@ class DinglesFDController extends Controller
                for($tries = 0; $tries < $y; $tries++) {
                     //retry call api
                     $response_retry = $client->request('GET', $link, [
-                        'auth' => [$data["username"], $data["password"]]
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
                     ]);
                     //get status Code    
                     $status_code = $response_retry->getStatusCode(); 
@@ -970,5 +975,51 @@ class DinglesFDController extends Controller
 
         $this->dingles_ticket->updateLatestFdTickets("dingles_fd");
         return response()->json(['success'=> true], 200);
+    }
+
+    public function updateAll() {
+        $lists = [
+            ["function" => "getAllGroups","type" => "groups"],
+            ["function" => "getAllCompanies","type" => "companies"],
+            ["function" => "getAllAgents","type" => "agents"],
+            ["function" => "getAllContacts","type" => "contacts"],
+        ];
+    
+        foreach($lists as $val) {
+            $response = $this->{$val["function"]}();
+            $return = $this->loopUpdate($response, $val);
+            
+            if(!$return) {
+                return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
+            }
+        }
+
+        return response()->json(['success'=> true], 200);
+    }
+
+    public function loopUpdate($response,$val) {
+        $y = 3;
+        $response = json_encode($response);
+        $response = json_decode($response);
+        
+        if($response->original->success != 1){
+            for($tries = 0; $tries < $y; $tries++) {
+
+                $response = $this->{$val["function"]}();
+                $response = json_encode($response);
+                $response = json_decode($response);
+    
+                if($response->original->success == 1) {
+                    return true;
+                    break;
+                }
+                if($tries == 2 && $response->original->success != 1) {
+                    return false;
+                    break;
+                }
+            }  
+        } else {
+            return true;
+        }       
     }
 }
