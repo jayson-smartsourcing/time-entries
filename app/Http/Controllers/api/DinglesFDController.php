@@ -994,6 +994,8 @@ class DinglesFDController extends Controller
             }
         }
 
+        $this->dingles_contact->addAgentsToContacts("dingles_fd");
+
         return response()->json(['success'=> true], 200);
     }
 

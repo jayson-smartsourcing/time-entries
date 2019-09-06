@@ -996,6 +996,8 @@ class JCNEFDController extends Controller
             }
         }
 
+        $this->jcne_fd_contact->addAgentsToContacts("jcne_fd");
+
         return response()->json(['success'=> true], 200);
     }
 

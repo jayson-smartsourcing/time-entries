@@ -994,6 +994,8 @@ class JCSFDController extends Controller
             }
         }
 
+        $this->jcs_fd_contact->addAgentsToContacts("jcs_fd");
+
         return response()->json(['success'=> true], 200);
     }
 
