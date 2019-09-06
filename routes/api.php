@@ -148,6 +148,7 @@ Route::post("dixon-fd-contacts","api\DixonFDController@getAllContacts");
 //Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExport");
 Route::post("dixon-fd-tickets","api\DixonFDController@getAllTicketsV2");
 Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExportV2");
+Route::get("dixon-fd-update-all","api\DixonFDController@updateAll");
 
 //RECD fd
 Route::post("recd-fd-groups","api\RECDFDController@getAllGroups");
