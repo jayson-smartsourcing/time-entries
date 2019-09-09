@@ -248,4 +248,5 @@ Route::post("avnu-fd-agents","api\AvnuFDController@getAllAgents");
 Route::post("avnu-fd-contacts","api\AvnuFDController@getAllContacts");
 Route::post("avnu-fd-tickets","api\AvnuFDController@getAllTicketsV2");
 Route::post("avnu-fd-tickets-latests","api\AvnuFDController@getLatestTicketExportV2");
+Route::get("avnu-fd-update-all","api\AvnuFDController@updateAll");
 
