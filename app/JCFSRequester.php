@@ -34,5 +34,15 @@ class JCFSRequester extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function addAgentsToContacts($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC insert_fs_agents_to_requesters ?', $values);
+    }
+
+    //$ids_to_delete must be array
+    public function bulkDeleteByContactId($ids_to_delete){
+        return static::whereIn('id',$ids_to_delete)->delete();
+    }
     
 }

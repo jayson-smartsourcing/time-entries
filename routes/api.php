@@ -54,6 +54,7 @@ Route::post("jc-fs-agents","api\JellisCraigFSController@getAllAgents");
 // Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExport");
 Route::post("jc-fs-ticket","api\JellisCraigFSController@getAllTicketExportV2");
 Route::post("jc-fs-ticket-latest","api\JellisCraigFSController@getLatestTicketExportV2");
+Route::get("jc-fs-update-all","api\JellisCraigFSController@updateAll");
 
 //harris fd
 //Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTickets");
