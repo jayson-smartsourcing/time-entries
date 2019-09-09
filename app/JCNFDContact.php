@@ -37,7 +37,7 @@ class JCNFDContact extends Model
     }
 
     //$ids_to_delete must be array
-    public function bulkDeleteByTicketExportId($ids_to_delete){
+    public function bulkDeleteByContactId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
     }
 

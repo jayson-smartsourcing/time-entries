@@ -347,7 +347,6 @@ class JCNFDController extends Controller
                 $x++;
 
                 $ids = array();
-
                 $final_data = array();
                 $count = 0;
                 $len = count($agents);
@@ -364,7 +363,7 @@ class JCNFDController extends Controller
 
                     $final_data[] = $agent;
                 }
-                $this->jcn_fd_contact->bulkDeleteByTicketExportId($ids);
+                $this->jcn_fd_contact->bulkDeleteByContactId($ids);
                 $this->jcn_fd_contact->bulkInsert($final_data);
                 
             } 

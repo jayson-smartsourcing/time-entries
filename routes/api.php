@@ -205,6 +205,7 @@ Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
 //Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExport");
 Route::post("jg-fd-tickets","api\JGFDController@getAllTicketsV2");
 Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExportV2");
+Route::get("jg-fd-update-all","api\JGFDController@updateAll");
 
 
 //employee Ratings live
