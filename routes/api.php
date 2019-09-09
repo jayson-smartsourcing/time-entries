@@ -130,6 +130,7 @@ Route::post("raywhite-fd-agents","api\RaywhiteFDController@getAllAgents");
 Route::post("raywhite-fd-contacts","api\RaywhiteFDController@getAllContacts");
 Route::post("raywhite-fd-tickets","api\RaywhiteFDController@getAllTickets");
 Route::post("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
+Route::get("raywhite-fd-update-all","api\RaywhiteFDController@updateAll");
 
 //JCN Finance fd
 Route::post("jcn-finace-fd-groups","api\JCNFinanceFDController@getAllGroups");

@@ -30,4 +30,14 @@ class RaywhiteContact extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+     //$ids_to_delete must be array
+     public function bulkDeleteByContactId($ids_to_delete){
+        return static::whereIn('id',$ids_to_delete)->delete();
+    }
+
+    public function addAgentsToContacts($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC insert_fd_agents_to_contacts ?', $values);
+    }
 }
