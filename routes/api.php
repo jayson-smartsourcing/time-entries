@@ -170,6 +170,7 @@ Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
 //Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExport");
 Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTicketsV2");
 Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
+Route::get("hburgers-fd-update-all","api\HBurgersController@updateAll");
 
 //JCNE fd
 Route::post("jcne-fd-groups","api\JCNEFDController@getAllGroups");
