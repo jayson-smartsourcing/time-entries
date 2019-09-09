@@ -65,6 +65,7 @@ Route::post("hs-fd-time-entries","api\HarrisSalesController@getAllTimeEntries");
 Route::post("hs-fd-time-entries-latest","api\HarrisSalesController@getTimeEntriesThreeDaysAgo");
 Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTicketsV2");
 Route::post("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExportV2");
+Route::get("hs-fd-update-all","api\HarrisSalesController@updateAll");
 
 //dingles fd
 Route::post("dingles-fd-groups","api\DinglesFDController@getAllGroups");
