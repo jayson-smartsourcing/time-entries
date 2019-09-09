@@ -292,12 +292,13 @@ class RECDFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.recd');
         $api_key = $data["api_key"];
+        $date_now = Carbon::now()->format('Y-m-d');
 
-        $link = $data["link"]. "/api/v2/contacts?per_page=100";
+        $link = $data["link"]. "/api/v2/contacts?_updated_since=".$date_now."&per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-        $this->recd_fd_contact->truncateTable();
+        //$this->recd_fd_contact->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -343,6 +344,7 @@ class RECDFDController extends Controller
                 $agents = $body;
                 $x++;
 
+                $ids = array();
                 $final_data = array();
                 $count = 0;
                 $len = count($agents);
@@ -358,7 +360,7 @@ class RECDFDController extends Controller
 
                     $final_data[] = $agent;
                 }
-
+                $this->recd_fd_contact->bulkDeleteByContactId($ids);
                 $this->recd_fd_contact->bulkInsert($final_data);
             } 
 
@@ -979,6 +981,55 @@ class RECDFDController extends Controller
 
         $this->recd_fd_ticket->updateLatestFdTickets("recd_fd");
         return response()->json(['success'=> true], 200);
+    }
+
+    public function updateAll() {
+        $lists = [
+            ["function" => "getAllGroups","type" => "groups"],
+            ["function" => "getAllCompanies","type" => "companies"],
+            ["function" => "getAllAgents","type" => "agents"],
+            ["function" => "getAllContacts","type" => "contacts"],
+        ];
+    
+        foreach($lists as $val) {
+            $response = $this->{$val["function"]}();
+            $return = $this->loopUpdate($response, $val);
+            
+            if(!$return) {
+                return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
+            }
+        }
+
+        $this->recd_fd_contact->addAgentsToContacts("recd_fd");
+
+        return response()->json(['success'=> true], 200);
+    }
+
+    public function loopUpdate($response,$val) {
+        $y = 3;
+        $response = json_encode($response);
+        $response = json_decode($response);
+        
+        if($response->original->success != 1){
+            for($tries = 0; $tries < $y; $tries++) {
+
+                $response = $this->{$val["function"]}();
+                $response = json_encode($response);
+                $response = json_decode($response);
+    
+                if($response->original->success == 1) {
+                    return true;
+                    break;
+                }
+                if($tries == 2 && $response->original->success != 1) {
+                    return false;
+                    break;
+                }
+            }  
+        } else {
+            return true;
+        }
+        
     }
 
 

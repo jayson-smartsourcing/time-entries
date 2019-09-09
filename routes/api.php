@@ -163,6 +163,7 @@ Route::post("recd-fd-contacts","api\RECDFDController@getAllContacts");
 //Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExport");
 Route::post("recd-fd-tickets","api\RECDFDController@getAllTicketsV2");
 Route::post("recd-fd-tickets-latests","api\RECDFDController@getLatestTicketExportV2");
+Route::get("recd-fd-update-all","api\RECDFDController@updateAll");
 
 //HBurgers fd
 Route::post("hburgers-fd-groups","api\HBurgersController@getAllGroups");
