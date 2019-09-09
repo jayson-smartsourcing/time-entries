@@ -35,4 +35,10 @@ class JCNFDContact extends Model
         $values = [$table_name];
         DB::insert('EXEC insert_fd_agents_to_contacts ?', $values);
     }
+
+    //$ids_to_delete must be array
+    public function bulkDeleteByTicketExportId($ids_to_delete){
+        return static::whereIn('id',$ids_to_delete)->delete();
+    }
+
 }

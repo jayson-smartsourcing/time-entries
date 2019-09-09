@@ -101,6 +101,7 @@ Route::post("jcn-fd-tickets-missing","api\JCNFDController@insertMissingTicket");
 Route::post("jcn-fd-tickets-duplicates","api\JCNFDController@duplicateData");
 Route::post("jcn-fd-tickets","api\JCNFDController@getAllTicketsV2");
 Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExportV2");
+Route::get("jcn-fd-update-all","api\JCNFDController@updateAll");
 
 //cameron fd
 Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
