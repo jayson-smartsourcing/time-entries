@@ -295,11 +295,13 @@ class ToureastFDController extends Controller
         $data = config('constants.toureast');
         $api_key = $data["api_key"];
 
-        $link = $data["link"]. "/api/v2/contacts?per_page=100";
+        $date_now = Carbon::now()->format('Y-m-d');
+
+        $link = $data["link"]. "/api/v2/contacts?_updated_since=".$date_now."&per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-        $this->toureast_fd_contact->truncateTable();
+        //$this->toureast_fd_contact->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -345,12 +347,14 @@ class ToureastFDController extends Controller
                 $agents = $body;
                 $x++;
 
+                $ids = array();
                 $final_data = array();
                 $count = 0;
                 $len = count($agents);
                 $date_created = new Carbon(); 
                 foreach($agents as $key => $value) {
-                    
+                    $ids[] = $value->id;
+
                     $agent = array(
                         "id" => $value->id,
                         "name" => $value->name,
@@ -360,7 +364,7 @@ class ToureastFDController extends Controller
 
                     $final_data[] = $agent;
                 }
-
+                $this->toureast_fd_contact->bulkDeleteByContactId($ids);
                 $this->toureast_fd_contact->bulkInsert($final_data);
             } 
 
@@ -979,6 +983,55 @@ class ToureastFDController extends Controller
 
         $this->toureast_fd_ticket->updateLatestFdTickets("toureast_fd");
         return response()->json(['success'=> true], 200);
+    }
+
+    public function updateAll() {
+        $lists = [
+            ["function" => "getAllGroups","type" => "groups"],
+            ["function" => "getAllCompanies","type" => "companies"],
+            ["function" => "getAllAgents","type" => "agents"],
+            ["function" => "getAllContacts","type" => "contacts"],
+        ];
+    
+        foreach($lists as $val) {
+            $response = $this->{$val["function"]}();
+            $return = $this->loopUpdate($response, $val);
+            
+            if(!$return) {
+                return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
+            }
+        }
+
+        $this->toureast_fd_contact->addAgentsToContacts("toureast_fd");
+
+        return response()->json(['success'=> true], 200);
+    }
+
+    public function loopUpdate($response,$val) {
+        $y = 3;
+        $response = json_encode($response);
+        $response = json_decode($response);
+        
+        if($response->original->success != 1){
+            for($tries = 0; $tries < $y; $tries++) {
+
+                $response = $this->{$val["function"]}();
+                $response = json_encode($response);
+                $response = json_decode($response);
+    
+                if($response->original->success == 1) {
+                    return true;
+                    break;
+                }
+                if($tries == 2 && $response->original->success != 1) {
+                    return false;
+                    break;
+                }
+            }  
+        } else {
+            return true;
+        }
+        
     }
 
 
