@@ -33,6 +33,7 @@ Route::get("bp-test","api\TicketExportController@test");
 Route::post("bp-agents","api\TicketExportController@getAllAgents");
 Route::post("bp-ticket-export","api\TicketExportController@getAllTicketExportV2");
 Route::post("bp-latest-ticket-export","api\TicketExportController@getLatestTicketExportV2");
+Route::get("bp-update-all","api\TicketExportController@updateAll");
 
 //harris fs
 Route::post("hr-groups","api\HarrisFreshServiceController@getAllGroups");

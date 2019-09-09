@@ -1039,4 +1039,53 @@ class TicketExportController extends Controller
         $this->bp_fs_ticket->updateLatestFdTickets("bp_fs");
         return response()->json(['success'=> true], 200);
     }
+
+    public function updateAll() {
+        $lists = [
+            ["function" => "getAllGroups","type" => "groups"],
+            ["function" => "getAllDepartments","type" => "departments"],
+            ["function" => "getAllAgents","type" => "agents"],
+            ["function" => "getAllRequester","type" => "requesters"],
+        ];
+    
+        foreach($lists as $val) {
+            $response = $this->{$val["function"]}();
+            $return = $this->loopUpdate($response, $val);
+            
+            if(!$return) {
+                return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
+            }
+        }
+
+        $this->bp_requester->addAgentsToContacts("bp_fs");
+
+        return response()->json(['success'=> true], 200);
+    }
+
+    public function loopUpdate($response,$val) {
+        $y = 3;
+        $response = json_encode($response);
+        $response = json_decode($response);
+        
+        if($response->original->success != 1){
+            for($tries = 0; $tries < $y; $tries++) {
+
+                $response = $this->{$val["function"]}();
+                $response = json_encode($response);
+                $response = json_decode($response);
+    
+                if($response->original->success == 1) {
+                    return true;
+                    break;
+                }
+                if($tries == 2 && $response->original->success != 1) {
+                    return false;
+                    break;
+                }
+            }  
+        } else {
+            return true;
+        }
+        
+    }
 }
