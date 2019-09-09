@@ -44,6 +44,7 @@ Route::post("hr-agents","api\HarrisFreshServiceController@getAllAgents");
 // Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExport");
 Route::post("hr-tickets","api\HarrisFreshServiceController@getAllTicketExportV2");
 Route::post("hr-ticket-latest","api\HarrisFreshServiceController@getLatestTicketExportV2");
+Route::get("hr-update-all","api\HarrisFreshServiceController@updateAll");
 
 //jellis craig fs
 Route::post("jc-fs-groups","api\JellisCraigFSController@getAllGroups");
