@@ -246,6 +246,7 @@ Route::post("lj-hooker-fd-agents","api\LJHookerFDController@getAllAgents");
 Route::post("lj-hooker-fd-contacts","api\LJHookerFDController@getAllContacts");
 Route::post("lj-hooker-fd-tickets","api\LJHookerFDController@getAllTicketsV2");
 Route::post("lj-hooker-fd-tickets-latests","api\LJHookerFDController@getLatestTicketExportV2");
+Route::get("lj-hooker-fd-update-all","api\LJHookerFDController@updateAll");
 
 Route::post("avnu-fd-groups","api\AvnuFDController@getAllGroups");
 Route::post("avnu-fd-companies","api\AvnuFDController@getAllCompanies");
