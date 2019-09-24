@@ -263,3 +263,11 @@ Route::post("avnu-fd-tickets","api\AvnuFDController@getAllTicketsV2");
 Route::post("avnu-fd-tickets-latests","api\AvnuFDController@getLatestTicketExportV2");
 Route::get("avnu-fd-update-all","api\AvnuFDController@updateAll");
 
+Route::post("tagflix-fd-groups","api\TagflixController@getAllGroups");
+Route::post("tagflix-fd-companies","api\TagflixController@getAllCompanies");
+Route::post("tagflix-fd-agents","api\TagflixController@getAllAgents");
+Route::post("tagflix-fd-contacts","api\TagflixController@getAllContacts");
+Route::post("tagflix-fd-tickets","api\TagflixController@getAllTicketsV2");
+Route::post("tagflix-fd-tickets-latests","api\TagflixController@getLatestTicketExportV2");
+Route::get("tagflix-fd-update-all","api\TagflixController@updateAll");
+
