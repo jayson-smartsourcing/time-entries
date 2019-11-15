@@ -272,6 +272,15 @@ Route::post("tagflix-fd-tickets","api\TagflixController@getAllTicketsV2");
 Route::post("tagflix-fd-tickets-latests","api\TagflixController@getLatestTicketExportV2");
 Route::get("tagflix-fd-update-all","api\TagflixController@updateAll");
 
+
+Route::get("lh-fd-groups","api\LHFDController@getAllGroups");
+Route::post("lh-fd-companies","api\LHFDController@getAllCompanies");
+Route::post("lh-fd-agents","api\LHFDController@getAllAgents");
+Route::post("lh-fd-contacts","api\LHFDController@getAllContacts");
+Route::post("lh-fd-tickets","api\LHFDController@getAllTicketsV2");
+Route::post("lh-fd-tickets-latests","api\LHFDController@getLatestTicketExportV2");
+Route::get("lh-fd-update-all","api\LHFDController@updateAll");
+
 Route::get("eg-fd-survey","api\EGFDController@getAllSurvey");
 Route::get("eg-fd-rating","api\EGFDController@getAllRating");
 Route::get("eg-fd-rating-latest","api\EGFDController@getLatestRating");
