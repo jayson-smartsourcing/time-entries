@@ -1197,6 +1197,52 @@ class JCNFDController extends Controller
         
     }
 
+    public function missingRequester() {
+        $arrays = [22000870336];
+
+        $client = new $this->guzzle();
+        $data = config('constants.jcn');
+        $api_key = $data["api_key"];
+    
+
+        foreach($arrays as $key => $value){
+            $link = $data["link"]. "/api/v2/contacts/".$value;
+
+            //call to api
+            $response = $client->request('GET', $link, [
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
+            ]);
+
+            $body = json_decode($response->getBody());
+    
+            if(count($body) != 0) {
+                
+
+                $ids = array();
+                $final_data = array();
+                $count = 0;
+                $date_created = new Carbon(); 
+               
+        
+                $agent = array(
+                    "id" => $body->id,
+                    "name" => $body->name,
+                    "created_at" => Carbon::parse($body->created_at)->setTimezone('Asia/Manila'),
+                    "updated_at" => Carbon::parse($body->updated_at)->setTimezone('Asia/Manila')
+                );
+
+                $this->jcn_fd_contact->create($agent);
+                
+            } 
+
+        }
+
+        return response()->json(['success'=> true], 200); 
+        
+    }
+
 
 }
 

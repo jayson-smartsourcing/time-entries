@@ -105,6 +105,7 @@ Route::post("jcn-fd-tickets-duplicates","api\JCNFDController@duplicateData");
 Route::post("jcn-fd-tickets","api\JCNFDController@getAllTicketsV2");
 Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExportV2");
 Route::get("jcn-fd-update-all","api\JCNFDController@updateAll");
+Route::get("jcn-fd-missing-requester","api\JCNFDController@missingRequester");
 
 //cameron fd
 Route::post("cameron-fd-groups","api\CameronFDController@getAllGroups");
@@ -270,4 +271,9 @@ Route::post("tagflix-fd-contacts","api\TagflixController@getAllContacts");
 Route::post("tagflix-fd-tickets","api\TagflixController@getAllTicketsV2");
 Route::post("tagflix-fd-tickets-latests","api\TagflixController@getLatestTicketExportV2");
 Route::get("tagflix-fd-update-all","api\TagflixController@updateAll");
+
+Route::get("eg-fd-survey","api\EGFDController@getAllSurvey");
+Route::get("eg-fd-rating","api\EGFDController@getAllRating");
+Route::get("eg-fd-rating-latest","api\EGFDController@getLatestRating");
+
 

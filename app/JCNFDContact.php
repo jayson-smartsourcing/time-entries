@@ -18,6 +18,10 @@ class JCNFDContact extends Model
     public function bulkInsert($data){
         return DB::table('jcn_fd_contacts')->insert($data);
     }
+
+    public function insert($data) {
+        return DB::table('jcn_fd_contacts')->create($data);
+    }
     //$ids_to_delete must be array
     public function bulkDeleteAgentId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
