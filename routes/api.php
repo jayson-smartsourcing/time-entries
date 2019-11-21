@@ -296,3 +296,15 @@ Route::post("ds-fd-contacts","api\DSFDController@getAllContacts");
 Route::post("ds-fd-tickets","api\DSFDController@getAllTicketsV2");
 Route::post("ds-fd-tickets-latest","api\DSFDController@getLatestTicketExportV2");
 Route::get("ds-fd-update-all","api\DSFDController@updateAll");
+
+
+//jcd fd
+Route::post("jcd-fd-groups","api\JCDFDController@getAllGroups");
+Route::post("jcd-fd-companies","api\JCDFDController@getAllCompanies");
+Route::post("jcd-fd-agents","api\JCDFDController@getAllAgents");
+Route::post("jcd-fd-contacts","api\JCDFDController@getAllContacts");
+// // // Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
+// // //Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+Route::post("jcd-fd-tickets","api\JCDFDController@getAllTicketsV2");
+Route::post("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2");
+Route::get("jcd-fd-update-all","api\JCDFDController@updateAll");
