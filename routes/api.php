@@ -294,5 +294,5 @@ Route::post("ds-fd-contacts","api\DSFDController@getAllContacts");
 // // Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
 // //Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
 Route::post("ds-fd-tickets","api\DSFDController@getAllTicketsV2");
-// Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExportV2");
-// Route::get("dingles-fd-update-all","api\DinglesFDController@updateAll");
+Route::post("ds-fd-tickets-latest","api\DSFDController@getLatestTicketExportV2");
+Route::get("ds-fd-update-all","api\DSFDController@updateAll");
