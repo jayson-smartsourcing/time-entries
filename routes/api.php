@@ -286,3 +286,13 @@ Route::get("eg-fd-rating","api\EGFDController@getAllRating");
 Route::get("eg-fd-rating-latest","api\EGFDController@getLatestRating");
 
 
+//ds fd
+Route::post("ds-fd-groups","api\DSFDController@getAllGroups");
+Route::post("ds-fd-companies","api\DSFDController@getAllCompanies");
+Route::post("ds-fd-agents","api\DSFDController@getAllAgents");
+Route::post("ds-fd-contacts","api\DSFDController@getAllContacts");
+// // Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTickets");
+// //Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExport");
+Route::post("ds-fd-tickets","api\DSFDController@getAllTicketsV2");
+// Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExportV2");
+// Route::get("dingles-fd-update-all","api\DinglesFDController@updateAll");
