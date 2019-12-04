@@ -262,9 +262,12 @@ class JCSFDController extends Controller
                 $len = count($agents);
                 $date_created = new Carbon(); 
                 foreach($agents as $key => $value) {
+                    $name = $value->contact->name;
+                    $res = preg_replace("/[^a-zA-Z ]/i", "", $name);
+
                     $agent = array(
                         "id" => $value->id,
-                        "name" => $value->contact->name,
+                        "name" => $res,
                         "created_at" => Carbon::now(),
                         "updated_at" => Carbon::now()
                     );
