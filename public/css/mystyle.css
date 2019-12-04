@@ -13,4 +13,17 @@ img {
 
 .container {
     max-width: 85%;
+    /* font-family: "Nunito"; */
+    
+}
+
+/* Separate class for form inputs to prevent overwriting to other sections */
+.time-entry-form-input{
+    padding: 10px;
+}
+
+.time-entry-form-button{
+    margin: 10px;
+    margin-bottom: 20px;
+    
 }
