@@ -5,20 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class DinglesFDTimeEntry extends Model
+class JCFSTimeEntry extends Model
 {
-    protected $table = 'dingles_fd_time_entries_v2';
+    protected $table = 'jck_fs_time_entries_v2';
     protected $fillable = [
         'ticket_id',
         'agent' ,
         'charge_type',
-        'customer' ,
-        'executed_at' ,
+        'executed_at',
+        'date',
         'hours',
         'notes',
-        'product',
         'subject',
-        'created_at',
         'updated_at',
         'closed_at_id',
         'executed_at_id'
@@ -29,7 +27,7 @@ class DinglesFDTimeEntry extends Model
     }
 
     public function bulkInsert($data){
-        return DB::table('dingles_fd_time_entries_v2')->insert($data);
+        return DB::table('jck_fs_time_entries_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){

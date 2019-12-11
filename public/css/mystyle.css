@@ -27,3 +27,11 @@ img {
     margin-bottom: 20px;
     
 }
+
+.error-span{
+    color: red;    
+}
+
+.input-error{
+    border-color: red;
+}

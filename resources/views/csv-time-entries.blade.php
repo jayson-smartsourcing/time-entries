@@ -4,14 +4,20 @@
      <!-- Form -->
      <div class="container " >
         <div class="row">
-            <div class="col-md-6 offset-md-3 border rounded border-info bg-white" >
-                <h4 style="text-align:center" class="time-entry-form-input">Import Time Entries</h4>
+            <div class="col-md-6 offset-md-3 border rounded border-info bg-white" style="font-family:Nunito">
+                <h4 style=" text-align:center" class="time-entry-form-input">Import Time Entries</h4>
                     <form method='POST' action="/import-parse" enctype='multipart/form-data' >
                     {{ csrf_field() }}    
                     
                             <div class="form-group time-entry-form-input">
-                                <label> Enter API Key </label>
-                                <input type="text" name="api_key" placeholder="API Key" class="form-control" required>
+                                <label for="api-key"> Enter API Key </label>
+                                   
+                                <input type="text" name="api_key" id="api=key" placeholder="API Key" class="form-control  {{ $errors->any() ? 'input-error' : ''}} " 
+                                required>     
+                                
+                                    @if($errors->any())
+                                        <span class="error-span">{{$errors->first()}}</span>
+                                    @endif
                             </div>
 
                             <div class="form-group time-entry-form-input">
@@ -25,28 +31,11 @@
                     </form>
             </div> 
         </div>
-        <!-- End of Form -->
-
-        <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Success</h5>
-                </div>
-                <div class="modal-body">
-                    <h4>File Import Success</h4>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                </div>
-            </div>
-            </div>
-        <!-- End of Modal -->
+        
         
      </div>
-      
+
+  
 
       @endsection
 
