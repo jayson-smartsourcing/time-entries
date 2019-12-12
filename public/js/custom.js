@@ -9,8 +9,13 @@ $( document ).ready(function() {
 
 
     $(".submit-button").click(function(){
-        $(".spin-button").removeClass("hidden");
-        $(".submit-button").addClass("hidden");
+
+        if(  ($("#api-key").value != null || $("#api-key").value != undefined) || ( $("#csv-file").value != null || $("#csv-file").value != undefined)){
+            $(".spin-button").removeClass("hidden");
+            $(".submit-button").addClass("hidden");
+        }
+
+    
     });
 
     $(".spin-button").click(function(e){
