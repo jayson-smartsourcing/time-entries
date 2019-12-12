@@ -298,10 +298,9 @@ class InsertTimeEntriesController extends Controller
         }
 
         //stored procedure for attendance_id
-       $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
+         $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
         
-       $return_message = "CSV File Imported Successfully";
-        return view('csv-parse-data', compact('return_message'));
+        return back()->with('message', 'CSV File Imported Successfully');
         
     }
     
