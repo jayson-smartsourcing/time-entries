@@ -12,7 +12,7 @@
                             <div class="form-group time-entry-form-input">
                                 <label for="api-key"> Enter API Key </label>
                                    
-                                <input type="text" name="api_key" id="api=key" placeholder="API Key" class="form-control  {{ $errors->any() ? 'input-error' : ''}} " 
+                                <input type="text" name="api_key" id="api-key" placeholder="API Key" class="form-control  {{ $errors->any() ? 'input-error' : ''}} " 
                                 required>     
                                 
                                     @if($errors->any())
@@ -22,7 +22,7 @@
 
                             <div class="form-group time-entry-form-input">
                             <label> CSV File </label>
-                                <input type='file' name='csv_file' class="form-control-file" required>        
+                                <input type='file' name='csv_file' id="csv-file" class="form-control-file" required>        
                             </div>
                 
                         <div class="row justify-content-md-center">
