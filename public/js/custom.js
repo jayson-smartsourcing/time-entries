@@ -9,13 +9,15 @@ $( document ).ready(function() {
 
 
     $(".submit-button").click(function(){
+        var api_key = $('#api-key').val();
+        var file = $("#csv-file").val();
 
-        if(  ($("#api-key").value != null || $("#api-key").value != undefined) || ( $("#csv-file").value != null || $("#csv-file").value != undefined)){
+    
+        if((api_key != null && api_key != undefined && api_key != "") && (file != null && file != undefined && file != "") ){
             $(".spin-button").removeClass("hidden");
             $(".submit-button").addClass("hidden");
         }
 
-    
     });
 
     $(".spin-button").click(function(e){
