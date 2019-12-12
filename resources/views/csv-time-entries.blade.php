@@ -26,7 +26,14 @@
                             </div>
                 
                         <div class="row justify-content-md-center">
-                        <button class="btn btn-primary btn-lg time-entry-form-button" type='submit' data-toggle="modal" data-target="#exampleModal">Import File</button>
+                        <button class="btn btn-primary btn-lg time-entry-form-button submit-button" type='submit' >
+                            Submit
+                        </button>
+
+                        <button class="btn btn-primary btn-lg time-entry-form-button spin-button hidden"  >
+                             <img src="{{ asset('img/spinner.svg') }}" class="spinner">
+                        </button>
+
                         </div>
                     </form>
             </div> 

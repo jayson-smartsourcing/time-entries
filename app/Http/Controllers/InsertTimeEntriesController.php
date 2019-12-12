@@ -30,7 +30,9 @@ use App\DSFDTimeEntry as DSFDTimeEntry;
 use App\JCDFDTimeEntry as JCDFDTimeEntry;
 use App\JCSFDTimeEntry as JCSFDTimeEntry; //armadale
 use App\JCFSTimeEntry as JCFSTimeEntry; // FS
-
+use App\JCBFSTimeEntry as JCBFSTimeEntry;
+use App\HarrisFSTimeEntry as HarrisFSTimeEntry;
+use App\BPTimeEntry as BPTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -57,7 +59,10 @@ class InsertTimeEntriesController extends Controller
         DSFDTimeEntry $ds_fd_time_entries,
         JCDFDTimeEntry $jcd_fd_time_entries,
         JCSFDTimeEntry $jcs_fd_time_entries,
-        JCFSTimeEntry $jck_fs_time_entries //FS
+        JCFSTimeEntry $jck_fs_time_entries, //FS
+        JCBFSTimeEntry $jcb_fs_time_entries,
+        HarrisFSTimeEntry $harris_fs_time_entries,
+        BPTimeEntry $bp_fs_time_entries
     )
     {  
         $this->dingles_fd_time_entries = $dingles_fd_time_entries;
@@ -82,6 +87,9 @@ class InsertTimeEntriesController extends Controller
         $this->jcd_fd_time_entries = $jcd_fd_time_entries;
         $this->jcs_fd_time_entries = $jcs_fd_time_entries;
         $this->jck_fs_time_entries = $jck_fs_time_entries; //FS
+        $this->jcb_fs_time_entries = $jcb_fs_time_entries;
+        $this->harris_fs_time_entries = $harris_fs_time_entries;
+        $this->bp_fs_time_entries = $bp_fs_time_entries;
     }
 
     //function to convert hours into decimal 
@@ -105,7 +113,6 @@ class InsertTimeEntriesController extends Controller
             foreach($errors as $key => $value) {
                 $errors[$key] = $value[0];
             }
-
             return response()->json(['error'=>$errors], 200);            
         }
 
@@ -117,7 +124,6 @@ class InsertTimeEntriesController extends Controller
          //Get data from constants.php
          $constant_data = config('constants');
         
-
          //Counter for each Account
          $acc_counter = count($constant_data);
          $end_of_array = 0;
@@ -151,9 +157,9 @@ class InsertTimeEntriesController extends Controller
          }
         
 
-         //concatenate db_init + _time_entries to get time entry model 
-         $db_init .= "_time_entries";
-         $time_entry_model = $db_init;     
+        //concatenate db_init + _time_entries to get time entry model 
+        $db_init .= "_time_entries";
+        $time_entry_model = $db_init;     
        
         //map csv file 
         $csv_data = $fields = array(); $i = 0;
@@ -165,6 +171,9 @@ class InsertTimeEntriesController extends Controller
                     continue;
                 }
                 foreach ($row as $k=>$value) {
+                    if(!isset($fields[$k])){
+                        break;
+                    }
                     $csv_data[$i][$fields[$k]] = $value;
                 }
                 $i++;
@@ -190,6 +199,7 @@ class InsertTimeEntriesController extends Controller
         $time_entries_final = array();
 
         $counter = 0;
+        $over_all_count = 0;
 
         foreach($csv_data as $key => $value){                   
             //trim ticket ID
@@ -197,6 +207,7 @@ class InsertTimeEntriesController extends Controller
             $result = explode('-', $ticket_id_orig, 2);
             $ticket_id = (int) Arr::get($result, '0');
             $subject = Arr::get($result, '1');
+            $new_subject = htmlspecialchars_decode($subject);
 
             //parse created at
             $orig_created_at = $value['Created at'];
@@ -206,8 +217,6 @@ class InsertTimeEntriesController extends Controller
             $orig_agent_name = $value['Agent'];
             $new_agent_name = preg_replace('/[^a-zA-ZñÑ0-9\s]/', "", $orig_agent_name);
 
-
-            //--------
 
             if($fresh_model == "FD"){
                 //parse date
@@ -219,8 +228,8 @@ class InsertTimeEntriesController extends Controller
                 $parsed_hours = $this->decimalHours($orig_hours);
 
                 //remove special characters from notes
-                $orig_notes = $value['Notes'];
-                $new_notes = preg_replace("/[^a-zA-ZñÑ0-9-\s]/", "", $orig_notes);
+                $orig_notes = htmlspecialchars_decode($value['Notes']);
+                $new_notes = $orig_notes;
 
                  //check if array has Product column
                 if(array_key_exists('Product', $value)){
@@ -238,7 +247,7 @@ class InsertTimeEntriesController extends Controller
                     'hours'=>  (float) $parsed_hours,
                     'notes'=> $new_notes,
                     'product'=> $product,
-                    'subject'=> $subject,
+                    'subject'=> $new_subject,
                     'created_at'=> $parsed_created_at,
                     'closed_at_id'=> " ",
                     'executed_at_id'=> " ",
@@ -266,8 +275,7 @@ class InsertTimeEntriesController extends Controller
                     'executed_at_id'=> " ",
                 );
             }
-            //--------
-
+       
             //fill up array
             $time_entries_final[] = $new_time_entries;
             $counter++;            
@@ -277,10 +285,17 @@ class InsertTimeEntriesController extends Controller
                 $this->{$time_entry_model}->bulkInsert($time_entries_final);
                 $counter = 0; //reset counter
                 $time_entries_final = array(); //reset array
+                $over_all_count +=100; 
             }
+
+            // if($over_all_count == 3700) {
+            //     echo "<pre>";
+            //     print_r($time_entries_final);
+            //     echo "<pre>";
+            //     die;
+            // }
         
         }
-
 
         //stored procedure for attendance_id
        $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);

@@ -13,11 +13,9 @@ img {
 
 .container {
     max-width: 85%;
-    /* font-family: "Nunito"; */
     
 }
 
-/* Separate class for form inputs to prevent overwriting to other sections */
 .time-entry-form-input{
     padding: 10px;
 }
@@ -28,10 +26,23 @@ img {
     
 }
 
-.error-span{
-    color: red;    
-}
-
 .input-error{
     border-color: red;
+}
+
+.error-span{
+    color: red;
+}
+
+.spinner{
+    width: 20px;
+
+}
+
+.spin-button{
+    width: 100px;
+}
+
+.hidden{
+    display: none;
 }

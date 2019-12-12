@@ -7,6 +7,18 @@ $( document ).ready(function() {
         $( "#login_header" ).hide();
     }
 
+
+    $(".submit-button").click(function(){
+        $(".spin-button").removeClass("hidden");
+        $(".submit-button").addClass("hidden");
+    });
+
+    $(".spin-button").click(function(e){
+        e.preventDefault();
+        return false;
+    })
+
+
    
     
 });
