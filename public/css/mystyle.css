@@ -13,4 +13,36 @@ img {
 
 .container {
     max-width: 85%;
+    
+}
+
+.time-entry-form-input{
+    padding: 10px;
+}
+
+.time-entry-form-button{
+    margin: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.input-error{
+    border-color: red;
+}
+
+.error-span{
+    color: red;
+}
+
+.spinner{
+    width: 20px;
+
+}
+
+.spin-button{
+    width: 100px;
+}
+
+.hidden{
+    display: none;
 }

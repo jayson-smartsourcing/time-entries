@@ -33,3 +33,16 @@ Route::get('/poll/not-found', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/sample-parse', 'HomeController@parseCsv');
+
+
+//temp
+Route::get('/import-time-entries', function (){
+    return view('csv-time-entries');
+});
+
+Route::post('/import-parse', "InsertTimeEntriesController@parseImport");
+
+
+
+
