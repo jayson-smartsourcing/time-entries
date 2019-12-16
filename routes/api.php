@@ -303,9 +303,17 @@ Route::post("lh-fd-tickets","api\LHFDController@getAllTicketsV2");
 Route::get("lh-fd-tickets-latests","api\LHFDController@getLatestTicketExportV2");
 Route::get("lh-fd-update-all","api\LHFDController@updateAll");
 
+//eg
 Route::get("eg-fd-survey","api\EGFDController@getAllSurvey");
 Route::get("eg-fd-rating","api\EGFDController@getAllRating");
 Route::get("eg-fd-rating-latest","api\EGFDController@getLatestRating");
+Route::post("eg-fd-groups","api\EGFDController@getAllGroups");
+Route::post("eg-fd-companies","api\EGFDController@getAllCompanies");
+Route::post("eg-fd-agents","api\EGFDController@getAllAgents");
+Route::post("eg-fd-contacts","api\EGFDController@getAllContacts");
+Route::post("eg-fd-tickets","api\EGFDController@getAllTicketsV2");
+Route::get("eg-fd-tickets-latest","api\EGFDController@getLatestTicketExportV2");
+Route::get("eg-fd-update-all","api\EGFDController@updateAll");
 
 
 //ds fd
