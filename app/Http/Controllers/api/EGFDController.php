@@ -312,13 +312,13 @@ class EGFDController extends Controller
                 $count = 0;
                 $len = count($ratings);
                 $date_created = new Carbon();
-
-                
                 $responses_to_delete = array();
-                $final_rating_data = array();
-                $ratings_to_delete = array();
                 
                 foreach($ratings as $key => $value) {
+
+                    
+                    $final_rating_data = array();
+                    $ratings_to_delete = array();
                     
                     $id = $value->id;
                     $response = array(
@@ -334,7 +334,6 @@ class EGFDController extends Controller
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila')
                     );
 
-                   
                     foreach($value->ratings as $inn_key => $rating) {
                         $r = array(
                             "id" => $inn_key,
@@ -346,6 +345,7 @@ class EGFDController extends Controller
                         );
                         
                         $final_rating_data[] = $r;
+                        
                     }
 
                     $ratings_to_delete[] = $value->id;
@@ -353,7 +353,6 @@ class EGFDController extends Controller
                     $this->eg_satisfactory_rating->bulkDelete($ratings_to_delete);
                     $this->eg_satisfactory_rating->bulkInsert($final_rating_data);
 
-                    $responses_to_delete[] = $value->id;
                     $final_response_data[] = $response;
                   
                 }         
