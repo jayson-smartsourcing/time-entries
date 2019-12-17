@@ -148,7 +148,11 @@ class EGFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.eg');
         $api_key = $data["api_key"];
-        $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100";
+        $three_month_ago = new Carbon("Last Day of December 2018");
+        $three_month_ago = $three_month_ago->format("Y-m-d");
+
+        $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100&created_since=".$three_month_ago;
+        
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
@@ -224,7 +228,8 @@ class EGFDController extends Controller
                             "survey_id" => $value->survey_id,
                             "rating" => $rating,
                             "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
-                            "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila')
+                            "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
+                            "response_id" => $value->id
                         );
 
                         $final_rating_data[] = $r;
@@ -244,15 +249,17 @@ class EGFDController extends Controller
     }
 
     public function getLatestRating() {
+
         $client = new $this->guzzle();
         $data = config('constants.eg');
-        $two_days_ago = Carbon::now()->format('Y-m-d');
+        $now = Carbon::yesterday()->format('Y-m-d');
         $api_key = $data["api_key"];
-        $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100&created_since=".$two_days_ago;
+        $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100&created_since=".$now;
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
 
+       
         //$this->eg_satisfactory_rating->truncateTable();
         //$this->eg_satisfactory_response->truncateTable();
 
@@ -266,6 +273,7 @@ class EGFDController extends Controller
             ]);
             // get Status Code
             $status_code = $response->getStatusCode();  
+            
 
             if($status_code != 200 ) {
                for($tries = 0; $tries < $y; $tries++) {
@@ -296,6 +304,7 @@ class EGFDController extends Controller
             }
 
             if(count($body) != 0) {
+            
                 $ratings = $body;
                 $x++;
 
@@ -303,7 +312,15 @@ class EGFDController extends Controller
                 $count = 0;
                 $len = count($ratings);
                 $date_created = new Carbon();
+
+                
+                $responses_to_delete = array();
+                $final_rating_data = array();
+                $ratings_to_delete = array();
+                
                 foreach($ratings as $key => $value) {
+                    
+                    $id = $value->id;
                     $response = array(
                         "id" => $value->id,
                         "survey_id" => $value->survey_id,
@@ -317,25 +334,33 @@ class EGFDController extends Controller
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila')
                     );
 
-                    $final_rating_data = array();
+                   
                     foreach($value->ratings as $inn_key => $rating) {
                         $r = array(
                             "id" => $inn_key,
                             "survey_id" => $value->survey_id,
                             "rating" => $rating,
                             "created_at" => Carbon::parse($value->created_at)->setTimezone('Asia/Manila'),
-                            "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila')
+                            "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
+                            "response_id" => $id
                         );
-
+                        
                         $final_rating_data[] = $r;
                     }
+
+                    $ratings_to_delete[] = $value->id;
+                    
+                    $this->eg_satisfactory_rating->bulkDelete($ratings_to_delete);
                     $this->eg_satisfactory_rating->bulkInsert($final_rating_data);
 
+                    $responses_to_delete[] = $value->id;
                     $final_response_data[] = $response;
-                }
+                  
+                }         
 
+                $this->eg_satisfactory_response->bulkDelete($responses_to_delete);
                 $this->eg_satisfactory_response->bulkInsert($final_response_data);
-            } 
+            }  
 
         }
 
