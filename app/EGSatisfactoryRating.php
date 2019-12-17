@@ -13,7 +13,8 @@ class EGSatisfactoryRating extends Model
        'survey_id',
        'rating',
        'created_at',
-       'updated_at'
+       'updated_at',
+       'response_id'
     ]; 
 
     public function bulkInsert($data){
@@ -21,7 +22,7 @@ class EGSatisfactoryRating extends Model
     }
     //$ids_to_delete must be array
     public function bulkDelete($ids_to_delete){
-        return static::whereIn('id',$ids_to_delete)->delete();
+        return static::whereIn('response_id',$ids_to_delete)->delete();
     }
 
     public function truncateTable() {
