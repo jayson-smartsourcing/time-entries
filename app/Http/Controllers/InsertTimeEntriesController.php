@@ -187,12 +187,13 @@ class InsertTimeEntriesController extends Controller
         //delete latest time entries
         if($fresh_model == "FS"){
             $row = end($csv_data); 
-            $date = Carbon::parse($row['Created at']); 
+            $date = Carbon::parse($row['Executed at']); 
         } else {
             $row = reset($csv_data); 
-            $date = Carbon::parse($row['Created at']); 
+            $date = Carbon::parse($row['Date']); 
         }
-        $this->{$time_entry_model}->bulkDeleteByCreatedAtDate($date);
+        // $this->{$time_entry_model}->bulkDeleteByCreatedAtDate($date);
+
              
     
         //create new array
@@ -201,6 +202,8 @@ class InsertTimeEntriesController extends Controller
         $counter = 0;
         $over_all_count = 0;
 
+        $unique = array();
+
         foreach($csv_data as $key => $value){                   
             //trim ticket ID
             $ticket_id_orig = $value['Ticket'];
@@ -208,6 +211,7 @@ class InsertTimeEntriesController extends Controller
             $ticket_id = (int) Arr::get($result, '0');
             $subject = Arr::get($result, '1');
             $new_subject = htmlspecialchars_decode($subject);
+            
 
             //parse created at
             $orig_created_at = $value['Created at'];
@@ -238,6 +242,9 @@ class InsertTimeEntriesController extends Controller
                     $product = "No Product";
                 }
 
+                $ticket_date = $ticket_id.Carbon::parse($parsed_created_at)->timestamp.$parsed_hours;
+                $unique[] = $ticket_date;
+
                 $new_time_entries = array(
                     'ticket_id'=> $ticket_id,
                     'agent' => $new_agent_name,
@@ -251,12 +258,16 @@ class InsertTimeEntriesController extends Controller
                     'created_at'=> $parsed_created_at,
                     'closed_at_id'=> " ",
                     'executed_at_id'=> " ",
+                    'ticket_date' => $ticket_date
                 );
 
             } else if($fresh_model == "FS"){
                 //parse date
                 $orig_date = $value['Executed at'];
                 $parsed_date = Carbon::parse($orig_date)->toDateTimeString();
+
+                $ticket_date = $ticket_id.Carbon::parse($parsed_created_at)->timestamp.$value['Hours'];
+                $unique[] = $ticket_date;
 
                 //remove special characters from notes
                 $orig_notes = $value['Note'];
@@ -273,6 +284,7 @@ class InsertTimeEntriesController extends Controller
                     'subject'=> $subject,
                     'closed_at_id'=> " ",
                     'executed_at_id'=> " ",
+                    'ticket_date' => $ticket_date
                 );
             }
        
@@ -282,10 +294,13 @@ class InsertTimeEntriesController extends Controller
             
             //insert when array has reached 100 entries, until the last element
             if($counter == 100 || $value == end($csv_data)){
+
+                $this->{$time_entry_model}->bulkDeleteByUniqueTicketDate($unique);
                 $this->{$time_entry_model}->bulkInsert($time_entries_final);
                 $counter = 0; //reset counter
                 $time_entries_final = array(); //reset array
                 $over_all_count +=100; 
+                $unique = [];
             }
 
             // if($over_all_count == 3700) {
