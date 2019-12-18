@@ -19,7 +19,8 @@ class JCFSTimeEntry extends Model
         'subject',
         'updated_at',
         'closed_at_id',
-        'executed_at_id'
+        'executed_at_id',
+        'ticket_id'
     ];
 
     public function insert($data) {
@@ -29,9 +30,15 @@ class JCFSTimeEntry extends Model
     public function bulkInsert($data){
         return DB::table('jck_fs_time_entries_v2')->insert($data);
     }
+    
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
+    }
+
+    //$ids_to_delete must be array
+    public function bulkDeleteByUniqueTicketDate($ticket_date){
+        return static::whereIn('ticket_date',$ticket_date)->delete();
     }
 
     public function truncateTable() {
