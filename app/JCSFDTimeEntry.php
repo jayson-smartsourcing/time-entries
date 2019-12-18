@@ -21,7 +21,8 @@ class JCSFDTimeEntry extends Model
         'created_at',
         'updated_at',
         'closed_at_id',
-        'executed_at_id'
+        'executed_at_id',
+        'ticket_date'
     ];
 
     public function insert($data) {
@@ -34,6 +35,11 @@ class JCSFDTimeEntry extends Model
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
+    }
+
+      //$ids_to_delete must be array
+      public function bulkDeleteByUniqueTicketDate($ticket_date){
+        return static::whereIn('ticket_date',$ticket_date)->delete();
     }
 
     public function truncateTable() {
