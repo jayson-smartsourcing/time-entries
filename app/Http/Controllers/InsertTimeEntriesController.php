@@ -188,14 +188,40 @@ class InsertTimeEntriesController extends Controller
         if($fresh_model == "FS"){
             $row = end($csv_data); 
             $date = Carbon::parse($row['Executed at']); 
+            usort($csv_data, function($a, $b) {
+                return ($a['Executed at'] > $b['Executed at']) ? -1 : 1;
+            });
+
+            $length = count($csv_data);        
+            $last_entry = $csv_data[$length - 1];
+            $first_entry = $csv_data[0];
+            
+            //get start date and end date on csv file
+            $start_date = Carbon::parse($last_entry["Executed at"])->subSeconds(1)->format("Y-m-d H:m:s");
+            $end_date = Carbon::parse($first_entry["Executed at"])->addSeconds(1)->format("Y-m-d H:m:s");
+
         } else {
             $row = reset($csv_data); 
             $date = Carbon::parse($row['Date']); 
-        }
-        // $this->{$time_entry_model}->bulkDeleteByCreatedAtDate($date);
+            usort($csv_data, function($a, $b) {
+                return ($a['Date'] > $b['Date']) ? -1 : 1;
+            });
+            $length = count($csv_data);        
+            $last_entry = $csv_data[$length - 1];
+            $first_entry = $csv_data[0];
 
-             
+            //get start date and end date on csv file
+            $start_date = Carbon::parse($last_entry["Date"])->subSeconds(1)->format("Y-m-d H:m:s");
+            $end_date = Carbon::parse($first_entry["Date"])->addSeconds(1)->format("Y-m-d H:m:s");
+
+        }
+
     
+     
+        //delete date within date range
+        $this->{$time_entry_model}->bulkDeleteByLimitDate($start_date,$end_date);
+       
+
         //create new array
         $time_entries_final = array();
 
@@ -294,8 +320,7 @@ class InsertTimeEntriesController extends Controller
             
             //insert when array has reached 100 entries, until the last element
             if($counter == 100 || $value == end($csv_data)){
-
-                $this->{$time_entry_model}->bulkDeleteByUniqueTicketDate($unique);
+                // $this->{$time_entry_model}->bulkDeleteByUniqueTicketDate($unique);
                 $this->{$time_entry_model}->bulkInsert($time_entries_final);
                 $counter = 0; //reset counter
                 $time_entries_final = array(); //reset array

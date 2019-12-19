@@ -54,4 +54,8 @@ class LHFDTimeEntry extends Model
         $values = [$table_name];
         DB::insert('EXEC update_all_timeentries_v2 ?', $values);
     }
+
+    public function bulkDeleteByLimitDate($start,$end){
+        return static::whereBetween('executed_at', [$start,$end])->delete();
+    }
 }
