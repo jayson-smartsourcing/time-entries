@@ -7,6 +7,9 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon as Carbon;
+use \GuzzleHttp\Client as Guzzle;
+
+
 //models 
 use App\DinglesFDTimeEntry as DinglesFDTimeEntry;
 use App\RaywhiteFDTimeEntry as RaywhiteFDTimeEntry;
@@ -38,6 +41,7 @@ use App\BPTimeEntry as BPTimeEntry;
 class InsertTimeEntriesController extends Controller
 {
     public function __construct(
+        Guzzle $guzzle,
         DinglesFDTimeEntry $dingles_fd_time_entries,
         RaywhiteFDTimeEntry $raywhite_fd_time_entries,
         HarrisSalesFDTimeEntryV2 $harris_fd_time_entries,
@@ -63,8 +67,10 @@ class InsertTimeEntriesController extends Controller
         JCBFSTimeEntry $jcb_fs_time_entries,
         HarrisFSTimeEntry $harris_fs_time_entries,
         BPTimeEntry $bp_fs_time_entries
+        
     )
     {  
+        $this->guzzle = $guzzle;
         $this->dingles_fd_time_entries = $dingles_fd_time_entries;
         $this->raywhite_fd_time_entries = $raywhite_fd_time_entries;
         $this->harris_fd_time_entries = $harris_fd_time_entries;
@@ -90,6 +96,7 @@ class InsertTimeEntriesController extends Controller
         $this->jcb_fs_time_entries = $jcb_fs_time_entries;
         $this->harris_fs_time_entries = $harris_fs_time_entries;
         $this->bp_fs_time_entries = $bp_fs_time_entries;
+        
     }
 
     //function to convert hours into decimal 
@@ -151,7 +158,7 @@ class InsertTimeEntriesController extends Controller
                  //Check if loop is at the end of the Array
                  $end_of_array++;
                  if($end_of_array == $acc_counter){
-                    return back()->withErrors('API Key is incorrect');
+                    return back()->withErrors('API Key is incorrect')->with(['name' => 'time_entries']);
                  }
              }
          }
@@ -216,11 +223,8 @@ class InsertTimeEntriesController extends Controller
 
         }
 
-    
-     
         //delete date within date range
         $this->{$time_entry_model}->bulkDeleteByLimitDate($start_date,$end_date);
-       
 
         //create new array
         $time_entries_final = array();
@@ -340,8 +344,53 @@ class InsertTimeEntriesController extends Controller
         //stored procedure for attendance_id
          $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
         
-        return back()->with('message', 'CSV File Imported Successfully');
+        return back()->with('message', 'CSV File Imported Successfully')->with(['name' => 'time_entries']);
         
+    }
+
+    //function for ticket export - accepts api key only
+    public function refreshTicketExport($token){
+
+         //Concatenate API Key input with ':X'
+         $base_key = $token;
+         $base_key .= ":X"; 
+         $input_api_key = base64_encode($base_key);
+ 
+         //Get data from constants.php
+         $constant_data = config('constants');
+        
+         //Counter for each Account
+         $acc_counter = count($constant_data);
+         $end_of_array = 0;
+ 
+         $token = $input_api_key;
+
+         //loop through constants 
+         foreach($constant_data as $key => $value){
+             $const_api_key = Arr::get($value, 'api_key');
+                       
+             //Check if API Key exists
+             if($const_api_key == $input_api_key){
+                 $api_key_account = $const_api_key; 
+                 $ticket_link = Arr::get($value, 'ticket_link');
+                 $url =  url('/');
+                
+                 $url .=$ticket_link;        
+             }
+             else{
+                 //Check if loop is at the end of the Array
+                 $end_of_array++;
+                 if($end_of_array == $acc_counter){
+                    return response()->json(['error'=> true, 'message'=>"Incorrect API Key"], 200);
+                 }
+             }
+         }
+
+         return response()->json(['success'=> true, 'link'=>$url], 200);
     }
     
 }
+
+
+
+
