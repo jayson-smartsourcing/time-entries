@@ -12,19 +12,16 @@ $( document ).ready(function() {
         var api_key = $('#api-key').val();
         var file = $("#csv-file").val();
 
-    
         if((api_key != null && api_key != undefined && api_key != "") && (file != null && file != undefined && file != "") ){
             $(".spin-button").removeClass("hidden");
             $(".submit-button").addClass("hidden");
         }
-
     });
 
     $(".spin-button").click(function(e){
         e.preventDefault();
         return false;
     });
-
 
     //ticket refresh link
     $(".tx-submit-button").click(function(e){
@@ -52,17 +49,14 @@ $( document ).ready(function() {
                             dataType:'json',
                             success : function(data) {              
                                 if(data.success) {
-                                    $('#api-key-refresh').val(" ");
-
+                                    $('#api-key-refresh').val('');
                                     //remove loading
                                     $('.tx-spin-button').addClass("hidden");
-                                    
                                     //success message
                                     $('#tx-success-msg').removeClass("hidden");
-
+                                    $('#tx-error-msg').addClass("hidden");
                                     //return to original button view
                                     $('.tx-submit-button').removeClass("hidden");
-
                                     $('.error').addClass("hidden");
                                     $('#api-key-refresh').removeClass('input-error');
                                 }
@@ -71,16 +65,12 @@ $( document ).ready(function() {
                         
                     }else{
                         var error = data.message;
-
                         $('#tx-error-msg').removeClass("hidden");
-
+                        $('#tx-success-msg').addClass("hidden");
                         //remove loading
                         $('.tx-spin-button').addClass("hidden");
-
                         //return to original button view
                         $('.tx-submit-button').removeClass("hidden");
-
-                        // $('.error').text(error).removeClass("hidden");
                         $('#api-key-refresh').addClass("input-error");
                     }
                 }
@@ -101,7 +91,7 @@ $( document ).ready(function() {
         $('.error').text('').addClass("hidden");
         $('#api-key-refresh').removeClass("input-error");
         $('#api-key-refresh').removeClass("tx-input-error");
-    })
+    });
 
 
     $(".dropdown-menu a").click(function(){
@@ -116,14 +106,21 @@ $( document ).ready(function() {
         $("#te-import").trigger("click");
     }
 
-    $("#api-key").keypress(function(e) {     
+    $("#api-key").change(function(e) {     
         $('#api-key').removeClass("input-error");
-    })
+        $(".alert").addClass("hidden");
+    });
 
+    $("#api-key-refresh").change(function() {
+        $(".alert").addClass("hidden");
+        $('#api-key-refresh').removeClass("input-error");
+    });
+
+ 
+    $('.close').on('click', function() {
+        $(".alert").addClass("hidden");
+     });
     
-
-
-
 
    
     
