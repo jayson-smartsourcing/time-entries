@@ -18,7 +18,8 @@ class EGSatisfactoryResponse extends Model
        'ratings',
        'ticket_id',
        'created_at',
-       'updated_at'
+       'updated_at',
+       'updated_at_id'
     ]; 
 
     public function bulkInsert($data){
@@ -31,5 +32,10 @@ class EGSatisfactoryResponse extends Model
 
     public function truncateTable() {
         return static::truncate();
+    }
+
+    public function addUpdateAtID($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC update_fd_latest_satisfactory_response ?', $values);
     }
 }

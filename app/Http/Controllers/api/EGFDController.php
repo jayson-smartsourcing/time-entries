@@ -244,6 +244,8 @@ class EGFDController extends Controller
 
         }
 
+        $this->eg_satisfactory_rating->addUpdateAtID("eg_fd");
+
         return response()->json(['success'=> true], 200);
 
     }
@@ -252,16 +254,16 @@ class EGFDController extends Controller
 
         $client = new $this->guzzle();
         $data = config('constants.eg');
-        $now = Carbon::yesterday()->format('Y-m-d');
+        //$now = Carbon::yesterday()->format('Y-m-d');
+
+        $now = new Carbon("Last Day of November 2019");
+        $now = $now->format("Y-m-d");
+    
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100&created_since=".$now;
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-
-       
-        //$this->eg_satisfactory_rating->truncateTable();
-        //$this->eg_satisfactory_response->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -349,6 +351,7 @@ class EGFDController extends Controller
                     }
 
                     $ratings_to_delete[] = $value->id;
+                    $responses_to_delete[] = $value->id;
                     
                     $this->eg_satisfactory_rating->bulkDelete($ratings_to_delete);
                     $this->eg_satisfactory_rating->bulkInsert($final_rating_data);
@@ -362,7 +365,7 @@ class EGFDController extends Controller
             }  
 
         }
-
+        $this->eg_satisfactory_response->addUpdateAtID("eg_fd");
         return response()->json(['success'=> true], 200);
 
     }
