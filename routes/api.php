@@ -340,3 +340,10 @@ Route::post("jcd-fd-tickets","api\JCDFDController@getAllTicketsV2");
 // Route::post("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2");
 Route::get("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2");
 Route::get("jcd-fd-update-all","api\JCDFDController@updateAll");
+
+
+
+
+Route::get('/refresh-tickets/{token}', "InsertTimeEntriesController@refreshTicketExport");
+
+
