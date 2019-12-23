@@ -256,8 +256,7 @@ class EGFDController extends Controller
         $data = config('constants.eg');
         //$now = Carbon::yesterday()->format('Y-m-d');
 
-        $now = new Carbon("Last Day of November 2019");
-        $now = $now->format("Y-m-d");
+        $now = Carbon::now()->subDays(2)->format('Y-m-d');
     
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/surveys/satisfaction_ratings?per_page=100&created_since=".$now;
