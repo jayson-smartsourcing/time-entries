@@ -36,6 +36,7 @@ use App\JCFSTimeEntry as JCFSTimeEntry; // FS
 use App\JCBFSTimeEntry as JCBFSTimeEntry;
 use App\HarrisFSTimeEntry as HarrisFSTimeEntry;
 use App\BPTimeEntry as BPTimeEntry;
+use App\EstoreFDTimeEntry as EstoreFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -66,7 +67,8 @@ class InsertTimeEntriesController extends Controller
         JCFSTimeEntry $jck_fs_time_entries, //FS
         JCBFSTimeEntry $jcb_fs_time_entries,
         HarrisFSTimeEntry $harris_fs_time_entries,
-        BPTimeEntry $bp_fs_time_entries
+        BPTimeEntry $bp_fs_time_entries,
+        EstoreFDTimeEntry $estore_fd_time_entries
         
     )
     {  
@@ -96,6 +98,7 @@ class InsertTimeEntriesController extends Controller
         $this->jcb_fs_time_entries = $jcb_fs_time_entries;
         $this->harris_fs_time_entries = $harris_fs_time_entries;
         $this->bp_fs_time_entries = $bp_fs_time_entries;
+        $this->estore_fd_time_entries = $estore_fd_time_entries;
         
     }
 

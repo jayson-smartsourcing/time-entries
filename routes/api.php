@@ -342,8 +342,16 @@ Route::get("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2"
 Route::get("jcd-fd-update-all","api\JCDFDController@updateAll");
 
 
+//estore fd
+Route::post("estore-fd-groups","api\EstoreFDController@getAllGroups");
+Route::post("estore-fd-companies","api\EstoreFDController@getAllCompanies");
+Route::post("estore-fd-agents","api\EstoreFDController@getAllAgents");
+Route::post("estore-fd-contacts","api\EstoreFDController@getAllContacts");
+Route::post("estore-fd-tickets","api\EstoreFDController@getAllTicketsV2");
+Route::get("estore-fd-tickets-latest","api\EstoreFDController@getLatestTicketExportV2");
+Route::get("estore-fd-update-all","api\EstoreFDController@updateAll");
 
-
+//ticket refresh
 Route::get('/refresh-tickets/{token}', "InsertTimeEntriesController@refreshTicketExport");
 
 
