@@ -6,6 +6,12 @@ body {
     background-color: #14a0fa;
 }
 
+/* #dashboard-header {
+    background-color: #14a0fa;
+} */
+
+
+
 img {
     width: 200px;
     height: auto;
@@ -26,9 +32,21 @@ img {
     
 }
 
+.tx-refresh-form-button{
+    margin: 10px;
+    margin-bottom: 20px;
+    
+}
+
+
 .input-error{
     border-color: red;
 }
+
+.tx-input-error{
+    border-color: red;
+}
+
 
 .spinner{
     width: 20px;
@@ -41,4 +59,8 @@ img {
 
 .hidden{
     display: none;
+}
+
+.error{
+    color:red;
 }
