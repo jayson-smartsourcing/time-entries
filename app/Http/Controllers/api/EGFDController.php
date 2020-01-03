@@ -711,6 +711,7 @@ class EGFDController extends Controller
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
+            
             //call to api
             $response = $client->request('GET', $link, [
                 'headers' => [
@@ -784,6 +785,7 @@ class EGFDController extends Controller
                     $fr_due_by = Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila');
                     if($first_responded_at == NULL || $first_responded_at == "") {
                         $fr_resolution_status = "";
+
                     } else {
                         if($first_responded_at < $fr_due_by) {
                             $fr_resolution_status = "Within SLA";
@@ -856,8 +858,10 @@ class EGFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.eg');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
+        $two_days_ago = Carbon::parse("2019-12-12")->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
+
         $api_key = $data["api_key"];
         $ticket_export_data = array();
         $x = 1;
@@ -935,11 +939,14 @@ class EGFDController extends Controller
                         }
                     }
    
-                    $first_responded_at = Carbon::parse($value->stats->first_responded_at)->setTimezone('Asia/Manila');
                     $fr_due_by = Carbon::parse($value->fr_due_by)->setTimezone('Asia/Manila');
+                    $first_responded_at = $value->stats->first_responded_at;
+
                     if($first_responded_at == NULL || $first_responded_at == "") {
                         $fr_resolution_status = "";
                     } else {
+                        $first_responded_at = Carbon::parse($first_responded_at)->setTimezone('Asia/Manila');
+
                         if($first_responded_at < $fr_due_by) {
                             $fr_resolution_status = "Within SLA";
                         } else {
@@ -983,7 +990,8 @@ class EGFDController extends Controller
                         "first_responded_at" => $first_responded_at,
                         "fr_resolution_status" => $fr_resolution_status
                     );
-                    
+
+
                     $final_data[] = $ticket_export;
 
                     if( ($len - 1) > $key && count($final_data) == 50) {
