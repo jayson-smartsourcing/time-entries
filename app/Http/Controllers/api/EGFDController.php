@@ -858,7 +858,6 @@ class EGFDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.eg');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
-        $two_days_ago = Carbon::parse("2019-12-12")->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
 
