@@ -42,3 +42,11 @@ Route::get('/ticket-dashboard', function (){
 });
 
 Route::post('/import-parse', "InsertTimeEntriesController@parseImport");
+
+Route::get('/sample-form', function (){
+    return view('sample-form');
+});
+
+Route::post('/test', "SampleFormController@test");
+
+Route::get('/display', "SampleFormController@testDisplay");

@@ -23,6 +23,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector:'textarea.description',
+            width: 900,
+            height: 300
+        });
+    </script>
 </head>
 <body>
     <div id="app">
