@@ -37,6 +37,7 @@ use App\JCBFSTimeEntry as JCBFSTimeEntry;
 use App\HarrisFSTimeEntry as HarrisFSTimeEntry;
 use App\BPTimeEntry as BPTimeEntry;
 use App\EstoreFDTimeEntry as EstoreFDTimeEntry;
+use App\UrbanAnglesFDTimeEntry as UrbanAnglesFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -68,7 +69,8 @@ class InsertTimeEntriesController extends Controller
         JCBFSTimeEntry $jcb_fs_time_entries,
         HarrisFSTimeEntry $harris_fs_time_entries,
         BPTimeEntry $bp_fs_time_entries,
-        EstoreFDTimeEntry $estore_fd_time_entries
+        EstoreFDTimeEntry $estore_fd_time_entries,
+        UrbanAnglesFDTimeEntry $urban_angles_fd_time_entries
         
     )
     {  
@@ -99,6 +101,7 @@ class InsertTimeEntriesController extends Controller
         $this->harris_fs_time_entries = $harris_fs_time_entries;
         $this->bp_fs_time_entries = $bp_fs_time_entries;
         $this->estore_fd_time_entries = $estore_fd_time_entries;
+        $this->urban_angles_fd_time_entries = $urban_angles_fd_time_entries;
         
     }
 
@@ -346,6 +349,9 @@ class InsertTimeEntriesController extends Controller
 
         //stored procedure for attendance_id
          $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
+         //include sp for specific accounts
+
+         //check if account is old, run sp
         
         return back()->with('message', 'CSV File Imported Successfully')->with(['name' => 'time_entries']);
         

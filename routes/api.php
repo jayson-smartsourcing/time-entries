@@ -351,6 +351,15 @@ Route::post("estore-fd-tickets","api\EstoreFDController@getAllTicketsV2");
 Route::get("estore-fd-tickets-latest","api\EstoreFDController@getLatestTicketExportV2");
 Route::get("estore-fd-update-all","api\EstoreFDController@updateAll");
 
+//urban angles fd
+Route::post("urban-angles-fd-groups","api\UrbanAnglesFDController@getAllGroups");
+Route::post("urban-angles-fd-companies","api\UrbanAnglesFDController@getAllCompanies");
+Route::post("urban-angles-fd-agents","api\UrbanAnglesFDController@getAllAgents");
+Route::post("urban-angles-contacts","api\UrbanAnglesFDController@getAllContacts");
+Route::post("urban-angles-fd-tickets","api\UrbanAnglesFDController@getAllTicketsV2");
+Route::get("urban-angles-fd-tickets-latest","api\UrbanAnglesFDController@getLatestTicketExportV2");
+Route::get("urban-angles-fd-update-all","api\UrbanAnglesFDController@updateAll");
+
 //ticket refresh
 Route::get('/refresh-tickets/{token}', "InsertTimeEntriesController@refreshTicketExport");
 
