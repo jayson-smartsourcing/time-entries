@@ -59,4 +59,8 @@ class HarrisSalesFDTimeEntryV2 extends Model
         return static::whereBetween('executed_at', [$start,$end])->delete();
     }
 
+    public function updateTimeEntries($sp){
+        DB::insert('EXEC '.$sp);
+    }
+
 }

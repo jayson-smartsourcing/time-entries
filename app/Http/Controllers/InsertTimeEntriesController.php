@@ -150,10 +150,11 @@ class InsertTimeEntriesController extends Controller
                  $api_key_account = $const_api_key;
                  $db_init = Arr::get($value, 'db_init'); //initials of db table name
                  $orig_db_init = $db_init;
+                 $is_sp_update = Arr::get($value, 'sp_update');
 
                  $link = Arr::get($value, 'link');
 
-                 //check if API key is for freshdesk or freshservice
+                 //check if API key is for freshdesk or freshservice.
                  if(strpos($link, 'freshdesk')!== false){
                     $fresh_model = "FD";
                 }else if (strpos($link, 'freshservice')!== false){
@@ -173,7 +174,12 @@ class InsertTimeEntriesController extends Controller
         //concatenate db_init + _time_entries to get time entry model 
         $db_init .= "_time_entries";
         $time_entry_model = $db_init;     
-       
+
+        //for stored proc udpate update_[account]_[fd/fs]_time_entries_v2
+        $sp = 'update_';
+        $sp .= $time_entry_model;
+        $sp .= '_v2';
+  
         //map csv file 
         $csv_data = $fields = array(); $i = 0;
         $handle = fopen($request->file('csv_file'), "r");
@@ -337,22 +343,17 @@ class InsertTimeEntriesController extends Controller
                 $over_all_count +=100; 
                 $unique = [];
             }
-
-            // if($over_all_count == 3700) {
-            //     echo "<pre>";
-            //     print_r($time_entries_final);
-            //     echo "<pre>";
-            //     die;
-            // }
         
         }
 
         //stored procedure for attendance_id
          $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
-         //include sp for specific accounts
 
-         //check if account is old, run sp
-        
+        //  check if account is old, run sp
+         if($is_sp_update == 1){
+            $this->{$time_entry_model}->updateTimeEntries($sp);
+         }
+       
         return back()->with('message', 'CSV File Imported Successfully')->with(['name' => 'time_entries']);
         
     }
