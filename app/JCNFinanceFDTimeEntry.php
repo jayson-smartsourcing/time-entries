@@ -58,4 +58,8 @@ class JCNFinanceFDTimeEntry extends Model
     public function bulkDeleteByLimitDate($start,$end){
         return static::whereBetween('executed_at', [$start,$end])->delete();
     }
+
+    public function updateTimeEntries($sp){
+        DB::insert('EXEC '.$sp);
+    }
 }
