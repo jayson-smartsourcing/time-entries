@@ -625,12 +625,13 @@ class TicketExportController extends Controller
         $data = config('constants.bp_fs');
         $api_key = $data["api_key"];
         $three_days_ago = Carbon::now()->subDays(3)->format('Y-m-d');
-        $link = $data["link"]. "/api/v2/agents?per_page=50";
+        $link = $data["link"]. "/api/v2/agents?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
         $this->bp_agents->truncateTable();
         for( $i = 1; $i<= $x; $i++ ) {
+         
             $link .= "&page=".$i;
             //call to api
             $response = $client->request('GET', $link, [
@@ -672,6 +673,8 @@ class TicketExportController extends Controller
             } else {
                 $body = json_decode($response->getBody());
             }
+            // print_r($body);
+            // die;
 
             if(count($body->agents) != 0) {
                 $agents = $body->agents;
