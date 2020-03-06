@@ -364,3 +364,11 @@ Route::get("urban-angles-fd-update-all","api\UrbanAnglesFDController@updateAll")
 Route::get('/refresh-tickets/{token}', "InsertTimeEntriesController@refreshTicketExport");
 
 
+//white label fd
+Route::post("white-label-fd-groups","api\WhiteLabelFDController@getAllGroups");
+Route::post("white-label-fd-companies","api\WhiteLabelFDController@getAllCompanies");
+Route::post("white-label-fd-agents","api\WhiteLabelFDController@getAllAgents");
+Route::post("white-label-contacts","api\WhiteLabelFDController@getAllContacts");
+Route::post("white-label-fd-tickets","api\WhiteLabelFDController@getAllTicketsV2");
+Route::get("white-label-fd-tickets-latest","api\WhiteLabelFDController@getLatestTicketExportV2");
+Route::get("white-label-fd-update-all","api\WhiteLabelFDController@updateAll");

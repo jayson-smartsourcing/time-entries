@@ -38,6 +38,7 @@ use App\HarrisFSTimeEntry as HarrisFSTimeEntry;
 use App\BPTimeEntry as BPTimeEntry;
 use App\EstoreFDTimeEntry as EstoreFDTimeEntry;
 use App\UrbanAnglesFDTimeEntry as UrbanAnglesFDTimeEntry;
+use App\WhiteLabelFDTimeEntry as WhiteLabelFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -70,7 +71,8 @@ class InsertTimeEntriesController extends Controller
         HarrisFSTimeEntry $harris_fs_time_entries,
         BPTimeEntry $bp_fs_time_entries,
         EstoreFDTimeEntry $estore_fd_time_entries,
-        UrbanAnglesFDTimeEntry $urban_angles_fd_time_entries
+        UrbanAnglesFDTimeEntry $urban_angles_fd_time_entries,
+        WhiteLabelFDTimeEntry $white_label_fd_time_entries
         
     )
     {  
@@ -102,6 +104,7 @@ class InsertTimeEntriesController extends Controller
         $this->bp_fs_time_entries = $bp_fs_time_entries;
         $this->estore_fd_time_entries = $estore_fd_time_entries;
         $this->urban_angles_fd_time_entries = $urban_angles_fd_time_entries;
+        $this->white_label_fd_time_entries = $white_label_fd_time_entries;
         
     }
 
@@ -384,8 +387,7 @@ class InsertTimeEntriesController extends Controller
                  $api_key_account = $const_api_key; 
                  $ticket_link = Arr::get($value, 'ticket_link');
                  $url =  url('/');
-                
-                 $url .=$ticket_link;        
+                 $url .=$ticket_link;     
              }
              else{
                  //Check if loop is at the end of the Array
