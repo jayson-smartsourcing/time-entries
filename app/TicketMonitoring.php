@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class TicketMonitoring extends Model
 {
-    protected $table = 'enps_ticket_monitoring';
+    protected $table = 'ticket_monitoring';
     protected $fillable = [
        'account_name',
        'execution_type',
