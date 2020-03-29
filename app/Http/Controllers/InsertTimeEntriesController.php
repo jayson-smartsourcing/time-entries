@@ -39,6 +39,7 @@ use App\BPTimeEntry as BPTimeEntry;
 use App\EstoreFDTimeEntry as EstoreFDTimeEntry;
 use App\UrbanAnglesFDTimeEntry as UrbanAnglesFDTimeEntry;
 use App\WhiteLabelFDTimeEntry as WhiteLabelFDTimeEntry;
+use App\TicketMonitoring as TicketMonitoring; //ticket monitoring model
 
 
 class InsertTimeEntriesController extends Controller
@@ -72,7 +73,8 @@ class InsertTimeEntriesController extends Controller
         BPTimeEntry $bp_fs_time_entries,
         EstoreFDTimeEntry $estore_fd_time_entries,
         UrbanAnglesFDTimeEntry $urban_angles_fd_time_entries,
-        WhiteLabelFDTimeEntry $white_label_fd_time_entries
+        WhiteLabelFDTimeEntry $white_label_fd_time_entries,
+        TicketMonitoring $ticket_monitoring
         
     )
     {  
@@ -105,6 +107,7 @@ class InsertTimeEntriesController extends Controller
         $this->estore_fd_time_entries = $estore_fd_time_entries;
         $this->urban_angles_fd_time_entries = $urban_angles_fd_time_entries;
         $this->white_label_fd_time_entries = $white_label_fd_time_entries;
+        $this->ticket_monitoring = $ticket_monitoring;
         
     }
 
@@ -143,6 +146,10 @@ class InsertTimeEntriesController extends Controller
          //Counter for each Account
          $acc_counter = count($constant_data);
          $end_of_array = 0;
+
+         //for ticket monitoring
+         $monitoring_array = array();
+         $account_name = "";
  
          //loop through constants 
          foreach($constant_data as $key => $value){
@@ -156,6 +163,18 @@ class InsertTimeEntriesController extends Controller
                  $is_sp_update = Arr::get($value, 'sp_update');
 
                  $link = Arr::get($value, 'link');
+
+                 $account_name = $key;
+              
+
+                 //fill up ticket monitoring array
+                 $execution = array(
+                     'account_name' => $account_name,
+                     'execution_type' => "Time Sheet Submission",
+                     'created_at' => Carbon::now()->setTimezone('Asia/Manila')
+                 );
+ 
+                 $monitoring_array = $execution;
 
                  //check if API key is for freshdesk or freshservice.
                  if(strpos($link, 'freshdesk')!== false){
@@ -349,6 +368,9 @@ class InsertTimeEntriesController extends Controller
         
         }
 
+        //insert to ticket monitoring
+        $this->ticket_monitoring->insert($monitoring_array);
+
         //stored procedure for attendance_id
          $this->{$time_entry_model}->updateAllAttendanceID($orig_db_init);
 
@@ -378,6 +400,10 @@ class InsertTimeEntriesController extends Controller
  
          $token = $input_api_key;
 
+         //for ticket monitoring 
+         $account_name = "";
+         $monitoring_array = array();
+
          //loop through constants 
          foreach($constant_data as $key => $value){
              $const_api_key = Arr::get($value, 'api_key');
@@ -387,7 +413,18 @@ class InsertTimeEntriesController extends Controller
                  $api_key_account = $const_api_key; 
                  $ticket_link = Arr::get($value, 'ticket_link');
                  $url =  url('/');
-                 $url .=$ticket_link;     
+                 $url .=$ticket_link;  
+
+                 $account_name = $key;
+
+                 //fill up ticket monitoring array
+                 $execution = array(
+                    'account_name' => $account_name,
+                    'execution_type' => "Ticket Refresh",
+                    'created_at' => Carbon::now()->setTimezone('Asia/Manila')
+                );
+
+                $monitoring_array = $execution;
              }
              else{
                  //Check if loop is at the end of the Array
@@ -397,6 +434,8 @@ class InsertTimeEntriesController extends Controller
                  }
              }
          }
+
+         $this->ticket_monitoring->insert($monitoring_array);
 
          return response()->json(['success'=> true, 'link'=>$url], 200);
     }
