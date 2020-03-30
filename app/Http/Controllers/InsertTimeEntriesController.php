@@ -171,8 +171,11 @@ class InsertTimeEntriesController extends Controller
                  $execution = array(
                      'account_name' => $account_name,
                      'execution_type' => "Time Sheet Submission",
-                     'created_at' => Carbon::now()->setTimezone('Asia/Manila')
+                     'created_at' => Carbon::now()->setTimezone('Australia/Queensland')
                  );
+
+                //  print_r($execution);
+                //  die;
  
                  $monitoring_array = $execution;
 
@@ -421,7 +424,7 @@ class InsertTimeEntriesController extends Controller
                  $execution = array(
                     'account_name' => $account_name,
                     'execution_type' => "Ticket Refresh",
-                    'created_at' => Carbon::now()->setTimezone('Asia/Manila')
+                    'created_at' => Carbon::now()->setTimezone('Australia/Queensland')
                 );
 
                 $monitoring_array = $execution;
