@@ -372,3 +372,12 @@ Route::post("white-label-contacts","api\WhiteLabelFDController@getAllContacts");
 Route::post("white-label-fd-tickets","api\WhiteLabelFDController@getAllTicketsV2");
 Route::get("white-label-fd-tickets-latest","api\WhiteLabelFDController@getLatestTicketExportV2");
 Route::get("white-label-fd-update-all","api\WhiteLabelFDController@updateAll");
+
+//ckb fb
+Route::post("ckb-fd-groups","api\CKBFDController@getAllGroups");
+Route::post("ckb-fd-companies","api\CKBFDController@getAllCompanies");
+Route::post("ckb-fd-agents","api\CKBFDController@getAllAgents");
+Route::post("ckb-contacts","api\CKBFDController@getAllContacts");
+Route::post("ckb-fd-tickets","api\CKBFDController@getAllTicketsV2");
+Route::get("ckb-fd-tickets-latest","api\CKBFDController@getLatestTicketExportV2");
+Route::get("ckb-fd-update-all","api\CKBFDController@updateAll");
