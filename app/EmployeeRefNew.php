@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
-class EmployeeRef extends Model
-{   protected $table = 'EmployeeRef';
+class EmployeeRefNew extends Model
+{
+    protected $table = 'employee_ref';
     protected $fillable = [
         'STATUS',
         'FIRST NAME',
@@ -55,11 +57,5 @@ class EmployeeRef extends Model
     public function findSprountID($sprout_id) {
         return static::where("sprout_id",$sprout_id)->first();
     }
-
-    public function getSproutIdByName($name) {
-        return static::where("sprout_name",$name)->first();
-    }
-
-
 
 }

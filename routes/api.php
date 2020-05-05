@@ -381,3 +381,8 @@ Route::post("ckb-contacts","api\CKBFDController@getAllContacts");
 Route::post("ckb-fd-tickets","api\CKBFDController@getAllTicketsV2");
 Route::get("ckb-fd-tickets-latest","api\CKBFDController@getLatestTicketExportV2");
 Route::get("ckb-fd-update-all","api\CKBFDController@updateAll");
+
+
+Route::post("import/logs", "api\ActivtrakController@importATlogs");
+Route::post("update/emp_ref", "api\ActivtrakController@updateEmpRef");
+Route::post('import/logs/csv',"api\ActivtrakController@importATlogsCSV");
