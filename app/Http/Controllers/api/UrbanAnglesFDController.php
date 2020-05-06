@@ -502,7 +502,8 @@ class UrbanAnglesFDController extends Controller
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
                         "attendance_id" => "",
                         "first_responded_at" => $first_responded_at,
-                        "fr_resolution_status" => $fr_resolution_status
+                        "fr_resolution_status" => $fr_resolution_status,
+                        "cf_item_count" => $value->custom_fields->cf_item_count
                     );
                     
                     $final_data[] = $ticket_export;
@@ -548,6 +549,7 @@ class UrbanAnglesFDController extends Controller
                     'Authorization' => $api_key
                 ]
             ]);
+
             // get Status Code
             $status_code = $response->getStatusCode();  
 
@@ -578,6 +580,7 @@ class UrbanAnglesFDController extends Controller
             } else {
                 $body = json_decode($response->getBody());
             }
+           
         
             if(count($body) != 0) {
                 $ticket_export_data = $body;
@@ -657,9 +660,10 @@ class UrbanAnglesFDController extends Controller
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Asia/Manila'),
                         "attendance_id" => "",
                         "first_responded_at" => $first_responded_at,
-                        "fr_resolution_status" => $fr_resolution_status
-                    );
-                    
+                        "fr_resolution_status" => $fr_resolution_status,
+                        "cf_item_count" => $value->custom_fields->cf_item_count
+                        
+                    );                    
                     $final_data[] = $ticket_export;
 
                     if( ($len - 1) > $key && count($final_data) == 50) {

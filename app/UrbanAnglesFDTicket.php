@@ -39,7 +39,8 @@ class UrbanAnglesFDTicket extends Model
        'channel',
        'created_at',
        'updated_at',
-       'attendance_id'
+       'attendance_id',
+       'cf_item_count'
     ];
 
     public function bulkInsert($data){
