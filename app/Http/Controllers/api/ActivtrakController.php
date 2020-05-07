@@ -118,7 +118,7 @@ class ActivtrakController extends Controller
             if($value->user == "") {
                 continue;
             }
-
+            $data = [];
             $insert["user"] = $value->user;
             $insert["current_date"] = Carbon::parse($value->date)->format("Y-m-d");
             $insert["total_duration_per_day"] = $value->total_time/3600;
@@ -126,8 +126,12 @@ class ActivtrakController extends Controller
             $insert["un_productive_per_day"] = $value->unproductive/3600;
             $insert["undefined_per_day"] = $value->undefined/3600;
             $insert["passive_per_day"] = $value->passive_time/3600;
+            $insert["groups"] = $value->group;
 
             $return_data = $this->ref_new->getSproutIdByName($insert["user"]);
+            $data["user"] = $value->user;
+            $data["groups"] = $value->groups;
+            $update = $this->act_logs->updateData($data);
     
             if($return_data) {
                 $insert["attendance_id"] = Carbon::parse($insert["current_date"])->format("Ymd").$return_data["sprout_id"];
