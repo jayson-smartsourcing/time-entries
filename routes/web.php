@@ -50,3 +50,7 @@ Route::get('/sample-form', function (){
 Route::post('/test', "SampleFormController@test");
 
 Route::get('/display', "SampleFormController@testDisplay");
+
+Route::get('/activtrak-csv-import', function (){
+    return view('activtrak-working-hours');
+});

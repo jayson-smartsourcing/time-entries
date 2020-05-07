@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon as Carbon;
+use Validator;
 
 use App\ActivtrakLogs as ActivtrakLogs;
 use Maatwebsite\Excel\Facades\Excel;
 use App\EmployeeRef as EmployeeRef;
+
 
 
 class ActivtrakController extends Controller
@@ -111,9 +113,21 @@ class ActivtrakController extends Controller
         $len = count($file);
         $missing = [];
 
+        $curr_date = '';
+
+        $all_emp = EmployeeRef::all();
+        $emp_sprout = array();
+
+       
+
+        foreach($all_emp as $emp){
+
+            $name_id = $emp->sprout_name." - ".$emp->sprout_id;
+            $emp_sprout[] = $name_id;
+        }
+
+
       
-        
- 
         foreach($file as $key => $value) {     
             if($value->user == "") {
                 continue;
@@ -129,19 +143,20 @@ class ActivtrakController extends Controller
 
             $return_data = $this->ref_new->getSproutIdByName($insert["user"]);
     
+
             if($return_data) {
                 $insert["attendance_id"] = Carbon::parse($insert["current_date"])->format("Ymd").$return_data["sprout_id"];
             } else {
                 $insert["attendance_id"] = "";
                 $missing[] = $insert;
             }
-    
+
             $check_date = $this->act_logs->getDataBydate($insert["current_date"],$insert["user"]);
             
             if(!$check_date) {
                 $final_data[] = $insert; 
             }
-                    
+
             if( ($len - 1) > $key && count($final_data) == 50) {
                 $this->act_logs->bulkInsert($final_data);
                 $final_data = [];
@@ -150,11 +165,48 @@ class ActivtrakController extends Controller
             if( ($len - 1) == $key) {
                 $this->act_logs->bulkInsert($final_data);
                 $final_data = [];
-            }
+            }         
             
         }
- 
-        return response()->json(['success'=> true,'missing' => $missing], 200);
-    }    
+            
+        // return view('at-sample')->with(['missing' => $missing]);
+
+        return view('at-sample', compact('missing', 'emp_sprout'));
+
+        // return response()->json(['success'=> true,'missing' => $missing], 200);
+    }
+    
+    public function updateAttendanceID(Request $request){
+        $validator = Validator::make($request->all(), [
+            'sprout_name_id' => 'required',
+            'user' => 'required',
+            'current_date' => 'required'
+        ]);
+
+        if ($validator->fails()) { 
+            $errors = $validator->errors()->toArray();
+          
+            foreach($errors as $key => $value) {
+                $errors[$key] = $value[0];
+            }
+            return response()->json(['error'=>$errors], 200);            
+        }
+
+        $input = $request->only('sprout_name_id', 'user', 'current_date');
+
+        $sprout_name_id = $input['sprout_name_id'];
+        $string = explode('', $sprout_name_id);
+        $id = array_pop($string);
+
+        print_r($id);
+        die;
+
+
+
+
+
+
+
+    }
  
 }
