@@ -16,6 +16,7 @@ class ActivtrakLogs extends Model
        'productive_per_day',
        'un_productive_per_day',
        'undefined_per_day',
+       'groups',
        'created_at',
        'updated_at'
     ];
@@ -30,6 +31,10 @@ class ActivtrakLogs extends Model
 
     public function getDataBydate($current_date,$user) {
         return static::where('current_date',$current_date)->where("user",$user)->first();
+    }
+
+    public function updateData($data) {
+        return static::where('user',$data["user"])->update($data);
     }
 
     public function truncateTable() {
