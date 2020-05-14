@@ -50,3 +50,7 @@ Route::get('/sample-form', function (){
 Route::post('/test', "SampleFormController@test");
 
 Route::get('/display', "SampleFormController@testDisplay");
+
+
+//Activtrak CSV Import. Call controller to display missing logs
+Route::get('/activtrak-csv-import', "api\ActivtrakController@displayAllMissingLogs");
