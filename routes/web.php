@@ -51,6 +51,6 @@ Route::post('/test', "SampleFormController@test");
 
 Route::get('/display', "SampleFormController@testDisplay");
 
-Route::get('/activtrak-csv-import', function (){
-    return view('activtrak-working-hours');
-});
+
+//Activtrak CSV Import. Call controller to display missing logs
+Route::get('/activtrak-csv-import', "api\ActivtrakController@displayAllMissingLogs");

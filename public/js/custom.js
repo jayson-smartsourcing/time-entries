@@ -3,7 +3,12 @@ $( document ).ready(function() {
    
     var pathname = window.location.pathname;
 
-    if(pathname == "/import-parse" || pathname == "/import-time-entries" ||  pathname == "/ticket-dashboard"  ||  pathname == "/activtrak-csv-import"){
+    if(pathname == "/import-parse" || pathname == "/import-time-entries" ||  pathname == "/ticket-dashboard"){
+        $( "#login_header" ).hide();
+    }
+
+    //Activtrak CSV Import - change title
+    if( pathname == "/api/import/logs/csv"  ||  pathname == "/activtrak-csv-import"){
         $( "#login_header" ).hide();
         document.title = "Activtrak Working Hours Import";
     }

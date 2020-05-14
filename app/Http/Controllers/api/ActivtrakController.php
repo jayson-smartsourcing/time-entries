@@ -113,21 +113,7 @@ class ActivtrakController extends Controller
         $len = count($file);
         $missing = [];
 
-        $curr_date = '';
 
-        $all_emp = EmployeeRef::all();
-        $emp_sprout = array();
-
-       
-
-        foreach($all_emp as $emp){
-
-            $name_id = $emp->sprout_name." - ".$emp->sprout_id;
-            $emp_sprout[] = $name_id;
-        }
-
-
-      
         foreach($file as $key => $value) {     
             if($value->user == "") {
                 continue;
@@ -140,14 +126,13 @@ class ActivtrakController extends Controller
             $insert["un_productive_per_day"] = $value->unproductive/3600;
             $insert["undefined_per_day"] = $value->undefined/3600;
             $insert["passive_per_day"] = $value->passive_time/3600;
-            $insert["groups"] = $value->group;
+            $insert["groups"] = $value->groups;
 
             $return_data = $this->ref_new->getSproutIdByName($insert["user"]);
             $data["user"] = $value->user;
             $data["groups"] = $value->groups;
             $update = $this->act_logs->updateData($data);
     
-
             if($return_data) {
                 $insert["attendance_id"] = Carbon::parse($insert["current_date"])->format("Ymd").$return_data["sprout_id"];
             } else {
@@ -170,21 +155,24 @@ class ActivtrakController extends Controller
                 $this->act_logs->bulkInsert($final_data);
                 $final_data = [];
             }         
-            
         }
             
-        // return view('at-sample')->with(['missing' => $missing]);
+       // return response()->json(['success'=> true,'missing' => $missing], 200);
+        return back()->with('message', 'Activtrak CSV File Imported Successfully')->with(['name' => 'activtrak-logs']);
 
-        return view('at-sample', compact('missing', 'emp_sprout'));
-
-        // return response()->json(['success'=> true,'missing' => $missing], 200);
+        
     }
+
     
+    /*
+    ** Updates attendance ID of missing logs
+    */
     public function updateAttendanceID(Request $request){
+        
         $validator = Validator::make($request->all(), [
             'sprout_name_id' => 'required',
-            'user' => 'required',
-            'current_date' => 'required'
+            'current_date' => 'required',
+            'user' => 'required'
         ]);
 
         if ($validator->fails()) { 
@@ -196,20 +184,87 @@ class ActivtrakController extends Controller
             return response()->json(['error'=>$errors], 200);            
         }
 
+        $final_data=[];
+
+        //get input
         $input = $request->only('sprout_name_id', 'user', 'current_date');
-
+        $user = $input['user'];
+       
+        //generate attendance_id.
         $sprout_name_id = $input['sprout_name_id'];
-        $string = explode('', $sprout_name_id);
-        $id = array_pop($string);
 
-        print_r($id);
-        die;
+        //remove "-"  from sprout_name_id
+        $re = '/\w+(?:[- ]\w+)*/'; 
+        preg_match_all($re, $sprout_name_id, $result);
+
+        $sprout_name = $result[0][0];
+        $id = $result[0][1];
+
+        $current_date = $input['current_date'];
+
+        //combine current_date and id
+        $attendance_id =  Carbon::parse($current_date)->format("Ymd").$id;
+
+        //get latest group
+        $groups =  $this->act_logs->getLatestGroup($sprout_name);
+        $groups = $groups->groups;
+
+         //data to be updated
+        $old_user = $input['user'];
+        $data['user'] = $sprout_name;
+        $data['attendance_id'] = $attendance_id;
+        $data['groups'] = $groups;
+        $data['current_date'] = $current_date;
+
+        $final_data = $data;
+
+        $this->act_logs->updateAttendanceID($final_data, $old_user);
+
+        return back()->with('message', 'Attendance ID Updated');
+        // return response()->json(['success'=> true,'data' => $final_data], 200);
+    }
 
 
+    /*
+    ** Displays missing logs at the bottom
+    */
+    public function displayAllMissingLogs(){
 
+        //get all logs, display from latest current_date
+        $all_logs = ActivtrakLogs::orderBy('current_date', 'DESC')->get();
 
+        //get all employee sprout_name and id
+        $all_emp = EmployeeRef::orderBy('sprout_name', 'ASC')->get();
 
+        $missing = [];
+        $emp_sprout = array();
 
+        //remove blank sprout_name and blank sprout_id
+        foreach($all_emp as $emp){
+            if( (!is_null($emp->sprout_name) || !empty($emp->sprout_name)) && (!is_null($emp->sprout_id) || !empty($emp->sprout_id)) ){
+
+                //displays "Employee_Name - Sprout ID" eg. "Sam Smith - 2256"
+                $name_id = $emp->sprout_name." - ".$emp->sprout_id;
+                $emp_sprout[] = $name_id;
+            }
+        }
+
+        //check all logs if no attendance_id
+        foreach($all_logs as $logs){
+            if( is_null($logs->attendance_id) || empty($logs->attendance_id) ){
+                $log = array();
+
+                $log['user'] = $logs->user;
+                $log['current_date'] = $logs->current_date;
+                $log['groups'] = $logs->groups;
+
+                //all missing logs
+                $missing[] = $log;
+            }
+        }
+
+        //pass to view missing logs and employee sprout name and id
+        return view('activtrak-working-hours', compact('missing', 'emp_sprout'));
 
     }
  

@@ -40,4 +40,20 @@ class ActivtrakLogs extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    //for update group - get latest log 
+    public function getLatestGroup($user) {
+        return static::where('user',$user)->orderBy('current_date', 'desc')->first();
+    }
+
+    //update data for attendance_id based on old_user(alias)
+    public function updateAttendanceID($data, $old_user) {
+        return static::where('user',$old_user)->where('current_date',$data["current_date"])->update($data);
+    }
+
+
+
+
+
+    
 }
