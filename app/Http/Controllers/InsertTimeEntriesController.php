@@ -41,6 +41,7 @@ use App\UrbanAnglesFDTimeEntry as UrbanAnglesFDTimeEntry;
 use App\WhiteLabelFDTimeEntry as WhiteLabelFDTimeEntry;
 use App\TicketMonitoring as TicketMonitoring; //ticket monitoring model
 use App\CKBFDTimeEntry as CKBFDTimeEntry;
+use App\TrendTileFDTimeEntry as TrendTileFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -76,7 +77,8 @@ class InsertTimeEntriesController extends Controller
         UrbanAnglesFDTimeEntry $urban_angles_fd_time_entries,
         WhiteLabelFDTimeEntry $white_label_fd_time_entries,
         TicketMonitoring $ticket_monitoring,
-        CKBFDTimeEntry $ckb_fd_time_entries
+        CKBFDTimeEntry $ckb_fd_time_entries,
+        TrendTileFDTimeEntry $trendtile_fd_time_entries
         
     )
     {  
@@ -111,6 +113,7 @@ class InsertTimeEntriesController extends Controller
         $this->white_label_fd_time_entries = $white_label_fd_time_entries;
         $this->ticket_monitoring = $ticket_monitoring;
         $this->ckb_fd_time_entries = $ckb_fd_time_entries;
+        $this->trendtile_fd_time_entries = $trendtile_fd_time_entries;
         
     }
 
