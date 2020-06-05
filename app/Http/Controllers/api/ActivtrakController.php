@@ -113,7 +113,6 @@ class ActivtrakController extends Controller
         $len = count($file);
         $missing = [];
 
-
         foreach($file as $key => $value) {     
             if($value->user == "") {
                 continue;
@@ -131,7 +130,7 @@ class ActivtrakController extends Controller
             $return_data = $this->ref_new->getSproutIdByName($insert["user"]);
             $data["user"] = $value->user;
             $data["groups"] = $value->groups;
-            $update = $this->act_logs->updateData($data);
+           // $update = $this->act_logs->updateData($data);
     
             if($return_data) {
                 $insert["attendance_id"] = Carbon::parse($insert["current_date"])->format("Ymd").$return_data["sprout_id"];
