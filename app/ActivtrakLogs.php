@@ -51,6 +51,11 @@ class ActivtrakLogs extends Model
         return static::where('user',$old_user)->where('current_date',$data["current_date"])->update($data);
     }
 
+    //delete log
+    public function deleteLog($user, $current_date){
+        return static::where('user',$user)->where('current_date',$current_date)->delete();
+    }
+
 
 
 

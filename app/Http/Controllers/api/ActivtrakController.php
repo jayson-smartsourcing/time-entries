@@ -168,6 +168,17 @@ class ActivtrakController extends Controller
     ** Updates attendance ID of missing logs
     */
     public function updateAttendanceID(Request $request){
+
+        if (isset($_POST['sub'])) {
+            if ($_POST['sub'] == 'update') {
+              print_r("update");
+              die;
+            } else if($_POST['sub'] == 'delete') {
+                print_r("delete");
+                die;
+            }
+          }
+
         
         $validator = Validator::make($request->all(), [
             'sprout_name_id' => 'required',
@@ -265,6 +276,46 @@ class ActivtrakController extends Controller
 
         //pass to view missing logs and employee sprout name and id
         return view('activtrak-working-hours', compact('missing', 'emp_sprout'));
+
+    }
+
+    public function deleteLog(Request $request){
+
+        if (isset($_POST['sub'])) {
+            if ($_POST['sub'] == 'update') {
+              print_r("update");
+              die;
+            } else if($_POST['sub'] == 'delete') {
+                print_r("delete");
+                die;
+            }
+          }
+
+        $validator = Validator::make($request->all(), [
+            'current_date' => 'required',
+            'user' => 'required'
+        ]);
+
+        if ($validator->fails()) { 
+            $errors = $validator->errors()->toArray();
+          
+            foreach($errors as $key => $value) {
+                $errors[$key] = $value[0];
+            }
+            return response()->json(['error'=>$errors], 200);            
+        }
+
+        $user = $input['user'];
+        $current_date = $input['current_date'];
+
+        print_r($user);
+        die;
+
+        // $this->act_logs->deleteLog($user, $current_date);
+
+
+
+
 
     }
  
