@@ -1,5 +1,6 @@
 $( document ).ready(function() {
     console.log( "ready!" );
+    // $("#modal-delete-btn").attr("disabled", true);
    
     var pathname = window.location.pathname;
 
@@ -142,9 +143,36 @@ $( document ).ready(function() {
         // }
     });
 
-    
 
-   
+    //delete log modal
+    $('#confirm-delete-cb').click(function(event){
+        
+        var isChecked = $("#confirm-delete-cb").is(":checked");
+
+        if (isChecked) {
+            $(".modal-delete-btn").attr("disabled", false);
+        } else {
+            $(".modal-delete-btn").attr("disabled", true);
+        }
+
+    });
+
+    //show selected log info
+    $('#delete-modal').on('show.bs.modal', function(event){
+        var button = $(event.relatedTarget);
+        var user = button.data('user');
+        var currdate = button.data('currdate');
+        var key = button.data('key');
+        var del_btn = document.getElementById('mod-del-btn');
+
+        var modal = $(this);
+        modal.find('#user_modal').val(user);
+        modal.find('#currdate_modal').val(currdate);
+        // modal.find('#modal-delte-btn').id("id", "btn-" + key);
+        // del_btn.id = 'mod-del-btn-'+ key;
+
+    })
+
     
 });
 
