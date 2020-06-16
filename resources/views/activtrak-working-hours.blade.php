@@ -16,6 +16,15 @@
             </div>
         @endif
         <!-- End of Success Message -->
+
+        <!-- Delete Success Message -->
+        <div class="alert alert-success col-md-12  hidden" id="del-success-msg" role="alert" style=" text-align:center" >
+            Log Deleted. Refreshing page...
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!--  End of Delete Success Message-->
         
         <div class="col border rounded border-info bg-white col-md-6 offset-md-3">
            <br/>
@@ -134,7 +143,7 @@
                     <div class="modal-body">
                         <p>You are about to delete this log </p>
 
-                        <form  method='POST' action="/api/import/logs/csv/delete" enctype='multipart/form-data'>
+                        <form  method='' action="" enctype='multipart/form-data'>
                             {{ csrf_field() }}
 
                         <input type="text" readonly class="form-control-plaintext" id="user_modal"  name="user">
