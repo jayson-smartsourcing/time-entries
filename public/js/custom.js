@@ -1,5 +1,6 @@
 $( document ).ready(function() {
     console.log( "ready!" );
+    // $("#modal-delete-btn").attr("disabled", true);
    
     var pathname = window.location.pathname;
 
@@ -142,9 +143,69 @@ $( document ).ready(function() {
         // }
     });
 
-    
 
-   
+    //modal enable delete button
+    $('#confirm-delete-cb').click(function(event){
+        
+        var isChecked = $("#confirm-delete-cb").is(":checked");
+
+        if (isChecked) {
+            $(".modal-delete-btn").attr("disabled", false);
+        } else {
+            $(".modal-delete-btn").attr("disabled", true);
+        }
+
+    });
+
+    //show selected log info
+    $('#delete-modal').on('show.bs.modal', function(event){
+        var button = $(event.relatedTarget);
+        var user = button.data('user');
+        var currdate = button.data('currdate');
+
+        var modal = $(this);
+        modal.find('#user_modal').val(user);
+        modal.find('#currdate_modal').val(currdate);
+    })
+
+    //delete log button
+    $(".modal-delete-btn").click(function(e){
+        e.preventDefault();
+       
+        var user = $('#user_modal').val();
+        var curr_date = $("#currdate_modal").val();
+
+        console.log(user);
+        console.log(curr_date);
+
+            $.ajax({
+
+                url : '/api/import/logs/csv/delete/'+user+'/'+curr_date,
+                type : 'POST',
+                dataType:'json',
+                success : function(data) {              
+                    if(data.success) {
+                        var msg = data.message;
+                        console.log(msg);
+                        // $(window).scrollTop(0);
+                        $("html, body").animate({ scrollTop: 0}, "fast");
+
+                        //success message
+                        $('#del-success-msg').removeClass("hidden");
+                        $('#delete-modal').modal('toggle'); 
+
+                        //refresh window
+                        window.setTimeout(function(){window.location.reload()}, 4000);
+    
+                    }else{
+                        var error = data.message;
+                    }
+                }
+            });
+
+
+    });
+
     
 });
 

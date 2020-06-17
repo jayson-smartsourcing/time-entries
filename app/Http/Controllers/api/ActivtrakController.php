@@ -266,5 +266,14 @@ class ActivtrakController extends Controller
         return view('activtrak-working-hours', compact('missing', 'emp_sprout'));
 
     }
+
+    public function deleteLog($user, $currdate){     
+
+        $this->act_logs->deleteLog($user, $currdate);
+        // return response()->json(['success'=> true], 200);
+
+        return response()->json(['success'=> true, 'message'=>"Log Deleted Successfully"], 200);
+
+    }
  
 }
