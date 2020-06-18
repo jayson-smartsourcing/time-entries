@@ -162,10 +162,12 @@ $( document ).ready(function() {
         var button = $(event.relatedTarget);
         var user = button.data('user');
         var currdate = button.data('currdate');
+        var logrow = button.data("logrow");
 
         var modal = $(this);
         modal.find('#user_modal').val(user);
         modal.find('#currdate_modal').val(currdate);
+        modal.find('#log_row_modal').val(logrow);
     })
 
     //delete log button
@@ -174,6 +176,7 @@ $( document ).ready(function() {
        
         var user = $('#user_modal').val();
         var curr_date = $("#currdate_modal").val();
+        var logrow = $('#log_row_modal').val();
 
         console.log(user);
         console.log(curr_date);
@@ -187,16 +190,12 @@ $( document ).ready(function() {
                     if(data.success) {
                         var msg = data.message;
                         console.log(msg);
-                        // $(window).scrollTop(0);
-                        $("html, body").animate({ scrollTop: 0}, "fast");
-
+                       
                         //success message
                         $('#del-success-msg').removeClass("hidden");
                         $('#delete-modal').modal('toggle'); 
+                        $("#" + logrow).hide();
 
-                        //refresh window
-                        window.setTimeout(function(){window.location.reload()}, 4000);
-    
                     }else{
                         var error = data.message;
                     }
