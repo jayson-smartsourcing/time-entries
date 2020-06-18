@@ -18,13 +18,14 @@
         <!-- End of Success Message -->
 
         <!-- Delete Success Message -->
-        <div class="alert alert-success col-md-12  hidden" id="del-success-msg" role="alert" style=" text-align:center" >
-            Log Deleted. Refreshing page...
+        <div class="alert alert-danger col-md-12 hidden"  id="del-success-msg" role="alert" style=" text-align:center; position:fixed; top:0; left:0; width: 100%; z-index:9999; " >
+            LOG DELETED
             <button type="button" class="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <!--  End of Delete Success Message-->
+
         
         <div class="col border rounded border-info bg-white col-md-6 offset-md-3">
            <br/>
@@ -73,7 +74,7 @@
                 <span class="primary" id="dashboard-header"><h2 style=" text-align:center" class="time-entry-form-input">All Missing Logs</h2></span>
             </div>
 
-            <table class="table">
+            <table class="table" id="log-table">
               <thead>
               <tr>
                   <th >Name</th>
@@ -88,7 +89,7 @@
               <tbody>
               @foreach ($missing as $key => $miss)
                  
-                <tr>
+                <tr id="row-{{$key}}">
                     <td> 
                         <form  method='POST' action="/api/import/logs/csv/update" enctype='multipart/form-data'>
                             {{ csrf_field() }}
@@ -120,7 +121,7 @@
                     </td>
                     <td>
                     <button class="btn btn-danger delete-btn" data-toggle="modal" data-target="#delete-modal" id="btn-delete-{{$key}}" style="margin-left:30px"  data-user="{{ $miss['user'] }}"
-    data-currdate="{{ $miss['current_date'] }}" data-key="{{$key}}" id="del-button-{{$key}}">Delete Log</button>
+    data-currdate="{{ $miss['current_date'] }}" data-logrow="row-{{$key}}" id="del-button-{{$key}}">Delete Log</button>
                    
                     </td>
                 </tr>
@@ -148,6 +149,7 @@
 
                         <input type="text" readonly class="form-control-plaintext" id="user_modal"  name="user">
                         <input type="text" readonly class="form-control-plaintext" id="currdate_modal" name="current_date">
+                        <input type="text" readonly hidden class="form-control-plaintext" id="log_row_modal" name="log_row">
 
                         <br/>
                         
