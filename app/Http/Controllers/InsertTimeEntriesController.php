@@ -42,6 +42,7 @@ use App\WhiteLabelFDTimeEntry as WhiteLabelFDTimeEntry;
 use App\TicketMonitoring as TicketMonitoring; //ticket monitoring model
 use App\CKBFDTimeEntry as CKBFDTimeEntry;
 use App\TrendTileFDTimeEntry as TrendTileFDTimeEntry;
+use App\CWFDTimeEntry as CWFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -78,7 +79,8 @@ class InsertTimeEntriesController extends Controller
         WhiteLabelFDTimeEntry $white_label_fd_time_entries,
         TicketMonitoring $ticket_monitoring,
         CKBFDTimeEntry $ckb_fd_time_entries,
-        TrendTileFDTimeEntry $trendtile_fd_time_entries
+        TrendTileFDTimeEntry $trendtile_fd_time_entries,
+        CWFDTimeEntry $cw_fd_time_entries
         
     )
     {  
@@ -114,6 +116,7 @@ class InsertTimeEntriesController extends Controller
         $this->ticket_monitoring = $ticket_monitoring;
         $this->ckb_fd_time_entries = $ckb_fd_time_entries;
         $this->trendtile_fd_time_entries = $trendtile_fd_time_entries;
+        $this->cw_fd_time_entries = $cw_fd_time_entries;
         
     }
 

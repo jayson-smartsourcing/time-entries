@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class TrendTileFDTimeEntry extends Model
+class CWFDTimeEntry extends Model
 {
-    protected $table = 'trendtile_fd_time_entries_v2';
+    protected $table = 'cw_fd_time_entries_v2';
     protected $fillable = [
         'ticket_id',
         'agent' ,
@@ -30,7 +30,7 @@ class TrendTileFDTimeEntry extends Model
     }
 
     public function bulkInsert($data){
-        return DB::table('trendtile_fd_time_entries_v2')->insert($data);
+        return DB::table('cw_fd_time_entries_v2')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteByTimeEntryId($ids_to_delete){
