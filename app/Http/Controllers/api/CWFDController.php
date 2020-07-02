@@ -707,7 +707,7 @@ class CWFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->cw_contact->deleteDuplicates("cw_fd_contacts");
         $this->cw_contact->addAgentsToContacts("cw_fd");
 
         return response()->json(['success'=> true], 200);

@@ -705,7 +705,7 @@ class TagflixController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->tagflix_fd_contact->deleteDuplicates("tagflix_fd_contacts");
         $this->tagflix_fd_contact->addAgentsToContacts("tagflix_fd");
 
         return response()->json(['success'=> true], 200);

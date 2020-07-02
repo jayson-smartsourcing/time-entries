@@ -709,7 +709,7 @@ class EstoreFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->estore_contact->deleteDuplicates("estore_fd_contacts");
         $this->estore_contact->addAgentsToContacts("estore_fd");
 
         return response()->json(['success'=> true], 200);

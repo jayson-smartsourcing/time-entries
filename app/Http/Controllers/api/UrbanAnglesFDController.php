@@ -711,7 +711,7 @@ class UrbanAnglesFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->urban_angles_contact->deleteDuplicates("urban_angles_fd_contacts");
         $this->urban_angles_contact->addAgentsToContacts("urban_angles_fd");
 
         return response()->json(['success'=> true], 200);

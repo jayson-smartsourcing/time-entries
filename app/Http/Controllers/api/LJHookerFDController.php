@@ -704,7 +704,7 @@ class LJHookerFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->lj_hooker_fd_contact->deleteDuplicates("ljh_wl_fd_contacts");
         $this->lj_hooker_fd_contact->addAgentsToContacts("ljh_wl_fd");
 
         return response()->json(['success'=> true], 200);
