@@ -1216,7 +1216,8 @@ class HarrisSalesController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        
+        $this->hs_fd_contact->deleteDuplicates("harris_fd_contacts");
         $this->hs_fd_contact->addAgentsToContacts("harris_fd");
 
         return response()->json(['success'=> true], 200);
