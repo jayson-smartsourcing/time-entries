@@ -995,7 +995,7 @@ class JCNEFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->jcne_fd_contact->deleteDuplicates("jcne_fd_contacts");
         $this->jcne_fd_contact->addAgentsToContacts("jcne_fd");
 
         return response()->json(['success'=> true], 200);
