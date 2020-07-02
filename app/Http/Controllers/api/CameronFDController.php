@@ -990,7 +990,7 @@ class CameronFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->cameron_fd_contact->deleteDuplicates("cameron_fd_contacts");
         $this->cameron_fd_contact->addAgentsToContacts("cameron_fd");
 
         return response()->json(['success'=> true], 200);
