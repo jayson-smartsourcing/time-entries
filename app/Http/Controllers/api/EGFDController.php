@@ -1038,7 +1038,7 @@ class EGFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->eg_fd_contact->deleteDuplicates("eg_fd_contacts");
         $this->eg_fd_contact->addAgentsToContacts("eg_fd");
 
         return response()->json(['success'=> true], 200);
