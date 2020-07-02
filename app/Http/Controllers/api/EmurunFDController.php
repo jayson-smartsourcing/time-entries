@@ -1151,7 +1151,7 @@ class EmurunFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->emurun_fd_contact->deleteDuplicates("emurun_fd_contacts");
         $this->emurun_fd_contact->addAgentsToContacts("emurun_fd");
 
         return response()->json(['success'=> true], 200);
