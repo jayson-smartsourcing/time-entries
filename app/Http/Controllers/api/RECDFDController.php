@@ -999,7 +999,7 @@ class RECDFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->recd_fd_contact->deleteDuplicates("recd_fd_contacts");
         $this->recd_fd_contact->addAgentsToContacts("recd_fd");
 
         return response()->json(['success'=> true], 200);

@@ -40,4 +40,9 @@ class RaywhiteContact extends Model
         $values = [$table_name];
         DB::insert('EXEC insert_fd_agents_to_contacts ?', $values);
     }
+
+    public function deleteDuplicates($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC delete_duplicate_contacts ?', $values);
+    }
 }

@@ -996,7 +996,7 @@ class JCSFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->jcs_fd_contact->deleteDuplicates("jcs_fd_contacts");
         $this->jcs_fd_contact->addAgentsToContacts("jcs_fd");
 
         return response()->json(['success'=> true], 200);

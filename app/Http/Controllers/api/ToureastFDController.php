@@ -1001,7 +1001,7 @@ class ToureastFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->toureast_fd_contact->deleteDuplicates("toureast_fd_contacts");
         $this->toureast_fd_contact->addAgentsToContacts("toureast_fd");
 
         return response()->json(['success'=> true], 200);

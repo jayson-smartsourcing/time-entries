@@ -1000,7 +1000,7 @@ class HBurgersController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->hburgers_fd_contact->deleteDuplicates("hburgers_fd_contacts");
         $this->hburgers_fd_contact->addAgentsToContacts("hburgers_fd");
 
         return response()->json(['success'=> true], 200);

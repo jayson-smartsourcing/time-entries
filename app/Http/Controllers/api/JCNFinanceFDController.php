@@ -974,7 +974,7 @@ class JCNFinanceFDController extends Controller
             } 
 
         }
-
+        $this->jcn_finance_fd_ticket->deleteDuplicates("jcn_finance_fd_contacts");
         $this->jcn_finance_fd_ticket->updateLatestFdTickets("jcn_finance_fd");
         return response()->json(['success'=> true], 200);
     }
