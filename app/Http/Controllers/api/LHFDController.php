@@ -704,7 +704,7 @@ class LHFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->lh_fd_contact->deleteDuplicates("lh_fd_contacts");
         $this->lh_fd_contact->addAgentsToContacts("lh_fd");
 
         return response()->json(['success'=> true], 200);

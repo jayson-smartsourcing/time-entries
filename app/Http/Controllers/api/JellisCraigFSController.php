@@ -1026,7 +1026,7 @@ class JellisCraigFSController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->jc_fs_requester->deleteDuplicates("jck_fs_requesters");
         $this->jc_fs_requester->addAgentsToContacts("jck_fs");
 
         return response()->json(['success'=> true], 200);

@@ -714,7 +714,7 @@ class DSFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->ds_contact->deleteDuplicates("ds_fd_contacts");
         $this->ds_contact->addAgentsToContacts("ds_fd");
 
         return response()->json(['success'=> true], 200);

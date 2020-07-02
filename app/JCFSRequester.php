@@ -44,5 +44,10 @@ class JCFSRequester extends Model
     public function bulkDeleteByContactId($ids_to_delete){
         return static::whereIn('id',$ids_to_delete)->delete();
     }
+
+    public function deleteDuplicates($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC delete_duplicate_contacts ?', $values);
+    }
     
 }

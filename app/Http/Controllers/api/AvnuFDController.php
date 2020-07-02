@@ -701,7 +701,7 @@ class AvnuFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-
+        $this->avnu_fd_contact->deleteDuplicates("ljh_avnu_fd_contacts");
         $this->avnu_fd_contact->addAgentsToContacts("ljh_avnu_fd");
 
         return response()->json(['success'=> true], 200);
