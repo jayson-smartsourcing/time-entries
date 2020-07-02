@@ -45,4 +45,9 @@ class JCNFDContact extends Model
         return static::whereIn('id',$ids_to_delete)->delete();
     }
 
+    public function deleteDuplicates($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC delete_duplicate_contacts ?', $values);
+    }
+
 }
