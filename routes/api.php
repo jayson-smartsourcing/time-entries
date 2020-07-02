@@ -390,7 +390,7 @@ Route::post('import/logs/csv',"api\ActivtrakController@importATlogsCSV");
 Route::post('import/logs/csv/update',"api\ActivtrakController@updateAttendanceID");
 Route::post('import/logs/csv/delete/{user}/{currdate}',"api\ActivtrakController@deleteLog");
 
-//ckb fd
+//trend tile fd
 Route::post("trendtile-fd-groups","api\TrendTileFDController@getAllGroups");
 Route::post("trendtile-fd-companies","api\TrendTileFDController@getAllCompanies");
 Route::post("trendtile-fd-agents","api\TrendTileFDController@getAllAgents");
@@ -398,3 +398,12 @@ Route::post("trendtile-fd-contacts","api\TrendTileFDController@getAllContacts");
 Route::post("trendtile-fd-tickets","api\TrendTileFDController@getAllTicketsV2");
 Route::get("trendtile-fd-tickets-latest","api\TrendTileFDController@getLatestTicketExportV2");
 Route::get("trendtile-fd-update-all","api\TrendTileFDController@updateAll");
+
+//collective wellness fd
+Route::post("cw-fd-groups","api\CWFDController@getAllGroups");
+Route::post("cw-fd-companies","api\CWFDController@getAllCompanies");
+Route::post("cw-fd-agents","api\CWFDController@getAllAgents");
+Route::post("cw-fd-contacts","api\CWFDController@getAllContacts");
+Route::post("cw-fd-tickets","api\CWFDController@getAllTicketsV2");
+Route::get("cw-fd-tickets-latest","api\CWFDController@getLatestTicketExportV2");
+Route::get("cw-fd-update-all","api\CWFDController@updateAll");
