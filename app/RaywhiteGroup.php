@@ -41,4 +41,9 @@ class RaywhiteGroup extends Model
         $values = [$table_name];
         DB::insert('EXEC update_latest_fd_reporting_ref ?', $values);
     }
+
+    public function deleteDuplicates($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC delete_duplicate ?', $values);
+    }
 }

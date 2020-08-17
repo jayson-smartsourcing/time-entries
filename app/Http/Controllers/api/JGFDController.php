@@ -1000,8 +1000,11 @@ class JGFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->jg_fd_contact->deleteDuplicates("jg_fd_contacts");
         $this->jg_fd_contact->addAgentsToContacts("jg_fd");
+        $this->jg_fd_agent->deleteDuplicates("jg_fd_agents");
+        $this->jg_fd_contact->deleteDuplicates("jg_fd_contacts");
+        $this->jg_fd_company->deleteDuplicates("jg_fd_companies");
+        $this->jg_fd_group->deleteDuplicates("jg_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

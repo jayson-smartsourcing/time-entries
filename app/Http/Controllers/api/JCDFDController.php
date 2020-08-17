@@ -710,8 +710,11 @@ class JCDFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->jcd_contact->deleteDuplicates("jcd_fd_contacts");
         $this->jcd_contact->addAgentsToContacts("jcd_fd");
+        $this->jcd_agent->deleteDuplicates("jcd_fd_agents");
+        $this->jcd_contact->deleteDuplicates("jcd_fd_contacts");
+        $this->jcd_company->deleteDuplicates("jcd_fd_companies");
+        $this->jcd_group->deleteDuplicates("jcd_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

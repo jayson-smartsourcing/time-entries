@@ -1164,8 +1164,11 @@ class JCNFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->jcn_fd_contact->deleteDuplicates("jcn_fd_contacts");
         $this->jcn_fd_contact->addAgentsToContacts("jcn_fd");
+        $this->jcn_fd_agent->deleteDuplicates("jcn_fdd_agents");
+        $this->jcn_fd_contact->deleteDuplicates("jcn_fd_contacts");
+        $this->jcn_fd_company->deleteDuplicates("jcn_fd_companies");
+        $this->jcn_fd_group->deleteDuplicates("jcn_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

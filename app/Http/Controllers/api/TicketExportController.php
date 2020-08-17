@@ -1059,8 +1059,11 @@ class TicketExportController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->bp_requester->deleteDuplicates("bp_fs_requesters");
         $this->bp_requester->addAgentsToContacts("bp_fs");
+        $this->bp_agents->deleteDuplicates("bp_fs_agents");
+        $this->bp_requester->deleteDuplicates("bp_fs_requesters");
+        $this->bp_department->deleteDuplicates("bp_fs_departments");
+        $this->bp_group->deleteDuplicates("bp_fs_groups");
 
         return response()->json(['success'=> true], 200);
     }
