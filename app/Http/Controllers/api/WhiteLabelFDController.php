@@ -708,8 +708,11 @@ class WhiteLabelFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->white_label_contact->deleteDuplicates("white_label_fd_contacts");
         $this->white_label_contact->addAgentsToContacts("white_label_fd");
+        $this->white_label_agent->deleteDuplicates("white_label_fd_agents");
+        $this->white_label_contact->deleteDuplicates("white_label_fd_contacts");
+        $this->white_label_company->deleteDuplicates("white_label_fd_companies");
+        $this->white_label_group->deleteDuplicates("white_label_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

@@ -37,4 +37,9 @@ class BPGroup extends Model
     public function truncateTable() {
         return static::truncate();
     }
+
+    public function deleteDuplicates($table_name) {
+        $values = [$table_name];
+        DB::insert('EXEC delete_duplicate ?', $values);
+    }
 }

@@ -1216,9 +1216,11 @@ class HarrisSalesController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        
-        $this->hs_fd_contact->deleteDuplicates("harris_fd_contacts");
         $this->hs_fd_contact->addAgentsToContacts("harris_fd");
+        $this->hs_fd_agent->deleteDuplicates("harris_fd_agents");
+        $this->hs_fd_contact->deleteDuplicates("harris_fd_contacts");
+        $this->hs_fd_company->deleteDuplicates("harris_fd_companies");
+        $this->hs_fd_group->deleteDuplicates("harris_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

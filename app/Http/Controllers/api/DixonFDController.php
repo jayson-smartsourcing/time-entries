@@ -991,8 +991,11 @@ class DixonFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->dixon_fd_contact->deleteDuplicates("dixon_fd_contacts");
         $this->dixon_fd_contact->addAgentsToContacts("dixon_fd");
+        $this->dixon_fd_agent->deleteDuplicates("dixon_fd_agents");
+        $this->dixon_fd_contact->deleteDuplicates("dixon_fd_contacts");
+        $this->dixon_fd_company->deleteDuplicates("dixon_fd_companies");
+        $this->dixon_fd_group->deleteDuplicates("dixon_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

@@ -705,8 +705,11 @@ class TagflixController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->tagflix_fd_contact->deleteDuplicates("tagflix_fd_contacts");
         $this->tagflix_fd_contact->addAgentsToContacts("tagflix_fd");
+        $this->tagflix_fd_agent->deleteDuplicates("tagflix_fd_agents");
+        $this->tagflix_fd_contact->deleteDuplicates("tagflix_fd_contacts");
+        $this->tagflix_fd_company->deleteDuplicates("tagflix_fd_companies");
+        $this->tagflix_fd_group->deleteDuplicates("tagflix_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

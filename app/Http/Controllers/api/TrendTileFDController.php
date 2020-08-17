@@ -708,8 +708,11 @@ class TrendTileFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->trendtile_contact->deleteDuplicates("trendtile_fd_contacts");
         $this->trendtile_contact->addAgentsToContacts("trendtile_fd");
+        $this->trendtile_agent->deleteDuplicates("trendtile_fd_agents");
+        $this->trendtile_contact->deleteDuplicates("trendtile_fd_contacts");
+        $this->trendtile_company->deleteDuplicates("trendtile_fd_companies");
+        $this->trendtile_group->deleteDuplicates("trendtile_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }
