@@ -407,3 +407,11 @@ Route::post("cw-fd-contacts","api\CWFDController@getAllContacts");
 Route::post("cw-fd-tickets","api\CWFDController@getAllTicketsV2");
 Route::get("cw-fd-tickets-latest","api\CWFDController@getLatestTicketExportV2");
 Route::get("cw-fd-update-all","api\CWFDController@updateAll");
+
+//smartsourcing zd
+Route::post("ss-zd-ticket-metrics","api\SSZDController@getAllTicketsV2");
+Route::post("ss-zd-users","api\SSZDController@getAllUsers");
+Route::post("ss-zd-groups","api\SSZDController@getAllGroups");
+Route::post("ss-zd-organizations","api\SSZDController@getAllOrganizations");
+Route::get("ss-zd-tickets-latest","api\SSZDController@getLatestTickets");
+Route::get("ss-zd-update-all","api\SSZDController@updateAll");
