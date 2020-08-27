@@ -707,9 +707,11 @@ class CKBFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->ckb_contact->deleteDuplicates("ckb_fd_contacts");
         $this->ckb_contact->addAgentsToContacts("ckb_fd");
-
+        $this->ckb_agent->deleteDuplicates("ckb_fd_agents");
+        $this->ckb_contact->deleteDuplicates("ckb_fd_contacts");
+        $this->ckb_company->deleteDuplicates("ckb_fd_companies");
+        $this->ckb_group->deleteDuplicates("ckb_fd_groups");
         return response()->json(['success'=> true], 200);
     }
 

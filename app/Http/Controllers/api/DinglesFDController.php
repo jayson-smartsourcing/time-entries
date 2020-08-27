@@ -993,8 +993,11 @@ class DinglesFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->dingles_contact->deleteDuplicates("dingles_fd_contacts");
         $this->dingles_contact->addAgentsToContacts("dingles_fd");
+        $this->dingles_agent->deleteDuplicates("dingles_fd_agents");
+        $this->dingles_contact->deleteDuplicates("dingles_fd_contacts");
+        $this->dingles_company->deleteDuplicates("dingles_fd_companies");
+        $this->dingles_group->deleteDuplicates("dingles_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

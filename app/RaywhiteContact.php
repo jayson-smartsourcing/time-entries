@@ -43,6 +43,6 @@ class RaywhiteContact extends Model
 
     public function deleteDuplicates($table_name) {
         $values = [$table_name];
-        DB::insert('EXEC delete_duplicate_contacts ?', $values);
+        DB::insert('EXEC delete_duplicate ?', $values);
     }
 }

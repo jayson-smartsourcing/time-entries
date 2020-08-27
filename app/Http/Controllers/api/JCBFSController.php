@@ -1043,8 +1043,11 @@ class JCBFSController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->jcb_fs_requester->deleteDuplicates("jcb_fs_requesters");
         $this->jcb_fs_requester->addAgentsToContacts("jcb_fs");
+        $this->jcb_fs_agent->deleteDuplicates("jcb_fs_agents");
+        $this->jcb_fs_requester->deleteDuplicates("jcb_fs_requesters");
+        $this->jcb_fs_department->deleteDuplicates("jcb_fs_departments");
+        $this->jcb_fs_group->deleteDuplicates("jcb_fs_groups");
 
         return response()->json(['success'=> true], 200);
     }

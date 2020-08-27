@@ -689,8 +689,11 @@ class RaywhiteFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->raywhite_fd_contact->deleteDuplicates("raywhite_fd_contacts");
         $this->raywhite_fd_contact->addAgentsToContacts("raywhite_fd");
+        $this->raywhite_fd_agent->deleteDuplicates("raywhite_fd_agents");
+        $this->raywhite_fd_contact->deleteDuplicates("raywhite_fd_contacts");
+        $this->raywhite_fd_company->deleteDuplicates("raywhite_fd_companies");
+        $this->raywhite_fd_group->deleteDuplicates("raywhite_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }

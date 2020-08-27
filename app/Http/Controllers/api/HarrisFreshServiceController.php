@@ -1057,8 +1057,11 @@ class HarrisFreshServiceController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->harris_fs_requester->deleteDuplicates("harris_fs_requesters");
         $this->harris_fs_requester->addAgentsToContacts("harris_fs");
+        $this->harris_fs_agent->deleteDuplicates("harris_fs_agents");
+        $this->harris_fs_requester->deleteDuplicates("harris_fs_requesters");
+        $this->harris_fs_department->deleteDuplicates("harris_fs_departments");
+        $this->harris_fs_group->deleteDuplicates("harris_fs_groups");
 
         return response()->json(['success'=> true], 200);
     }

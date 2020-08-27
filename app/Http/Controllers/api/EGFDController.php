@@ -1038,8 +1038,11 @@ class EGFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->eg_fd_contact->deleteDuplicates("eg_fd_contacts");
         $this->eg_fd_contact->addAgentsToContacts("eg_fd");
+        $this->eg_fd_agent->deleteDuplicates("eg_fdd_agents");
+        $this->eg_fd_contact->deleteDuplicates("eg_fd_contacts");
+        $this->eg_fd_company->deleteDuplicates("eg_fd_companies");
+        $this->eg_fd_group->deleteDuplicates("eg_fd_groups");
 
         return response()->json(['success'=> true], 200);
     }
