@@ -953,13 +953,13 @@ class SSZDController extends Controller
 
         for( $i = 1; $i<= $x; $i++ ) {
 
-            if (is_null($next_start_time) && $i === 1) {
+            if (is_null($next_start_time) && $i == 1) {
 
                 $link = $data["link"]. "/api/v2/incremental/ticket_metric_events.json?start_time="; 
                 $link .= $two_days_ago;    
 
             }
-            else if (is_null($next_start_time) && $i === 2) {
+            else if (is_null($next_start_time) && $i > 1) {
 
                 break;
 
@@ -1000,14 +1000,25 @@ class SSZDController extends Controller
 
                     if($status_code == 200) {
                         $body = json_decode($response_retry->getBody(), true);
-                        $next_start_time = $body['end_time'];
+                        if ($next_start_time == $body['end_time']) {
+                            $next_start_time = NULL;
+                        }
+                        else {
+                            $next_start_time = $body['end_time'];
+                        }
                         break;
                     }
                }
                 
             } else {
                 $body = json_decode($response->getBody(), true);
-                $next_start_time = $body['end_time'];
+                if ($next_start_time == $body['end_time']) {
+                    $next_start_time = NULL;
+                }
+                else {
+                    $next_start_time = $body['end_time'];
+                }
+                
             }
             
             if(count($body['ticket_metric_events']) != 0) {
@@ -1019,6 +1030,7 @@ class SSZDController extends Controller
                 $len = count($ticket_metric_events_data);
                 $not_found = array();
                 $ids = array();  
+                $duplicates = array();  //delete
 
                 foreach($ticket_metric_events_data as $key => $value) {
 
@@ -1034,16 +1046,10 @@ class SSZDController extends Controller
                     if ($value["metric"] == 'requester_wait_time') {      
 
                         if (in_array($value["id"], $ids)) {
-                            print_r("about to break because of id: ");
-                            print_r($value["id"]);
                             break;
                         } 
                         
-                        print_r("not in array: ");
-                        print_r($value["id"]);
-                        $ids[] = $value["id"];
-                        print_r("   current values in array: ");
-                        print_r($ids);                     
+                        $ids[] = $value["id"];               
 
                         switch ($value["type"]) {
                             case "breach":
@@ -1067,7 +1073,7 @@ class SSZDController extends Controller
                             'metric' => $value["metric"],
                             'instance_id' => $value["instance_id"],
                             'type' => $value["type"],
-                            'time' => $value["time"],
+                            'time' => Carbon::parse($value["time"])->setTimezone('Asia/Manila'),
                             'deleted' => $deleted,
                             'status_calendar' => $status_calendar,
                             'status_business' => $status_business,
@@ -1087,9 +1093,8 @@ class SSZDController extends Controller
                             $final_data = [];
                             $ids = [];
                         } 
-    
+
                         if( ($len - 1) == $key) {
-    
                             $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
                             $this->ss_zd_ticket_metric_event->bulkInsert($final_data);        
                             $final_data = [];
@@ -1097,6 +1102,17 @@ class SSZDController extends Controller
                         }
 
                     }
+
+                    else {
+
+                        if( ($len - 1) == $key) {
+                            $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
+                            $this->ss_zd_ticket_metric_event->bulkInsert($final_data);        
+                            $final_data = [];
+                            $ids = [];
+                        }
+                    }
+
 
                 }
             }
