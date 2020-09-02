@@ -37,22 +37,6 @@ class SSZDTicketMetric extends Model
        'requester_wait_time_in_minutes_business',
        'on_hold_time_in_minutes_calendar',
        'on_hold_time_in_minutes_business'
-    //    'requester_id',
-    //    'source',
-    //    'status',
-    //    'subject',
-    //    'to_emails',
-    //    'department_id',
-    //    'group_id',
-    //    'agent_id',
-    //    'type',
-    //    'due_by',
-    //    'fr_due_by',
-    //    'is_escalated',
-    //    'channel',
-    //    'created_at',
-    //    'updated_at',
-    //    'attendance_id'
     ];
 
     public function bulkInsert($data){
@@ -68,9 +52,9 @@ class SSZDTicketMetric extends Model
     //     return DB::delete('delete from ss_zd_ticket_metrics where id = '.$id_to_delete);
     // }
 
-    public function truncateTable() {
-        return static::truncate();
-    }
+    // public function truncateTable() {
+    //     return static::truncate();
+    // }
     
     // public function updateLatestFdTickets($table_name) {
     //     $values = [$table_name];

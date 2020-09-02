@@ -415,3 +415,4 @@ Route::post("ss-zd-groups","api\SSZDController@getAllGroups");
 Route::post("ss-zd-organizations","api\SSZDController@getAllOrganizations");
 Route::get("ss-zd-tickets-latest","api\SSZDController@getLatestTickets");
 Route::get("ss-zd-update-all","api\SSZDController@updateAll");
+Route::get("ss-zd-ticket-metric-events-latest","api\SSZDController@getLatestTicketMetricEvents");

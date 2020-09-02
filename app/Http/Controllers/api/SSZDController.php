@@ -13,6 +13,7 @@ use App\SSZDTicket as SSZDTicket;
 use App\SSZDUser as SSZDUser;
 use App\SSZDGroup as SSZDGroup;
 use App\SSZDOrganization as SSZDOrganization;
+use App\SSZDTicketMetricEvent as SSZDTicketMetricEvent;
 
 class SSZDController extends Controller
 {
@@ -22,7 +23,8 @@ class SSZDController extends Controller
         SSZDTicket $ss_zd_ticket,
         SSZDUser $ss_zd_user,
         SSZDGroup $ss_zd_group,
-        SSZDOrganization $ss_zd_organization
+        SSZDOrganization $ss_zd_organization,
+        SSZDTicketMetricEvent $ss_zd_ticket_metric_event
     )
     {  
         $this->guzzle = $guzzle;
@@ -31,13 +33,13 @@ class SSZDController extends Controller
         $this->ss_zd_user = $ss_zd_user;
         $this->ss_zd_group = $ss_zd_group;
         $this->ss_zd_organization = $ss_zd_organization;
-        
+        $this->ss_zd_ticket_metric_event = $ss_zd_ticket_metric_event;
     }
 
     public function getLatestTickets() {
         $client = new $this->guzzle();
         $data = config('constants.ss_zd');
-        $two_days_ago = Carbon::today()->subDays(2)->timestamp; //should be subDays(2)
+        $two_days_ago = Carbon::today()->subDays(100)->timestamp; //should be subDays(2)
 
         //$link = $data["link"]. "/api/v2/tickets.json?sort_by=updated_at&sort_order=desc&per_page=100"; //should be desc
         $api_key = $data["api_key"];
@@ -77,7 +79,7 @@ class SSZDController extends Controller
                     } 
 
                     if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
+                        $body = json_decode($response_retry->getBody(), true);
                         break;
                     }
                }
@@ -269,7 +271,6 @@ class SSZDController extends Controller
 
                             $this->ss_zd_ticket->bulkDeleteById($ids);
                             $this->ss_zd_ticket->bulkInsert($final_data);
-                            print_r("getTicketMetrics: 50 tickets");
                             $this->getTicketMetric($ids);
                             $final_data = [];
                             $ids = [];
@@ -279,7 +280,6 @@ class SSZDController extends Controller
 
                             $this->ss_zd_ticket->bulkDeleteById($ids);
                             $this->ss_zd_ticket->bulkInsert($final_data);
-                            print_r("getTicketMetrics: last set of tickets");
                             $this->getTicketMetric($ids);            
                             $final_data = [];
                             $ids = [];
@@ -360,7 +360,7 @@ class SSZDController extends Controller
                     } 
 
                     if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
+                        $body = json_decode($response_retry->getBody(), true);
                         break;
                     }
                 }
@@ -473,7 +473,6 @@ class SSZDController extends Controller
         }
         $this->ss_zd_ticket_metric->bulkDeleteById($ids);
         $this->ss_zd_ticket_metric->bulkInsert($final_data);
-        print_r("ticket_metrics uploaded");
 
         //$this->ss_zd_ticket_metric->updateAllFdTickets("ss_zd");
         //return response()->json(['success'=> true], 200);
@@ -524,7 +523,7 @@ class SSZDController extends Controller
                     } 
 
                     if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
+                        $body = json_decode($response_retry->getBody(), true);
                         break;
                     }
                 }
@@ -695,7 +694,7 @@ class SSZDController extends Controller
                     } 
 
                     if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
+                        $body = json_decode($response_retry->getBody(), true);
                         break;
                     }
                 }
@@ -837,7 +836,7 @@ class SSZDController extends Controller
                     } 
 
                     if($status_code == 200) {
-                        $body = json_decode($response_retry->getBody());
+                        $body = json_decode($response_retry->getBody(), true);
                         break;
                     }
                 }
@@ -939,6 +938,167 @@ class SSZDController extends Controller
         }
 
         return response()->json(['success'=> true], 200); 
+    }
+
+    public function getLatestTicketMetricEvents(){
+        $client = new $this->guzzle();
+        $data = config('constants.ss_zd');
+        $two_days_ago = Carbon::today()->subDays(100)->timestamp; //should be subDays(2)
+        $after_cursor = NULL;
+
+        $api_key = $data["api_key"];
+        $ticket_export_data = array();
+        $x = 1;
+        $y = 3;
+
+        for( $i = 1; $i<= $x; $i++ ) {
+
+            if (is_null($after_cursor) && $i === 1) {
+
+                $link = $data["link"]. "/api/v2/incremental/tickets/cursor.json?start_time="; 
+                $link .= $two_days_ago;    
+
+            }
+            else if (is_null($after_cursor) && $i === 2) {
+
+                break;
+
+            }
+            else {
+
+                $link = $data["link"]. "/api/v2/incremental/tickets/cursor.json?cursor="; 
+                $link .= $after_cursor;   
+
+            }
+      
+            //call to api
+            $response = $client->request('GET', $link, [
+                'headers' => [
+                    'Authorization' => "Basic ".$api_key
+                ]
+            ]);
+            // get Status Code
+            $status_code = $response->getStatusCode();  
+
+            if($status_code != 200 ) {
+               for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
+                        'headers' => [
+                            'Authorization' => "Basic ".$api_key
+                        ]
+                    ]);
+                    //get status Code    
+                    $status_code = $response_retry->getStatusCode(); 
+
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        break 2;
+                    } 
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody(), true);
+                        $after_cursor = $body['after_cursor'];
+                        break;
+                    }
+               }
+                
+            } else {
+                $body = json_decode($response->getBody(), true);
+                $after_cursor = $body['after_cursor'];
+            }
+            
+            if(count($body['ticket_metric_events']) != 0) {
+                $ticket_metric_events_data = $body['ticket_metric_events'];
+                $x++;
+
+                $final_data = array();
+                $count = 0;
+                $len = count($ticket_metric_events_data);
+                $not_found = array();
+                $ids = array();  
+
+                foreach($ticket_metric_events_data as $key => $value) {
+
+                    $deleted = NULL;
+                    $status_calendar = NULL;
+                    $status_business = NULL;
+                    $sla_target = NULL;
+                    $sla_business_hours = NULL;
+                    $sla_policy_id = NULL;
+                    $sla_policy_title = NULL;
+                    $sla_policy_description = NULL;      
+                    
+                    if ($value["metric"] == 'requester_wait_time') {      
+
+                        $ids[] = $value["id"];
+
+                        switch ($value["type"]) {
+                            case "breach":
+                            $deleted = $value["deleted"];
+                            break;
+                            case "update_status":
+                            $status_calendar = $value["status"]["calendar"];
+                            $status_business = $value["status"]["business"];    
+                            break;
+                            case "apply_sla":
+                            $sla_target = $value["sla"]["target"];
+                            $sla_business_hours = $value["sla"]["business_hours"];
+                            $sla_policy_id = $value["sla"]["policy"]["id"];
+                            $sla_policy_title = $value["sla"]["policy"]["title"];
+                            $sla_policy_description = $value["sla"]["policy"]["description"];                  
+                        }
+
+                    }
+
+                    else {
+
+                        break;
+                    }
+
+                    $ticket_metric_events = array(
+                        'id' => $value["id"],
+                        'ticket_id' => $value["ticket_id"],
+                        'metric' => $value["metric"],
+                        'instance_id' => $value["instance_id"],
+                        'type' => $value["type"],
+                        'time' => $value["time"],
+                        'deleted' => $deleted,
+                        'status_calendar' => $status_calendar,
+                        'status_business' => $status_business,
+                        'sla_target_min' => $sla_target,
+                        'sla_business_hours' => $sla_business_hours,
+                        'sla_policy_id' => $sla_policy_id,
+                        'sla_policy_title' => $sla_policy_title,
+                        'sla_policy_description' => $sla_policy_description
+                    );
+                    
+                    $final_data[] = $ticket_metric_events;
+
+                    if( ($len - 1) > $key && count($final_data) == 50) {    
+
+                        $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
+                        $this->ss_zd_ticket_metric_event->bulkInsert($final_data);
+                        $final_data = [];
+                        $ids = [];
+                    } 
+
+                    if( ($len - 1) == $key) {
+
+                        $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
+                        $this->ss_zd_ticket_metric_event->bulkInsert($final_data);        
+                        $final_data = [];
+                        $ids = [];
+                    }
+                }
+            }
+               
+        } 
+
+        //$this->tagflix_fd_ticket->updateLatestFdTickets("tagflix_fd");
+        return response()->json(['success'=> true], 200);
     }
 
     public function updateAll() {

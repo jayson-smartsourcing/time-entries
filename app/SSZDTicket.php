@@ -64,17 +64,17 @@ class SSZDTicket extends Model
         return static::whereIn('id',$ids_to_delete)->delete();
     }
 
-    public function truncateTable() {
-        return static::truncate();
-    }
+    // public function truncateTable() {
+    //     return static::truncate();
+    // }
     
-    public function updateLatestFdTickets($table_name) {
-        $values = [$table_name];
-        DB::insert('EXEC update_zd_latest_tickets ?', $values);
-    }
+    // public function updateLatestFdTickets($table_name) {
+    //     $values = [$table_name];
+    //     DB::insert('EXEC update_zd_latest_tickets ?', $values);
+    // }
 
-    public function updateAllFdTickets($table_name) {
-        $values = [$table_name];
-        DB::insert('EXEC update_zd_all_tickets ?', $values);
-    }
+    // public function updateAllFdTickets($table_name) {
+    //     $values = [$table_name];
+    //     DB::insert('EXEC update_zd_all_tickets ?', $values);
+    // }
 }
