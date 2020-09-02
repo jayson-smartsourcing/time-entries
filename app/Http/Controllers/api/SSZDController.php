@@ -944,7 +944,7 @@ class SSZDController extends Controller
         $client = new $this->guzzle();
         $data = config('constants.ss_zd');
         $two_days_ago = Carbon::today()->subDays(100)->timestamp; //should be subDays(2)
-        $after_cursor = NULL;
+        $next_start_time = NULL;
 
         $api_key = $data["api_key"];
         $ticket_export_data = array();
@@ -953,22 +953,22 @@ class SSZDController extends Controller
 
         for( $i = 1; $i<= $x; $i++ ) {
 
-            if (is_null($after_cursor) && $i === 1) {
+            if (is_null($next_start_time) && $i === 1) {
 
-                $link = $data["link"]. "/api/v2/incremental/tickets/cursor.json?start_time="; 
+                $link = $data["link"]. "/api/v2/incremental/ticket_metric_events.json?start_time="; 
                 $link .= $two_days_ago;    
 
             }
-            else if (is_null($after_cursor) && $i === 2) {
+            else if (is_null($next_start_time) && $i === 2) {
 
                 break;
 
             }
             else {
 
-                $link = $data["link"]. "/api/v2/incremental/tickets/cursor.json?cursor="; 
-                $link .= $after_cursor;   
-
+                $link = $data["link"]. "/api/v2/incremental/ticket_metric_events.json?start_time="; 
+                $link .= $next_start_time;   
+                   
             }
       
             //call to api
@@ -1000,14 +1000,14 @@ class SSZDController extends Controller
 
                     if($status_code == 200) {
                         $body = json_decode($response_retry->getBody(), true);
-                        $after_cursor = $body['after_cursor'];
+                        $next_start_time = $body['end_time'];
                         break;
                     }
                }
                 
             } else {
                 $body = json_decode($response->getBody(), true);
-                $after_cursor = $body['after_cursor'];
+                $next_start_time = $body['end_time'];
             }
             
             if(count($body['ticket_metric_events']) != 0) {
@@ -1033,7 +1033,17 @@ class SSZDController extends Controller
                     
                     if ($value["metric"] == 'requester_wait_time') {      
 
+                        if (in_array($value["id"], $ids)) {
+                            print_r("about to break because of id: ");
+                            print_r($value["id"]);
+                            break;
+                        } 
+                        
+                        print_r("not in array: ");
+                        print_r($value["id"]);
                         $ids[] = $value["id"];
+                        print_r("   current values in array: ");
+                        print_r($ids);                     
 
                         switch ($value["type"]) {
                             case "breach":
@@ -1051,47 +1061,43 @@ class SSZDController extends Controller
                             $sla_policy_description = $value["sla"]["policy"]["description"];                  
                         }
 
+                        $ticket_metric_events = array(
+                            'id' => $value["id"],
+                            'ticket_id' => $value["ticket_id"],
+                            'metric' => $value["metric"],
+                            'instance_id' => $value["instance_id"],
+                            'type' => $value["type"],
+                            'time' => $value["time"],
+                            'deleted' => $deleted,
+                            'status_calendar' => $status_calendar,
+                            'status_business' => $status_business,
+                            'sla_target_min' => $sla_target,
+                            'sla_business_hours' => $sla_business_hours,
+                            'sla_policy_id' => $sla_policy_id,
+                            'sla_policy_title' => $sla_policy_title,
+                            'sla_policy_description' => $sla_policy_description
+                        );
+                        
+                        $final_data[] = $ticket_metric_events;
+    
+                        if( ($len - 1) > $key && count($final_data) == 50) {    
+    
+                            $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
+                            $this->ss_zd_ticket_metric_event->bulkInsert($final_data);
+                            $final_data = [];
+                            $ids = [];
+                        } 
+    
+                        if( ($len - 1) == $key) {
+    
+                            $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
+                            $this->ss_zd_ticket_metric_event->bulkInsert($final_data);        
+                            $final_data = [];
+                            $ids = [];
+                        }
+
                     }
 
-                    else {
-
-                        break;
-                    }
-
-                    $ticket_metric_events = array(
-                        'id' => $value["id"],
-                        'ticket_id' => $value["ticket_id"],
-                        'metric' => $value["metric"],
-                        'instance_id' => $value["instance_id"],
-                        'type' => $value["type"],
-                        'time' => $value["time"],
-                        'deleted' => $deleted,
-                        'status_calendar' => $status_calendar,
-                        'status_business' => $status_business,
-                        'sla_target_min' => $sla_target,
-                        'sla_business_hours' => $sla_business_hours,
-                        'sla_policy_id' => $sla_policy_id,
-                        'sla_policy_title' => $sla_policy_title,
-                        'sla_policy_description' => $sla_policy_description
-                    );
-                    
-                    $final_data[] = $ticket_metric_events;
-
-                    if( ($len - 1) > $key && count($final_data) == 50) {    
-
-                        $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
-                        $this->ss_zd_ticket_metric_event->bulkInsert($final_data);
-                        $final_data = [];
-                        $ids = [];
-                    } 
-
-                    if( ($len - 1) == $key) {
-
-                        $this->ss_zd_ticket_metric_event->bulkDeleteById($ids);
-                        $this->ss_zd_ticket_metric_event->bulkInsert($final_data);        
-                        $final_data = [];
-                        $ids = [];
-                    }
                 }
             }
                
