@@ -43,6 +43,8 @@ use App\TicketMonitoring as TicketMonitoring; //ticket monitoring model
 use App\CKBFDTimeEntry as CKBFDTimeEntry;
 use App\TrendTileFDTimeEntry as TrendTileFDTimeEntry;
 use App\CWFDTimeEntry as CWFDTimeEntry;
+use App\Mint360FDTimeEntry as Mint360FDTimeEntry;
+use App\CCFDTimeEntry as CCFDTimeEntry;
 
 
 class InsertTimeEntriesController extends Controller
@@ -80,8 +82,9 @@ class InsertTimeEntriesController extends Controller
         TicketMonitoring $ticket_monitoring,
         CKBFDTimeEntry $ckb_fd_time_entries,
         TrendTileFDTimeEntry $trendtile_fd_time_entries,
-        CWFDTimeEntry $cw_fd_time_entries
-        
+        CWFDTimeEntry $cw_fd_time_entries,
+        Mint360FDTimeEntry $mint360_fd_time_entries,
+        CCFDTimeEntry $cc_fd_time_entries
     )
     {  
         $this->guzzle = $guzzle;
@@ -117,7 +120,8 @@ class InsertTimeEntriesController extends Controller
         $this->ckb_fd_time_entries = $ckb_fd_time_entries;
         $this->trendtile_fd_time_entries = $trendtile_fd_time_entries;
         $this->cw_fd_time_entries = $cw_fd_time_entries;
-        
+        $this->mint360_fd_time_entries = $mint360_fd_time_entries;
+        $this->cc_fd_time_entries = $cc_fd_time_entries;
     }
 
     //function to convert hours into decimal 
@@ -174,7 +178,8 @@ class InsertTimeEntriesController extends Controller
                  $link = Arr::get($value, 'link');
 
                  $account_name = $key;
-              
+
+  
 
                  //fill up ticket monitoring array
                  $execution = array(
@@ -428,6 +433,7 @@ class InsertTimeEntriesController extends Controller
                  $url .=$ticket_link;  
 
                  $account_name = $key;
+
 
                  //fill up ticket monitoring array
                  $execution = array(
