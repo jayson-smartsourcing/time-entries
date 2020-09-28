@@ -230,7 +230,7 @@ class ActivtrakController extends Controller
     public function displayAllMissingLogs(){
 
         //get all logs, display from latest current_date
-        $all_logs = ActivtrakLogs::orderBy('current_date', 'DESC')->get();
+        $all_logs = ActivtrakLogs::where('attendance_id', '')->limit(100)->orderBy('current_date', 'DESC')->get();
 
         //get all employee sprout_name and id
         $all_emp = EmployeeRef::orderBy('sprout_name', 'ASC')->get();
@@ -250,7 +250,7 @@ class ActivtrakController extends Controller
 
         //check all logs if no attendance_id
         foreach($all_logs as $logs){
-            if( is_null($logs->attendance_id) || empty($logs->attendance_id) ){
+            // if( is_null($logs->attendance_id) || empty($logs->attendance_id) ){
                 $log = array();
 
                 $log['user'] = $logs->user;
@@ -259,7 +259,7 @@ class ActivtrakController extends Controller
 
                 //all missing logs
                 $missing[] = $log;
-            }
+            
         }
 
         //pass to view missing logs and employee sprout name and id
