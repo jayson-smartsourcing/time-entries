@@ -432,3 +432,11 @@ Route::get("cc-fd-update-all","api\CliqueCreativeFDController@updateAll");
 //Zendesk ticket api
 Route::post("ssh-zn-tickets", "api\ZendeskTicketController@getTickets");
 Route::post("ssj-zn-tickets", "api\ZNJamesTicketController@getAllTickets");
+//smartsourcing zd
+Route::post("ss-zd-ticket-metrics","api\SSZDController@getAllTicketsV2");
+Route::post("ss-zd-users","api\SSZDController@getAllUsers");
+Route::post("ss-zd-groups","api\SSZDController@getAllGroups");
+Route::post("ss-zd-organizations","api\SSZDController@getAllOrganizations");
+Route::get("ss-zd-tickets-latest","api\SSZDController@getLatestTickets");
+Route::get("ss-zd-update-all","api\SSZDController@updateAll");
+Route::get("ss-zd-ticket-metric-events-latest","api\SSZDController@getLatestTicketMetricEvents");
