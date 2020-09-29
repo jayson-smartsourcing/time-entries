@@ -407,3 +407,36 @@ Route::post("cw-fd-contacts","api\CWFDController@getAllContacts");
 Route::post("cw-fd-tickets","api\CWFDController@getAllTicketsV2");
 Route::get("cw-fd-tickets-latest","api\CWFDController@getLatestTicketExportV2");
 Route::get("cw-fd-update-all","api\CWFDController@updateAll");
+
+
+//mint360 fd
+Route::post("mint360-fd-groups","api\Mint360FDController@getAllGroups");
+Route::post("mint360-fd-companies","api\Mint360FDController@getAllCompanies");
+Route::post("mint360-fd-agents","api\Mint360FDController@getAllAgents");
+Route::post("mint360-fd-contacts","api\Mint360FDController@getAllContacts");
+Route::post("mint360-fd-tickets","api\Mint360FDController@getAllTicketsV2");
+Route::get("mint360-fd-tickets-latest","api\Mint360FDController@getLatestTicketExportV2");
+Route::get("mint360-fd-update-all","api\Mint360FDController@updateAll");
+
+//clique creative fd
+Route::post("cc-fd-groups","api\CliqueCreativeFDController@getAllGroups");
+Route::post("cc-fd-companies","api\CliqueCreativeFDController@getAllCompanies");
+Route::post("cc-fd-agents","api\CliqueCreativeFDController@getAllAgents");
+Route::post("cc-fd-contacts","api\CliqueCreativeFDController@getAllContacts");
+Route::post("cc-fd-tickets","api\CliqueCreativeFDController@getAllTicketsV2");
+Route::get("cc-fd-tickets-latest","api\CliqueCreativeFDController@getLatestTicketExportV2");
+Route::get("cc-fd-update-all","api\CliqueCreativeFDController@updateAll");
+
+
+//James Test
+//Zendesk ticket api
+Route::post("ssh-zn-tickets", "api\ZendeskTicketController@getTickets");
+Route::post("ssj-zn-tickets", "api\ZNJamesTicketController@getAllTickets");
+//smartsourcing zd
+Route::post("ss-zd-ticket-metrics","api\SSZDController@getAllTicketsV2");
+Route::post("ss-zd-users","api\SSZDController@getAllUsers");
+Route::post("ss-zd-groups","api\SSZDController@getAllGroups");
+Route::post("ss-zd-organizations","api\SSZDController@getAllOrganizations");
+Route::get("ss-zd-tickets-latest","api\SSZDController@getLatestTickets");
+Route::get("ss-zd-update-all","api\SSZDController@updateAll");
+Route::get("ss-zd-ticket-metric-events-latest","api\SSZDController@getLatestTicketMetricEvents");
