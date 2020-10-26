@@ -53,7 +53,7 @@
 
                 <div class=" bg-white" style="font-family:Nunito">
                     <h4 style=" text-align:center" class="time-entry-form-input">Import Time Entries</h4>
-                        <form method='POST' action="/import-parse" enctype='multipart/form-data' >
+                        <form method='POST' action="/import-parse" enctype="multipart/form-data" >
                             {{ csrf_field() }}    
                         
                             <div class="form-group time-entry-form-input">

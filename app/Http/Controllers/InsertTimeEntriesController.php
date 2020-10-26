@@ -136,12 +136,11 @@ class InsertTimeEntriesController extends Controller
         //validating required form fields
         $validator = Validator::make($request->all(), [
             'api_key' => 'required',
-            'csv_file' => 'required',
+            'csv_file' => 'required|mimes:csv',
         ]);
 
         if ($validator->fails()) { 
             $errors = $validator->errors()->toArray();
-          
             foreach($errors as $key => $value) {
                 $errors[$key] = $value[0];
             }
