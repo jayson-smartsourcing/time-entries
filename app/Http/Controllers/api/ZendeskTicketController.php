@@ -51,7 +51,7 @@ class ZendeskTicketController extends Controller
     }
 
     private function getListTickets() {
-        $data = config('constants.ssh');
+        $data = config('constants.sss_zd');
         $link = $data['link'] . 'api/v2/tickets.json?page=' . $this->current_page . '&per_page=' . $this->page_limit;
         $response = $this->guzzle->request('GET', $link, [
             'headers' => [
