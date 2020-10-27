@@ -132,11 +132,10 @@ class InsertTimeEntriesController extends Controller
 
     //main function for parsing csv file and inserting to db
     public function parseImport(Request $request){
-
         //validating required form fields
         $validator = Validator::make($request->all(), [
             'api_key' => 'required',
-            'csv_file' => 'required|mimes:csv',
+            'csv_file' => 'required',
         ]);
 
         if ($validator->fails()) { 
@@ -221,8 +220,10 @@ class InsertTimeEntriesController extends Controller
         //map csv file 
         $csv_data = $fields = array(); $i = 0;
         $handle = fopen($request->file('csv_file'), "r");
+       
         if ($handle) {
-            while (($row = fgetcsv($handle, 4096)) !== false) {
+            //while (($row = fgetcsv($handle, 4096)) !== false) {
+            while (($row = fgetcsv($handle, 4096,",",'"','"')) !== false) {    
                 if (empty($fields)) {
                     $fields = $row;
                     continue;
@@ -235,6 +236,7 @@ class InsertTimeEntriesController extends Controller
                 }
                 $i++;
             }
+
             if (!feof($handle)) {
                 echo "Error: unexpected fgets() fail\n";
             }
