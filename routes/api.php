@@ -428,10 +428,7 @@ Route::get("cc-fd-tickets-latest","api\CliqueCreativeFDController@getLatestTicke
 Route::get("cc-fd-update-all","api\CliqueCreativeFDController@updateAll");
 
 
-//James Test
-//Zendesk ticket api
-Route::post("ssh-zn-tickets", "api\ZendeskTicketController@getTickets");
-Route::post("ssj-zn-tickets", "api\ZNJamesTicketController@getAllTickets");
+
 //smartsourcing zd
 Route::post("ss-zd-ticket-metrics","api\SSZDController@getAllTicketsV2");
 Route::post("ss-zd-users","api\SSZDController@getAllUsers");
@@ -440,3 +437,30 @@ Route::post("ss-zd-organizations","api\SSZDController@getAllOrganizations");
 Route::get("ss-zd-tickets-latest","api\SSZDController@getLatestTickets");
 Route::get("ss-zd-update-all","api\SSZDController@updateAll");
 Route::get("ss-zd-ticket-metric-events-latest","api\SSZDController@getLatestTicketMetricEvents");
+
+
+//James Test
+//Zendesk ticket api
+Route::post("ssh-zn-tickets", "api\ZendeskTicketController@getTickets");
+Route::post("ssj-zn-tickets", "api\ZNJamesTicketController@getAllTickets");
+
+
+//smartsourcing zd_v2
+Route::post("sss-zd-users","api\SSSZDController@getAllUsers");
+Route::post("sss-zd-organizations","api\SSSZDController@getAllOrganizations");
+Route::post("sss-zd-groups","api\SSSZDController@getAllGroups");
+Route::get("sss-zd-tickets-latest","api\SSSZDController@getLatestTickets");
+Route::get("sss-zd-update-all","api\SSSZDController@updateAll");
+Route::get("sss-zd-ticket-metric-events-latest","api\SSSZDController@getLatestTicketMetricEvents");
+
+
+//stoneandtile fd
+Route::post("stoneandtile-fd-groups","api\StoneandTileFDController@getAllGroups");
+Route::post("stoneandtile-fd-companies","api\StoneandTileFDController@getAllCompanies");
+Route::post("stoneandtile-fd-agents","api\StoneandTileFDController@getAllAgents");
+Route::post("stoneandtile-fd-contacts","api\StoneandTileFDController@getAllContacts");
+Route::post("stoneandtile-fd-tickets","api\StoneandTileFDController@getAllTicketsV2");
+Route::get("stoneandtile-fd-tickets-latest","api\StoneandTileFDController@getLatestTicketExportV2");
+Route::get("stoneandtile-fd-update-all","api\StoneandTileFDController@updateAll");
+
+
