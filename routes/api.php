@@ -464,3 +464,24 @@ Route::get("stoneandtile-fd-tickets-latest","api\StoneandTileFDController@getLat
 Route::get("stoneandtile-fd-update-all","api\StoneandTileFDController@updateAll");
 
 
+
+//belleproperty fd
+Route::post("belle-property-fd-groups","api\BellePropertyFDController@getAllGroups");
+Route::post("belle-property-fd-companies","api\BellePropertyFDController@getAllCompanies");
+Route::post("belle-property-fd-agents","api\BellePropertyFDController@getAllAgents");
+Route::post("belle-property-fd-contacts","api\BellePropertyFDController@getAllContacts");
+Route::post("belle-property-fd-tickets","api\BellePropertyFDController@getAllTicketsV2");
+Route::get("belle-property-fd-tickets-latest","api\BellePropertyFDController@getLatestTicketExportV2");
+Route::get("belle-property-fd-update-all","api\BellePropertyFDController@updateAll");
+
+
+//beercartel fd
+Route::post("beer-cartel-fd-groups","api\BeerCartelFDController@getAllGroups");
+Route::post("beer-cartel-fd-companies","api\BeerCartelFDController@getAllCompanies");
+Route::post("beer-cartel-fd-agents","api\BeerCartelFDController@getAllAgents");
+Route::post("beer-cartel-fd-contacts","api\BeerCartelFDController@getAllContacts");
+Route::post("beer-cartel-fd-tickets","api\BeerCartelFDController@getAllTicketsV2");
+Route::get("beer-cartel-fd-tickets-latest","api\BeerCartelFDController@getLatestTicketExportV2");
+Route::get("beer-cartel-fd-update-all","api\BeerCartelFDController@updateAll");
+
+
