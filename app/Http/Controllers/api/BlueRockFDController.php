@@ -10,46 +10,45 @@ use Carbon\Carbon as Carbon;
 use App\EmployeeRef as EmployeeRef;
 use App\BPNotFoundId as BPNotFoundId;
 use App\FailedTimeEntries as FailedTimeEntries;
-use App\StoneandTileFDGroup as StoneandTileFDGroup;
-use App\StoneandTileFDCompany as StoneandTileFDCompany;
-use App\StoneandTileFDAgent as StoneandTileFDAgent;
-use App\StoneandTileFDContact as StoneandTileFDContact;
-use App\StoneandTileFDTicket as StoneandTileFDTicket;
+use App\BlueRockFDGroup as BlueRockFDGroup;
+use App\BlueRockFDCompany as BlueRockFDCompany;
+use App\BlueRockFDAgent as BlueRockFDAgent;
+use App\BlueRockFDContact as BlueRockFDContact;
+use App\BlueRockFDTicket as BlueRockFDTicket;
 
-
-class StoneandTileFDController extends Controller
+class BlueRockFDController extends Controller
 {
     public function __construct(
         Guzzle $guzzle,
         BPNotFoundId  $bp_not_found,
         EmployeeRef $employee_ref,
-        StoneandTileFDGroup $stone_and_tile_group,
-        StoneandTileFDCompany $stone_and_tile_company,
-        StoneandTileFDAgent $stone_and_tile_agent,
-        StoneandTileFDContact $stone_and_tile_contact,
-        StoneandTileFDTicket $stone_and_tile_ticket
+        BlueRockFDGroup $blue_rock_group,
+        BlueRockFDCompany $blue_rock_company,
+        BlueRockFDAgent $blue_rock_agent,
+        BlueRockFDContact $blue_rock_contact,
+        BlueRockFDTicket $blue_rock_ticket
     )
     {
         $this->guzzle = $guzzle;
         $this->bp_not_found = $bp_not_found;
         $this->employee_ref = $employee_ref;
-        $this->stone_and_tile_group = $stone_and_tile_group;
-        $this->stone_and_tile_company = $stone_and_tile_company;
-        $this->stone_and_tile_agent = $stone_and_tile_agent;
-        $this->stone_and_tile_contact = $stone_and_tile_contact;
-        $this->stone_and_tile_ticket = $stone_and_tile_ticket;
+        $this->blue_rock_group = $blue_rock_group;
+        $this->blue_rock_company = $blue_rock_company;
+        $this->blue_rock_agent = $blue_rock_agent;
+        $this->blue_rock_contact = $blue_rock_contact;
+        $this->blue_rock_ticket = $blue_rock_ticket;
     }
 
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/groups?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
 
-        $this->stone_and_tile_group->truncateTable();
+        $this->blue_rock_group->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -116,7 +115,7 @@ class StoneandTileFDController extends Controller
                     $final_data[] = $group;
                 }
 
-                $this->stone_and_tile_group->bulkInsert($final_data);
+                $this->blue_rock_group->bulkInsert($final_data);
             } 
 
         }
@@ -127,14 +126,14 @@ class StoneandTileFDController extends Controller
     public function getAllCompanies() {
 
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/companies?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
 
-        $this->stone_and_tile_company->truncateTable();
+        $this->blue_rock_company->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -196,7 +195,7 @@ class StoneandTileFDController extends Controller
                     $final_data[] = $company;
                 }
 
-                $this->stone_and_tile_company->bulkInsert($final_data);
+                $this->blue_rock_company->bulkInsert($final_data);
             } 
 
         }
@@ -206,7 +205,7 @@ class StoneandTileFDController extends Controller
 
     public function getAllAgents(){
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $api_key = $data["api_key"];
 
         $link = $data["link"]. "/api/v2/agents?per_page=100";
@@ -214,7 +213,7 @@ class StoneandTileFDController extends Controller
         $x = 1;
         $y = 3;
 
-        $this->stone_and_tile_agent->truncateTable();
+        $this->blue_rock_agent->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -282,11 +281,11 @@ class StoneandTileFDController extends Controller
                 // $this->employee_ref->updateSystemIdByName($ref_data);
                 }
 
-                $this->stone_and_tile_agent->bulkInsert($final_data);
+                $this->blue_rock_agent->bulkInsert($final_data);
             } 
 
         }
-        $this->stone_and_tile_contact->addAgentsToContacts("stone_and_tile_fd");
+        $this->blue_rock_contact->addAgentsToContacts("blue_rock_fd");
 
         return response()->json(['success'=> true], 200); 
     }
@@ -294,14 +293,14 @@ class StoneandTileFDController extends Controller
     public function getAllContacts(){
 
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $api_key = $data["api_key"];
 
         $link = $data["link"]. "/api/v2/contacts?per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
-        $this->stone_and_tile_contact->truncateTable();
+        $this->blue_rock_contact->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -363,7 +362,7 @@ class StoneandTileFDController extends Controller
                     $final_data[] = $agent;
                 }
 
-                $this->stone_and_tile_contact->bulkInsert($final_data);
+                $this->blue_rock_contact->bulkInsert($final_data);
             } 
 
         }
@@ -373,19 +372,19 @@ class StoneandTileFDController extends Controller
 
     public function getAllTicketsV2(){
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $api_key = $data["api_key"];
         //$three_month_ago = new Carbon("2019-07-22");
         $three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
-
+        // $two_days_ago = Carbon::now()->subDays(13)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$three_month_ago."&order_type=asc&include=stats&per_page=100";
         $ticket_export_data = array();
         $x = 1;
         $y = 3;
         
-        $this->stone_and_tile_ticket->truncateTable();
+        $this->blue_rock_ticket->truncateTable();
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -510,12 +509,12 @@ class StoneandTileFDController extends Controller
                     $final_data[] = $ticket_export;
 
                     if( ($len - 1) > $key && count($final_data) == 50) {
-                        $this->stone_and_tile_ticket->bulkInsert($final_data);
+                        $this->blue_rock_ticket->bulkInsert($final_data);
                         $final_data = [];
                     } 
 
                     if( ($len - 1) == $key) {
-                        $this->stone_and_tile_ticket->bulkInsert($final_data);
+                        $this->blue_rock_ticket->bulkInsert($final_data);
                         $final_data = [];
                     }
                 }
@@ -526,13 +525,13 @@ class StoneandTileFDController extends Controller
             }
         }
 
-        $this->stone_and_tile_ticket->updateAllFdTickets("stone_and_tile_fd");
+        $this->blue_rock_ticket->updateAllFdTickets("blue_rock_fd");
         return response()->json(['success'=> true], 200);
     }
 
     public function getLatestTicketExportV2() {
         $client = new $this->guzzle();
-        $data = config('constants.stone_and_tile');
+        $data = config('constants.blue_rock');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
@@ -666,16 +665,16 @@ class StoneandTileFDController extends Controller
 
                     if( ($len - 1) > $key && count($final_data) == 50) {
                         
-                        $this->stone_and_tile_ticket->bulkDeleteByTicketExportId($ids);
-                        $this->stone_and_tile_ticket->bulkInsert($final_data);
+                        $this->blue_rock_ticket->bulkDeleteByTicketExportId($ids);
+                        $this->blue_rock_ticket->bulkInsert($final_data);
                         $final_data = [];
                         $ids = [];
                     } 
 
                     if( ($len - 1) == $key) {
                         
-                        $this->stone_and_tile_ticket->bulkDeleteByTicketExportId($ids);
-                        $this->stone_and_tile_ticket->bulkInsert($final_data);
+                        $this->blue_rock_ticket->bulkDeleteByTicketExportId($ids);
+                        $this->blue_rock_ticket->bulkInsert($final_data);
                         $final_data = [];
                         $ids = [];
                     }
@@ -689,7 +688,7 @@ class StoneandTileFDController extends Controller
 
         }
 
-        $this->stone_and_tile_ticket->updateLatestFdTickets("stone_and_tile_fd");
+        $this->blue_rock_ticket->updateLatestFdTickets("blue_rock_fd");
         return response()->json(['success'=> true], 200);
     }
 
@@ -709,12 +708,11 @@ class StoneandTileFDController extends Controller
                 return response()->json(['success'=> false,'message' => 'error on '.$val["type"]], 200);
             }
         }
-        $this->stone_and_tile_contact->addAgentsToContacts("stone_and_tile_fd");
-        $this->stone_and_tile_agent->deleteDuplicates("stone_and_tile_fd_agents");
-        $this->stone_and_tile_contact->deleteDuplicates("stone_and_tile_fd_contacts");
-        $this->stone_and_tile_company->deleteDuplicates("stone_and_tile_fd_companies");
-        $this->stone_and_tile_group->deleteDuplicates("stone_and_tile_fd_groups");
-
+        $this->blue_rock_contact->addAgentsToContacts("blue_rock_fd");
+        $this->blue_rock_agent->deleteDuplicates("blue_rock_fd_agents");
+        $this->blue_rock_contact->deleteDuplicates("blue_rock_fd_contacts");
+        $this->blue_rock_company->deleteDuplicates("blue_rock_fd_companies");
+        $this->blue_rock_group->deleteDuplicates("blue_rock_fd_groups");
         return response()->json(['success'=> true], 200);
     }
 
@@ -743,7 +741,6 @@ class StoneandTileFDController extends Controller
             return true;
         }       
     }
-
 
 
 }

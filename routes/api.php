@@ -485,3 +485,12 @@ Route::get("beer-cartel-fd-tickets-latest","api\BeerCartelFDController@getLatest
 Route::get("beer-cartel-fd-update-all","api\BeerCartelFDController@updateAll");
 
 
+//bluerock fd
+Route::post("blue-rock-fd-groups","api\BlueRockFDController@getAllGroups");
+Route::post("blue-rock-fd-companies","api\BlueRockFDController@getAllCompanies");
+Route::post("blue-rock-fd-agents","api\BlueRockFDController@getAllAgents");
+Route::post("blue-rock-fd-contacts","api\BlueRockFDController@getAllContacts");
+Route::post("blue-rock-fd-tickets","api\BlueRockFDController@getAllTicketsV2");
+Route::get("blue-rock-fd-tickets-latest","api\BlueRockFDController@getLatestTicketExportV2");
+Route::get("blue-rock-fd-update-all","api\BlueRockFDController@updateAll");
+
