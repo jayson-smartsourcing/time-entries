@@ -48,6 +48,7 @@ use App\CCFDTimeEntry as CCFDTimeEntry;
 use App\StoneandTileFDTimeEntry as StoneandTileFDTimeEntry;
 use App\BellePropertyFDTimeEntry as BellePropertyFDTimeEntry;
 use App\BeerCartelFDTimeEntry as BeerCartelFDTimeEntry;
+use App\BlueRockFDTimeEntry as BlueRockFDTimeEntry;
 
 class InsertTimeEntriesController extends Controller
 {
@@ -89,7 +90,8 @@ class InsertTimeEntriesController extends Controller
         CCFDTimeEntry $cc_fd_time_entries,
         StoneandTileFDTimeEntry $stone_and_tile_fd_time_entries,
         BellePropertyFDTimeEntry $belle_property_fd_time_entries,
-        BeerCartelFDTimeEntry $beer_cartel_fd_time_entries
+        BeerCartelFDTimeEntry $beer_cartel_fd_time_entries,
+        BlueRockFDTimeEntry $blue_rock_fd_time_entries
     )
     {  
         $this->guzzle = $guzzle;
@@ -130,6 +132,7 @@ class InsertTimeEntriesController extends Controller
         $this->stone_and_tile_fd_time_entries = $stone_and_tile_fd_time_entries;
         $this->belle_property_fd_time_entries = $belle_property_fd_time_entries;
         $this->beer_cartel_fd_time_entries = $beer_cartel_fd_time_entries;
+        $this->blue_rock_fd_time_entries = $blue_rock_fd_time_entries;
     }
 
     //function to convert hours into decimal 
@@ -184,7 +187,6 @@ class InsertTimeEntriesController extends Controller
                  $link = Arr::get($value, 'link');
 
                  $account_name = $key;
-
 
                  //fill up ticket monitoring array
                  $execution = array(
@@ -441,7 +443,6 @@ class InsertTimeEntriesController extends Controller
                  $url .=$ticket_link;  
 
                  $account_name = $key;
-
 
                  //fill up ticket monitoring array
                  $execution = array(
