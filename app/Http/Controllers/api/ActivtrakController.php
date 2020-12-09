@@ -54,6 +54,7 @@ class ActivtrakController extends Controller
         }
 
         $check_date = $this->act_logs->getDataBydate($insert["current_date"],$insert["user"]);
+
         
         if(!$check_date) {
             $final_data[] = $insert; 
@@ -141,9 +142,11 @@ class ActivtrakController extends Controller
 
             $check_date = $this->act_logs->getDataBydate($insert["current_date"],$insert["user"]);
             
-            if(!$check_date) {
-                $final_data[] = $insert; 
+            if($check_date) {
+                $this->act_logs->deleteLog($insert["current_date"],$insert["user"]);
             }
+
+            $final_data[] = $insert; 
 
             if( ($len - 1) > $key && count($final_data) == 50) {
                 $this->act_logs->bulkInsert($final_data);
