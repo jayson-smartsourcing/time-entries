@@ -142,8 +142,9 @@ class ActivtrakController extends Controller
 
             $check_date = $this->act_logs->getDataBydate($insert["current_date"],$insert["user"]);
             
+            
             if($check_date) {
-                $this->act_logs->deleteLog($insert["current_date"],$insert["user"]);
+                $this->act_logs->deleteLog($insert["user"],$insert["current_date"]);
             }
 
             $final_data[] = $insert; 
