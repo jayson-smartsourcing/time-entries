@@ -494,3 +494,13 @@ Route::post("blue-rock-fd-tickets","api\BlueRockFDController@getAllTicketsV2");
 Route::get("blue-rock-fd-tickets-latest","api\BlueRockFDController@getLatestTicketExportV2");
 Route::get("blue-rock-fd-update-all","api\BlueRockFDController@updateAll");
 
+
+
+//uptick fd
+Route::post("uptick-fd-groups","api\UptickFDController@getAllGroups");
+Route::post("uptick-fd-companies","api\UptickFDController@getAllCompanies");
+Route::post("uptick-fd-agents","api\UptickFDController@getAllAgents");
+Route::post("uptick-fd-contacts","api\UptickFDController@getAllContacts");
+Route::post("uptick-fd-tickets","api\UptickFDController@getAllTicketsV2");
+Route::get("uptick-fd-tickets-latest","api\UptickFDController@getLatestTicketExportV2");
+Route::get("uptick-fd-update-all","api\UptickFDController@updateAll");
