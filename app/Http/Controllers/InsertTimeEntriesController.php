@@ -364,8 +364,11 @@ class InsertTimeEntriesController extends Controller
                 $unique[] = $ticket_date;
 
                 //remove special characters from notes
-                $orig_notes = $value['Note'];
-                $new_notes = preg_replace("/[^a-zA-ZñÑ0-9-\s]/", "", $orig_notes);
+                //$orig_notes = $value['Note'];
+                //$new_notes = preg_replace("/[^a-zA-ZñÑ0-9-\s]/", "", $orig_notes);
+
+                $orig_notes = htmlspecialchars_decode($value['Note']);
+                $new_notes = $orig_notes;
 
                 $new_time_entries = array(
                     'ticket_id'=> $ticket_id,
