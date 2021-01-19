@@ -194,6 +194,7 @@ Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
 Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTicketsV2");
 // Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
 Route::get("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
+Route::get("hburgers-fd-time-entry","api\HBurgersController@getLatestTimeEntryV2");
 Route::get("hburgers-fd-update-all","api\HBurgersController@updateAll");
 
 //JCNE fd
@@ -482,6 +483,7 @@ Route::post("beer-cartel-fd-agents","api\BeerCartelFDController@getAllAgents");
 Route::post("beer-cartel-fd-contacts","api\BeerCartelFDController@getAllContacts");
 Route::post("beer-cartel-fd-tickets","api\BeerCartelFDController@getAllTicketsV2");
 Route::get("beer-cartel-fd-tickets-latest","api\BeerCartelFDController@getLatestTicketExportV2");
+Route::get("beer-cartel-fd-time-entry","api\BeerCartelFDController@getLatestTimeEntryV2");
 Route::get("beer-cartel-fd-update-all","api\BeerCartelFDController@updateAll");
 
 
