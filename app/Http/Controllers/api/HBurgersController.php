@@ -38,6 +38,7 @@ class HBurgersController extends Controller
         $this->hburgers_fd_company = $hburgers_fd_company;
         $this->hburgers_fd_agent = $hburgers_fd_agent;
         $this->hburgers_fd_contact = $hburgers_fd_contact;
+        $this->hburgers_fd_ticket = $hburgers_fd_ticket;
         $this->hburgers_fd_time_entry = $hburgers_fd_time_entry;
     }
 
