@@ -15,6 +15,7 @@ use App\JCNFDCompany as JCNFDCompany;
 use App\JCNFDAgent as JCNFDAgent;
 use App\JCNFDContact as JCNFDContact;
 use App\JCNFDTicket as JCNFDTicket;
+use App\JCNFDTimeEntryV3 as JCNFDTimeEntryV3;
 
 
 class JCNFDController extends Controller
@@ -27,7 +28,8 @@ class JCNFDController extends Controller
         JCNFDCompany $jcn_fd_company,
         JCNFDAgent $jcn_fd_agent,
         JCNFDContact $jcn_fd_contact,
-        JCNFDTicket $jcn_fd_ticket
+        JCNFDTicket $jcn_fd_ticket,
+        JCNFDTimeEntryV3 $jcn_fd_time_entry
     )
     {  
         $this->guzzle = $guzzle;
@@ -38,6 +40,7 @@ class JCNFDController extends Controller
         $this->jcn_fd_agent = $jcn_fd_agent;
         $this->jcn_fd_contact = $jcn_fd_contact;
         $this->jcn_fd_ticket = $jcn_fd_ticket;
+        $this->jcn_fd_time_entry = $jcn_fd_time_entry;
     }
     
     public function getAllGroups() {
@@ -1246,6 +1249,117 @@ class JCNFDController extends Controller
         
     }
 
+    public function getLatestTimeEntriesV3() {
+        $client = new $this->guzzle();
+        $data = config('constants.jcn');
+        //  $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
+        //  // $two_days_ago = Carbon::now()->submonths(1)->format('UTC');
+        //  echo($two_days_ago);
+        //  die;
+
+        $link = $data["link"]. "/api/v2/time_entries?executed_after=2020-12-01T00:00:00Z"; //."&order_type=asc&include=stats&per_page=100"
+        $api_key = $data["api_key"];
+        $time_entry_data = array();
+        $x = 1;
+        $y = 3;
+
+        for( $i = 1; $i<= $x; $i++ ) {
+            $link .= "&page=".$i;
+            
+            //call to api
+            $response = $client->request('GET', $link, [
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
+            ]);
+            // get Status Code
+            $status_code = $response->getStatusCode();  
+
+            if($status_code != 200 ) {
+            for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
+                        'headers' => [
+                            'Authorization' => $api_key
+                        ]
+                    ]);
+                    //get status Code    
+                    $status_code = $response_retry->getStatusCode(); 
+
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        break 2;
+                    } 
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody());
+                        break;
+                    }
+            }
+                
+            } else {
+                $body = json_decode($response->getBody());
+            }
+        
+            if(count($body) != 0) {
+                $time_entry_data = $body;
+                $x++;
+
+                $final_data = array();
+                $count = 0;
+                $len = count($time_entry_data);
+                $not_found = array();
+                $ids = array();  
+
+                foreach($time_entry_data as $key => $value) {
+                    $now = Carbon::now();
+                    $ids[] = $value->id;
+
+                    $time_entry = array(
+                        "billable" => $value->billable,
+                        "note" => $value->note,
+                        "id" => $value->id,
+                        "timer_running" => $value->timer_running,
+                        "ticket_id" => $value->ticket_id,
+                        "agent_id" => $value->agent_id,
+                        "time_spent" => $value->time_spent,
+                        "executed_at" => Carbon::parse($value->executed_at)->setTimezone('UTC'),
+                        "start_time" => Carbon::parse($value->start_time)->setTimezone('UTC'),
+                        "created_at" => Carbon::parse($value->created_at)->setTimezone('UTC'),
+                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('UTC'),
+                    );
+                    
+                    $final_data[] = $time_entry;
+
+                    if( ($len - 1) > $key && count($final_data) == 50) {
+                        
+                        $this->jcn_fd_time_entry->bulkDeleteById($ids);
+                        $this->jcn_fd_time_entry->bulkInsert($final_data);
+                        $final_data = [];
+                        $ids = [];
+                    } 
+
+                    if( ($len - 1) == $key) {
+                        
+                        $this->jcn_fd_time_entry->bulkDeleteById($ids);
+                        $this->jcn_fd_time_entry->bulkInsert($final_data);
+                        $final_data = [];
+                        $ids = [];
+                    }
+                }
+            
+                if(count($not_found) > 0) {
+                    $this->bp_not_found->bulkInsert($not_found);
+                }
+
+            } 
+
+        }
+
+        return response()->json(['success'=> true], 200);
+    }
 
 }
 

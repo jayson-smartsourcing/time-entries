@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class HBurgersFDTimeEntryV2 extends Model
+class ToureastFDTimeEntryV3 extends Model
 {
-    protected $table = 'hburgers_fd_time_entry_v2';
+    protected $table = 'toureast_fd_time_entries_v3';
     protected $fillable = [
         'billable',
         'note',
@@ -23,7 +23,7 @@ class HBurgersFDTimeEntryV2 extends Model
     ];
 
     public function bulkInsert($data){
-        return DB::table('hburgers_fd_time_entry_v2')->insert($data);
+        return DB::table('toureast_fd_time_entries_v3')->insert($data);
     }
     //$ids_to_delete must be array
     public function bulkDeleteById($ids_to_delete){
@@ -34,13 +34,5 @@ class HBurgersFDTimeEntryV2 extends Model
         return static::truncate();
     }
     
-    // public function updateLatestFdTickets($table_name) {
-    //     $values = [$table_name];
-    //     DB::insert('EXEC update_fd_latest_tickets ?', $values);
-    // }
 
-    // public function updateAllFdTickets($table_name) {
-    //     $values = [$table_name];
-    //     DB::insert('EXEC update_fd_all_tickets ?', $values);
-    // }
 }

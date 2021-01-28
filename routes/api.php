@@ -72,6 +72,7 @@ Route::post("hs-fd-time-entries-latest","api\HarrisSalesController@getTimeEntrie
 Route::post("hs-fd-ticket","api\HarrisSalesController@getAllTicketsV2");
 // Route::post("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExportV2");
 Route::get("hs-fd-ticket-latest","api\HarrisSalesController@getLatestTicketExportV2");
+Route::get("hs-fd-time-entries","api\HarrisSalesController@getLatestTimeEntriesV3");
 Route::get("hs-fd-update-all","api\HarrisSalesController@updateAll");
 
 //dingles fd
@@ -84,6 +85,7 @@ Route::post("dingles-fd-contacts","api\DinglesFDController@getAllContacts");
 Route::post("dingles-fd-tickets","api\DinglesFDController@getAllTicketsV2");
 // Route::post("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExportV2");
 Route::get("dingles-fd-tickets-latest","api\DinglesFDController@getLatestTicketExportV2");
+Route::get("dingles-fd-time-entries","api\DinglesFDController@getLatestTimeEntriesV3");
 Route::get("dingles-fd-update-all","api\DinglesFDController@updateAll");
 
 //emurun fd
@@ -97,6 +99,7 @@ Route::post("emurun-fd-tickets-missing","api\EmurunFDController@insertMissingTic
 Route::post("emurun-fd-tickets","api\EmurunFDController@getAllTicketsV2");
 // Route::post("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExportV2");
 Route::get("emurun-fd-tickets-latests","api\EmurunFDController@getLatestTicketExportV2");
+Route::get("emurun-fd-time-entries","api\EmurunFDController@getLatestTimeEntriesV3");
 Route::get("emurun-fd-update-all","api\EmurunFDController@updateAll");
 
 //jcn fd
@@ -111,6 +114,7 @@ Route::post("jcn-fd-tickets-duplicates","api\JCNFDController@duplicateData");
 Route::post("jcn-fd-tickets","api\JCNFDController@getAllTicketsV2");
 // Route::post("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExportV2");
 Route::get("jcn-fd-tickets-latests","api\JCNFDController@getLatestTicketExportV2");
+Route::get("jcn-fd-time-entries","api\JCNFDController@getLatestTimeEntriesV3");
 Route::get("jcn-fd-update-all","api\JCNFDController@updateAll");
 Route::get("jcn-fd-missing-requester","api\JCNFDController@missingRequester");
 
@@ -124,6 +128,7 @@ Route::post("cameron-fd-contacts","api\CameronFDController@getAllContacts");
 Route::post("cameron-fd-tickets","api\CameronFDController@getAllTicketsV2");
 // Route::post("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExportV2");
 Route::get("cameron-fd-tickets-latests","api\CameronFDController@getLatestTicketExportV2");
+Route::get("cameron-fd-time-entries","api\CameronFDController@getLatestTimeEntriesV3");
 Route::get("cameron-fd-update-all","api\CameronFDController@updateAll");
 
 //toureast fd
@@ -136,6 +141,7 @@ Route::post("toureast-fd-contacts","api\ToureastFDController@getAllContacts");
 Route::post("toureast-fd-tickets","api\ToureastFDController@getAllTicketsV2");
 // Route::post("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExportV2");
 Route::get("toureast-fd-tickets-latests","api\ToureastFDController@getLatestTicketExportV2");
+Route::get("toureast-fd-time-entries","api\ToureastFDController@getLatestTimeEntriesV3");
 Route::get("toureast-fd-update-all","api\ToureastFDController@updateAll");
 
 //raywhite fd
@@ -146,6 +152,7 @@ Route::post("raywhite-fd-contacts","api\RaywhiteFDController@getAllContacts");
 Route::post("raywhite-fd-tickets","api\RaywhiteFDController@getAllTickets");
 // Route::post("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
 Route::get("raywhite-fd-tickets-latests","api\RaywhiteFDController@getLatestTicketExport");
+Route::get("raywhite-fd-time-entries","api\RaywhiteFDController@getLatestTimeEntriesV3");
 Route::get("raywhite-fd-update-all","api\RaywhiteFDController@updateAll");
 
 //JCN Finance fd
@@ -158,6 +165,7 @@ Route::post("jcn-finace-fd-contacts","api\JCNFinanceFDController@getAllContacts"
 Route::post("jcn-finace-fd-tickets","api\JCNFinanceFDController@getAllTicketsV2");
 // Route::post("jcn-finace-fd-tickets-latests","api\JCNFinanceFDController@getLatestTicketExportV2");
 Route::get("jcn-finace-fd-tickets-latests","api\JCNFinanceFDController@getLatestTicketExportV2");
+Route::get("jcn-finace-fd-time-entries","api\JCNFinanceFDController@getLatestTimeEntriesV3");
 Route::get("jcn-finace-fd-update-all","api\JCNFinanceFDController@updateAll");
 
 //Dixon fd
@@ -170,6 +178,7 @@ Route::post("dixon-fd-contacts","api\DixonFDController@getAllContacts");
 Route::post("dixon-fd-tickets","api\DixonFDController@getAllTicketsV2");
 // Route::post("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExportV2");
 Route::get("dixon-fd-tickets-latests","api\DixonFDController@getLatestTicketExportV2");
+Route::get("dixon-fd-time-entries","api\DixonFDController@getLatestTimeEntriesV3");
 Route::get("dixon-fd-update-all","api\DixonFDController@updateAll");
 
 //RECD fd
@@ -194,7 +203,7 @@ Route::post("hburgers-fd-contacts","api\HBurgersController@getAllContacts");
 Route::post("hburgers-fd-tickets","api\HBurgersController@getAllTicketsV2");
 // Route::post("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
 Route::get("hburgers-fd-tickets-latests","api\HBurgersController@getLatestTicketExportV2");
-Route::get("hburgers-fd-time-entry","api\HBurgersController@getLatestTimeEntryV2");
+Route::get("hburgers-fd-time-entries","api\HBurgersController@getLatestTimeEntriesV3");
 Route::get("hburgers-fd-update-all","api\HBurgersController@updateAll");
 
 //JCNE fd
@@ -207,6 +216,7 @@ Route::post("jcne-fd-contacts","api\JCNEFDController@getAllContacts");
 Route::post("jcne-fd-tickets","api\JCNEFDController@getAllTicketsV2");
 // Route::post("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExportV2");
 Route::get("jcne-fd-tickets-latests","api\JCNEFDController@getLatestTicketExportV2");
+Route::get("jcne-fd-time-entries","api\JCNEFDController@getLatestTimeEntriesV3");
 Route::get("jcne-fd-update-all","api\JCNEFDController@updateAll");
 
 //JCS fd
@@ -219,6 +229,7 @@ Route::post("jcs-fd-contacts","api\JCSFDController@getAllContacts");
 Route::post("jcs-fd-tickets","api\JCSFDController@getAllTicketsV2");
 // Route::post("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExportV2");
 Route::get("jcs-fd-tickets-latests","api\JCSFDController@getLatestTicketExportV2");
+Route::get("jcs-fd-time-entries","api\JCSFDController@getLatestTimeEntriesV3");
 Route::get("jcs-fd-update-all","api\JCSFDController@updateAll");
 
 //JG fd
@@ -231,6 +242,7 @@ Route::post("jg-fd-contacts","api\JGFDController@getAllContacts");
 Route::post("jg-fd-tickets","api\JGFDController@getAllTicketsV2");
 // Route::post("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExportV2");
 Route::get("jg-fd-tickets-latests","api\JGFDController@getLatestTicketExportV2");
+Route::get("jg-fd-time-entries","api\JGFDController@getLatestTimeEntriesV3");
 Route::get("jg-fd-update-all","api\JGFDController@updateAll");
 
 
@@ -274,6 +286,7 @@ Route::post("lj-hooker-fd-contacts","api\LJHookerFDController@getAllContacts");
 Route::post("lj-hooker-fd-tickets","api\LJHookerFDController@getAllTicketsV2");
 // Route::post("lj-hooker-fd-tickets-latests","api\LJHookerFDController@getLatestTicketExportV2");
 Route::get("lj-hooker-fd-tickets-latests","api\LJHookerFDController@getLatestTicketExportV2");
+Route::get("lj-hooker-fd-time-entries","api\LJHookerFDController@getLatestTimeEntriesV3");
 Route::get("lj-hooker-fd-update-all","api\LJHookerFDController@updateAll");
 
 Route::post("avnu-fd-groups","api\AvnuFDController@getAllGroups");
@@ -283,6 +296,7 @@ Route::post("avnu-fd-contacts","api\AvnuFDController@getAllContacts");
 Route::post("avnu-fd-tickets","api\AvnuFDController@getAllTicketsV2");
 // Route::post("avnu-fd-tickets-latests","api\AvnuFDController@getLatestTicketExportV2");
 Route::get("avnu-fd-tickets-latests","api\AvnuFDController@getLatestTicketExportV2");
+Route::get("avnu-fd-time_entries","api\AvnuFDController@getLatestTimeEntriesV3");
 Route::get("avnu-fd-update-all","api\AvnuFDController@updateAll");
 
 Route::post("tagflix-fd-groups","api\TagflixController@getAllGroups");
@@ -302,6 +316,7 @@ Route::post("lh-fd-contacts","api\LHFDController@getAllContacts");
 Route::post("lh-fd-tickets","api\LHFDController@getAllTicketsV2");
 // Route::post("lh-fd-tickets-latests","api\LHFDController@getLatestTicketExportV2");
 Route::get("lh-fd-tickets-latests","api\LHFDController@getLatestTicketExportV2");
+Route::get("lh-fd-time-entries","api\LHFDController@getLatestTimeEntriesV3");
 Route::get("lh-fd-update-all","api\LHFDController@updateAll");
 
 //eg
@@ -314,6 +329,7 @@ Route::post("eg-fd-agents","api\EGFDController@getAllAgents");
 Route::post("eg-fd-contacts","api\EGFDController@getAllContacts");
 Route::post("eg-fd-tickets","api\EGFDController@getAllTicketsV2");
 Route::get("eg-fd-tickets-latest","api\EGFDController@getLatestTicketExportV2");
+Route::get("eg-fd-time-entries","api\EGFDController@getLatestTimeEntriesV3");
 Route::get("eg-fd-update-all","api\EGFDController@updateAll");
 
 
@@ -340,6 +356,7 @@ Route::post("jcd-fd-contacts","api\JCDFDController@getAllContacts");
 Route::post("jcd-fd-tickets","api\JCDFDController@getAllTicketsV2");
 // Route::post("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2");
 Route::get("jcd-fd-tickets-latest","api\JCDFDController@getLatestTicketExportV2");
+Route::get("jcd-fd-time-entries","api\JCDFDController@getLatestTimeEntriesV3");
 Route::get("jcd-fd-update-all","api\JCDFDController@updateAll");
 
 
@@ -350,6 +367,7 @@ Route::post("estore-fd-agents","api\EstoreFDController@getAllAgents");
 Route::post("estore-fd-contacts","api\EstoreFDController@getAllContacts");
 Route::post("estore-fd-tickets","api\EstoreFDController@getAllTicketsV2");
 Route::get("estore-fd-tickets-latest","api\EstoreFDController@getLatestTicketExportV2");
+Route::get("estore-fd-time-entries","api\EstoreFDController@getLatestTimeEntriesV3");
 Route::get("estore-fd-update-all","api\EstoreFDController@updateAll");
 
 //urban angles fd
@@ -359,6 +377,7 @@ Route::post("urban-angles-fd-agents","api\UrbanAnglesFDController@getAllAgents")
 Route::post("urban-angles-contacts","api\UrbanAnglesFDController@getAllContacts");
 Route::post("urban-angles-fd-tickets","api\UrbanAnglesFDController@getAllTicketsV2");
 Route::get("urban-angles-fd-tickets-latest","api\UrbanAnglesFDController@getLatestTicketExportV2");
+Route::get("urban-angles-fd-time-entries","api\UrbanAnglesFDController@getLatestTimeEntriesV3");
 Route::get("urban-angles-fd-update-all","api\UrbanAnglesFDController@updateAll");
 
 //ticket refresh
@@ -372,6 +391,7 @@ Route::post("white-label-fd-agents","api\WhiteLabelFDController@getAllAgents");
 Route::post("white-label-contacts","api\WhiteLabelFDController@getAllContacts");
 Route::post("white-label-fd-tickets","api\WhiteLabelFDController@getAllTicketsV2");
 Route::get("white-label-fd-tickets-latest","api\WhiteLabelFDController@getLatestTicketExportV2");
+Route::get("white-label-fd-time-entries","api\WhiteLabelFDController@getLatestTimeEntriesV3");
 Route::get("white-label-fd-update-all","api\WhiteLabelFDController@updateAll");
 
 //ckb fd
@@ -381,6 +401,7 @@ Route::post("ckb-fd-agents","api\CKBFDController@getAllAgents");
 Route::post("ckb-contacts","api\CKBFDController@getAllContacts");
 Route::post("ckb-fd-tickets","api\CKBFDController@getAllTicketsV2");
 Route::get("ckb-fd-tickets-latest","api\CKBFDController@getLatestTicketExportV2");
+Route::get("ckb-fd-time-entries","api\CKBFDController@getLatestTimeEntriesV3");
 Route::get("ckb-fd-update-all","api\CKBFDController@updateAll");
 
 
@@ -398,6 +419,7 @@ Route::post("trendtile-fd-agents","api\TrendTileFDController@getAllAgents");
 Route::post("trendtile-fd-contacts","api\TrendTileFDController@getAllContacts");
 Route::post("trendtile-fd-tickets","api\TrendTileFDController@getAllTicketsV2");
 Route::get("trendtile-fd-tickets-latest","api\TrendTileFDController@getLatestTicketExportV2");
+Route::get("trendtile-fd-time-entries","api\TrendTileFDController@getLatestTimeEntriesV3");
 Route::get("trendtile-fd-update-all","api\TrendTileFDController@updateAll");
 
 //collective wellness fd
@@ -407,6 +429,7 @@ Route::post("cw-fd-agents","api\CWFDController@getAllAgents");
 Route::post("cw-fd-contacts","api\CWFDController@getAllContacts");
 Route::post("cw-fd-tickets","api\CWFDController@getAllTicketsV2");
 Route::get("cw-fd-tickets-latest","api\CWFDController@getLatestTicketExportV2");
+Route::get("cw-fd-time-entries","api\CWFDController@getLatestTimeEntriesV3");
 Route::get("cw-fd-update-all","api\CWFDController@updateAll");
 
 
@@ -417,6 +440,7 @@ Route::post("mint360-fd-agents","api\Mint360FDController@getAllAgents");
 Route::post("mint360-fd-contacts","api\Mint360FDController@getAllContacts");
 Route::post("mint360-fd-tickets","api\Mint360FDController@getAllTicketsV2");
 Route::get("mint360-fd-tickets-latest","api\Mint360FDController@getLatestTicketExportV2");
+Route::get("mint360-fd-time-entries","api\Mint360FDController@getLatestTimeEntriesV3");
 Route::get("mint360-fd-update-all","api\Mint360FDController@updateAll");
 
 //clique creative fd
@@ -426,6 +450,7 @@ Route::post("cc-fd-agents","api\CliqueCreativeFDController@getAllAgents");
 Route::post("cc-fd-contacts","api\CliqueCreativeFDController@getAllContacts");
 Route::post("cc-fd-tickets","api\CliqueCreativeFDController@getAllTicketsV2");
 Route::get("cc-fd-tickets-latest","api\CliqueCreativeFDController@getLatestTicketExportV2");
+Route::get("cc-fd-time-entries","api\CliqueCreativeFDController@getLatestTimeEntriesV3");
 Route::get("cc-fd-update-all","api\CliqueCreativeFDController@updateAll");
 
 
@@ -462,6 +487,7 @@ Route::post("stoneandtile-fd-agents","api\StoneandTileFDController@getAllAgents"
 Route::post("stoneandtile-fd-contacts","api\StoneandTileFDController@getAllContacts");
 Route::post("stoneandtile-fd-tickets","api\StoneandTileFDController@getAllTicketsV2");
 Route::get("stoneandtile-fd-tickets-latest","api\StoneandTileFDController@getLatestTicketExportV2");
+Route::get("stoneandtile-fd-time-entries","api\StoneandTileFDController@getLatestTimeEntriesV3");
 Route::get("stoneandtile-fd-update-all","api\StoneandTileFDController@updateAll");
 
 
@@ -473,6 +499,7 @@ Route::post("belle-property-fd-agents","api\BellePropertyFDController@getAllAgen
 Route::post("belle-property-fd-contacts","api\BellePropertyFDController@getAllContacts");
 Route::post("belle-property-fd-tickets","api\BellePropertyFDController@getAllTicketsV2");
 Route::get("belle-property-fd-tickets-latest","api\BellePropertyFDController@getLatestTicketExportV2");
+Route::get("belle-property-fd-time-entries","api\BellePropertyFDController@getLatestTimeEntriesV3");
 Route::get("belle-property-fd-update-all","api\BellePropertyFDController@updateAll");
 
 
@@ -494,6 +521,7 @@ Route::post("blue-rock-fd-agents","api\BlueRockFDController@getAllAgents");
 Route::post("blue-rock-fd-contacts","api\BlueRockFDController@getAllContacts");
 Route::post("blue-rock-fd-tickets","api\BlueRockFDController@getAllTicketsV2");
 Route::get("blue-rock-fd-tickets-latest","api\BlueRockFDController@getLatestTicketExportV2");
+Route::get("blue-rock-fd-time-entries","api\BlueRockFDController@getLatestTimeEntriesV3");
 Route::get("blue-rock-fd-update-all","api\BlueRockFDController@updateAll");
 
 
@@ -505,4 +533,5 @@ Route::post("uptick-fd-agents","api\UptickFDController@getAllAgents");
 Route::post("uptick-fd-contacts","api\UptickFDController@getAllContacts");
 Route::post("uptick-fd-tickets","api\UptickFDController@getAllTicketsV2");
 Route::get("uptick-fd-tickets-latest","api\UptickFDController@getLatestTicketExportV2");
+Route::get("uptick-fd-time-entries","api\UptickFDController@getLatestTimeEntriesV3");
 Route::get("uptick-fd-update-all","api\UptickFDController@updateAll");
