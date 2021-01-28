@@ -15,7 +15,7 @@ use App\HBurgersFDCompany as HBurgersFDCompany;
 use App\HBurgersFDAgent as HBurgersFDAgent;
 use App\HBurgersFDContact as HBurgersFDContact;
 use App\HBurgersFDTicket as HBurgersFDTicket;
-use App\HBurgersFDTimeEntryV2 as HBurgersFDTimeEntryV2;
+use App\HBurgersFDTimeEntryV3 as HBurgersFDTimeEntryV3;
 
 class HBurgersController extends Controller
 {
@@ -28,7 +28,7 @@ class HBurgersController extends Controller
         HBurgersFDAgent $hburgers_fd_agent,
         HBurgersFDContact $hburgers_fd_contact,
         HBurgersFDTicket $hburgers_fd_ticket,
-        HBurgersFDTimeEntryV2 $hburgers_fd_time_entry 
+        HBurgersFDTimeEntryV3 $hburgers_fd_time_entry 
     )
     {  
         $this->guzzle = $guzzle;
@@ -1037,13 +1037,13 @@ class HBurgersController extends Controller
         }
     }    
 
-    public function getLatestTimeEntryV2() {
+    public function getLatestTimeEntriesV3() {
         $client = new $this->guzzle();
         $data = config('constants.h_burger');
-        // $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
-        // // $two_days_ago = Carbon::now()->submonths(1)->format('UTC');
-        // echo($two_days_ago);
-        // die;
+        //  $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
+        //  // $two_days_ago = Carbon::now()->submonths(1)->format('UTC');
+        //  echo($two_days_ago);
+        //  die;
 
         $link = $data["link"]. "/api/v2/time_entries?executed_after=2020-12-01T00:00:00Z"; //."&order_type=asc&include=stats&per_page=100"
         $api_key = $data["api_key"];
