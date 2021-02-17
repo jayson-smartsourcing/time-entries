@@ -47,7 +47,7 @@ class DinglesFDController extends Controller
 
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/groups?per_page=100";
         $ticket_export_data = array();
@@ -130,7 +130,7 @@ class DinglesFDController extends Controller
     public function getAllCompanies() {
 
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $api_key = $data["api_key"];
         $link = $data["link"]. "/api/v2/companies?per_page=100";
         $ticket_export_data = array();
@@ -209,7 +209,7 @@ class DinglesFDController extends Controller
 
     public function getAllAgents(){
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $api_key = $data["api_key"];
 
         $link = $data["link"]. "/api/v2/agents?per_page=100";
@@ -296,7 +296,7 @@ class DinglesFDController extends Controller
     public function getAllContacts(){
 
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $api_key = $data["api_key"];
 
         $link = $data["link"]. "/api/v2/contacts?per_page=100";
@@ -659,7 +659,7 @@ class DinglesFDController extends Controller
 
     public function getAllTicketsV2(){
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $api_key = $data["api_key"];
         //$three_month_ago = new Carbon("2019-07-22");
         $three_month_ago = new Carbon("Last Day of September 2018");
@@ -818,7 +818,7 @@ class DinglesFDController extends Controller
 
     public function getLatestTicketExportV2() {
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
+        $data = config('constants.dingles_fd');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
@@ -1032,17 +1032,18 @@ class DinglesFDController extends Controller
 
     public function getLatestTimeEntriesV3() {
         $client = new $this->guzzle();
-        $data = config('constants.dingles');
-        //  $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
-        //  // $two_days_ago = Carbon::now()->submonths(1)->format('UTC');
-        //  echo($two_days_ago);
-        //  die;
+        $data = config('constants.dingles_fd');
+        $date = Carbon::parse('first day of -1 month')->setTimezone('Singapore')->format("Y-m-d");
+        // echo($date);
+        // die;
+        $link = $data["link"]. "/api/v2/time_entries?executed_after=".$date."&per_page=100";
 
-        $link = $data["link"]. "/api/v2/time_entries?executed_after=2020-12-01T00:00:00Z"; //."&order_type=asc&include=stats&per_page=100"
         $api_key = $data["api_key"];
         $time_entry_data = array();
         $x = 1;
         $y = 3;
+
+
 
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
@@ -1106,10 +1107,11 @@ class DinglesFDController extends Controller
                         "ticket_id" => $value->ticket_id,
                         "agent_id" => $value->agent_id,
                         "time_spent" => $value->time_spent,
-                        "executed_at" => Carbon::parse($value->executed_at)->setTimezone('UTC'),
-                        "start_time" => Carbon::parse($value->start_time)->setTimezone('UTC'),
-                        "created_at" => Carbon::parse($value->created_at)->setTimezone('UTC'),
-                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('UTC'),
+                        "executed_at" => Carbon::parse($value->executed_at)->setTimezone('Singapore'),
+                        "start_time" => Carbon::parse($value->start_time)->setTimezone('Singapore'),
+                        "created_at" => Carbon::parse($value->created_at)->setTimezone('Singapore'),
+                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Singapore'),
+                        "is_latest" => '1',
                     );
                     
                     $final_data[] = $time_entry;
@@ -1138,7 +1140,8 @@ class DinglesFDController extends Controller
             } 
 
         }
-
+        $this->dingles_time_entry->bulkDeletePreviousMonth($date);   
+        $this->dingles_time_entry->bulkUpdateByNewInsert();  
         return response()->json(['success'=> true], 200);
     }
 }

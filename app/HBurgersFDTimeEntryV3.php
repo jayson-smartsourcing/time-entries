@@ -19,7 +19,8 @@ class HBurgersFDTimeEntryV3 extends Model
         'executed_at',
         'start_time',
         'created_at',
-        'update_at'
+        'update_at',
+        'is_latest'
     ];
 
     public function bulkInsert($data){
@@ -34,13 +35,11 @@ class HBurgersFDTimeEntryV3 extends Model
         return static::truncate();
     }
     
-    // public function updateLatestFdTickets($table_name) {
-    //     $values = [$table_name];
-    //     DB::insert('EXEC update_fd_latest_tickets ?', $values);
-    // }
+    public function bulkDeletePreviousMonth($date) {
+        return DB::table('hburgers_fd_time_entries_v3')->whereDate('executed_at', '>=', $date)->Where('is_latest', '=', '0')->delete();//-
+    }
 
-    // public function updateAllFdTickets($table_name) {
-    //     $values = [$table_name];
-    //     DB::insert('EXEC update_fd_all_tickets ?', $values);
-    // }
+    public function bulkUpdateByNewInsert() {
+        return DB::table('hburgers_fd_time_entries_v3')->where('is_latest', '=', '1')->update(array('is_latest' => 0));
+    }
 }

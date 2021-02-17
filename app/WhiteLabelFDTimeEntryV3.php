@@ -19,7 +19,8 @@ class WhiteLabelFDTimeEntryV3 extends Model
         'executed_at',
         'start_time',
         'created_at',
-        'update_at'
+        'update_at',
+        'is_latest'
     ];
 
     public function bulkInsert($data){
@@ -33,5 +34,12 @@ class WhiteLabelFDTimeEntryV3 extends Model
     public function truncateTable() {
         return static::truncate();
     }
- 
+    
+    public function bulkDeletePreviousMonth($date) {
+        return DB::table('white_label_fd_time_entries_v3')->whereDate('executed_at', '>=', $date)->Where('is_latest', '=', '0')->delete();//-
+    }
+
+    public function bulkUpdateByNewInsert() {
+        return DB::table('white_label_fd_time_entries_v3')->where('is_latest', '=', '1')->update(array('is_latest' => 0));
+    }
 }
