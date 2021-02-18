@@ -44,7 +44,7 @@ class JGFDController extends Controller
 
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
         $link = $data["link"]. "/api/v2/groups?per_page=100";
         $ticket_export_data = array();
         $x = 1;
@@ -127,7 +127,7 @@ class JGFDController extends Controller
 
     public function getAllCompanies() {
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
         $link = $data["link"]. "/api/v2/companies?per_page=100";
         $ticket_export_data = array();
         $x = 1;
@@ -206,7 +206,7 @@ class JGFDController extends Controller
     public function getAllAgents(){
        
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
         $link = $data["link"]. "/api/v2/agents?per_page=100";
         $ticket_export_data = array();
         $x = 1;
@@ -290,7 +290,7 @@ class JGFDController extends Controller
 
     public function getAllContacts(){
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
 
         $date_now = Carbon::now()->format('Y-m-d');
 
@@ -666,7 +666,7 @@ class JGFDController extends Controller
 
     public function getAllTicketsV2(){
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
         $three_month_ago = new Carbon("Last Day of September 2018");
         $three_month_ago = $three_month_ago->format("Y-m-d");
 
@@ -826,7 +826,7 @@ class JGFDController extends Controller
 
     public function getLatestTicketExportV2() {
         $client = new $this->guzzle();
-        $data = config('constants.jg');
+        $data = config('constants.jg_fd');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";

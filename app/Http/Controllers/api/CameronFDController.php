@@ -1109,6 +1109,7 @@ class CameronFDController extends Controller
                         "start_time" => Carbon::parse($value->start_time)->setTimezone('Singapore'),
                         "created_at" => Carbon::parse($value->created_at)->setTimezone('Singapore'),
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Singapore'),
+                        "is_latest" => '1',
                     );
                     
                     $final_data[] = $time_entry;
