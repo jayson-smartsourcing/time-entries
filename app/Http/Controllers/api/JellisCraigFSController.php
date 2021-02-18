@@ -47,7 +47,7 @@ class JellisCraigFSController extends Controller
     }
     public function getAllGroups() {
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $api_key = $data["api_key"];
         
         $this->jc_fs_group->truncateTable();
@@ -132,7 +132,7 @@ class JellisCraigFSController extends Controller
     public function getAllDepartments() {
         $now = Carbon::now();
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $api_key = $data["api_key"];
         $this->jc_fs_department->truncateTable();
 
@@ -215,7 +215,7 @@ class JellisCraigFSController extends Controller
 
     public function getAllRequester() {
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $api_key = $data["api_key"];
         $this->jc_fs_requester->truncateTable();
 
@@ -299,7 +299,7 @@ class JellisCraigFSController extends Controller
 
     public function getAllAgents() {
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $api_key = $data["api_key"];
 
         $this->jc_fs_agent->truncateTable();
@@ -690,7 +690,7 @@ class JellisCraigFSController extends Controller
 
     public function getAllTicketExportV2(){
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $api_key = $data["api_key"];
         //$three_month_ago = new Carbon("2019-07-22");
         $three_month_ago = new Carbon("Last Day of September 2018");
@@ -848,7 +848,7 @@ class JellisCraigFSController extends Controller
 
     public function getLatestTicketExportV2() {
         $client = new $this->guzzle();
-        $data = config('constants.jck');
+        $data = config('constants.jck_fs');
         $two_days_ago = Carbon::now()->subDays(2)->format('Y-m-d');
 
         $link = $data["link"]. "/api/v2/tickets?updated_since=".$two_days_ago."&order_type=asc&include=stats&per_page=100";
