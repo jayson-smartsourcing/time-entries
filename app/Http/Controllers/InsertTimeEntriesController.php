@@ -50,6 +50,7 @@ use App\BellePropertyFDTimeEntry as BellePropertyFDTimeEntry;
 use App\BeerCartelFDTimeEntry as BeerCartelFDTimeEntry;
 use App\BlueRockFDTimeEntry as BlueRockFDTimeEntry;
 use App\UptickFDTimeEntry as UptickFDTimeEntry;
+use App\PlexusFDTimeEntry as PlexusFDTimeEntry;
 
 class InsertTimeEntriesController extends Controller
 {
@@ -93,7 +94,8 @@ class InsertTimeEntriesController extends Controller
         BellePropertyFDTimeEntry $belle_property_fd_time_entries,
         BeerCartelFDTimeEntry $beer_cartel_fd_time_entries,
         BlueRockFDTimeEntry $blue_rock_fd_time_entries,
-        UptickFDTimeEntry $uptick_fd_time_entries
+        UptickFDTimeEntry $uptick_fd_time_entries,
+        PlexusFDTimeEntry $plexus_fd_time_entries
     )
     {  
         $this->guzzle = $guzzle;
@@ -136,6 +138,7 @@ class InsertTimeEntriesController extends Controller
         $this->beer_cartel_fd_time_entries = $beer_cartel_fd_time_entries;
         $this->blue_rock_fd_time_entries = $blue_rock_fd_time_entries;
         $this->uptick_fd_time_entries = $uptick_fd_time_entries;
+        $this->plexus_fd_time_entries = $plexus_fd_time_entries;
     }
 
     //function to convert hours into decimal 

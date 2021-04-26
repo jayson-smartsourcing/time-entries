@@ -535,3 +535,27 @@ Route::post("uptick-fd-tickets","api\UptickFDController@getAllTicketsV2");
 Route::get("uptick-fd-tickets-latest","api\UptickFDController@getLatestTicketExportV2");
 Route::get("uptick-fd-time-entries","api\UptickFDController@getLatestTimeEntriesV3");
 Route::get("uptick-fd-update-all","api\UptickFDController@updateAll");
+
+
+//atradius fd
+Route::post("atradius-fd-groups","api\AtradiusFDController@getAllGroups");
+Route::post("atradius-fd-companies","api\AtradiusFDController@getAllCompanies");
+Route::post("atradius-fd-agents","api\AtradiusFDController@getAllAgents");
+Route::post("atradius-fd-contacts","api\AtradiusFDController@getAllContacts");
+Route::post("atradius-fd-tickets","api\AtradiusFDController@getAllTicketsV2");
+Route::get("atradius-fd-tickets-latest","api\AtradiusFDController@getLatestTicketExportV2");
+Route::get("atradius-fd-time-entries","api\AtradiusFDController@getLatestTimeEntriesV3");
+Route::get("atradius-fd-update-all","api\AtradiusFDController@updateAll");
+
+//plexus fd
+Route::post("plexus-fd-groups","api\PlexusFDController@getAllGroups");
+Route::post("plexus-fd-companies","api\PlexusFDController@getAllCompanies");
+Route::post("plexus-fd-agents","api\PlexusFDController@getAllAgents");
+Route::post("plexus-fd-contacts","api\PlexusFDController@getAllContacts");
+Route::post("plexus-fd-tickets","api\PlexusFDController@getAllTicketsV2");
+Route::get("plexus-fd-tickets-latest","api\PlexusFDController@getLatestTicketExportV2");
+Route::get("plexus-fd-time-entries","api\PlexusFDController@getLatestTimeEntriesV3");
+Route::get("plexus-fd-update-all","api\PlexusFDController@updateAll");
+
+
+
