@@ -35,8 +35,8 @@ class PlexusFDTimeEntryV3 extends Model
         return static::truncate();
     }
 
-    public function bulkDeletePreviousMonth($date) {
-        return DB::table('plexus_fd_time_entries_v3')->whereDate('executed_at', '>=', $date)->Where('is_latest', '=', '0')->delete();//-
+    public function bulkDeletePreviousMonth($date_after,$date_on_or_before) {
+        return DB::table('plexus_fd_time_entries_v3')->whereDate('executed_at', '>', $date_after)->whereDate('executed_at', '<=', $date_on_or_before)->Where('is_latest', '=', '0')->delete();//-
     }
 
     public function bulkUpdateByNewInsert() {
