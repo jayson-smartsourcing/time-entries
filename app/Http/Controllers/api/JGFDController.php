@@ -1040,139 +1040,130 @@ class JGFDController extends Controller
     }
 
     public function getLatestTimeEntriesV3() {
-       
         $client = new $this->guzzle();
         $data = config('constants.jg_fd');
-        //$fdate = date('Y-m-d', strtotime('first day of -1 month'));
-        $date = Carbon::parse('first day of -1 month')->setTimezone('Singapore')->format("Y-m-d");
-        // echo($date);
-        // die;
-        $link = $data["link"]. "/api/v2/time_entries?executed_after=".$date."&per_page=100";
-        
+        $date_after = Carbon::parse('last day of -2 month')->setTimezone('Singapore')->format("Y-m-d");
+        //$day_after_minus_1 = substr($date_after,8,2) - 1;
+        //$date_after = substr($date_after,0,4)."-".substr($date_after,5,2)."-".$day_after_minus_1."T15:59:59Z";
+        $date_after = $date_after."T15:59:59Z";
+        $date_on_or_before = date("Y-m-d")."T".date("h:m:s")."Z";
+
+
+        //$date_after = "2021-03-15T16:00:01Z"; --use date on or before plus 1 second to manually input date_after after running a manually
+        //$date_before = "2021-03-15T16:00:00Z"; --use last date you want to be inserted
+
+        //$link = $data["link"]. "/api/v2/time_entries?executed_after=".$date."&per_page=100";
+        $link = $data["link"]. "/api/v2/time_entries?executed_after=".$date_after."&executed_before=".$date_on_or_before."&per_page=100";
+
         $api_key = $data["api_key"];
         $time_entry_data = array();
         $x = 1;
         $y = 3;
 
-       // try {
-               
-                
-                for( $i = 1; $i<= $x; $i++ ) {
-                    $link .= "&page=".$i;
-                    
-                    //call to api
-                    $response = $client->request('GET', $link, [
+        for( $i = 1; $i<= $x; $i++ ) {
+            $link .= "&page=".$i;
+
+            //call to api
+            $response = $client->request('GET', $link, [
+                'headers' => [
+                    'Authorization' => $api_key
+                ]
+            ]);
+            // get Status Code
+            $status_code = $response->getStatusCode();
+
+            if($status_code != 200 ) {
+            for($tries = 0; $tries < $y; $tries++) {
+                    //retry call api
+                    $response_retry = $client->request('GET', $link, [
                         'headers' => [
                             'Authorization' => $api_key
-                        ]//, 'http_errors' => false
+                        ]
                     ]);
-                    // get Status Code
-                           
-                    $status_code = $response->getStatusCode();  
+                    //get status Code
+                    $status_code = $response_retry->getStatusCode();
 
-                    if($status_code != 200 ) {
-                        echo 'here';  
-                    for($tries = 0; $tries < $y; $tries++) {
-                            //retry call api
-                            $response_retry = $client->request('GET', $link, [
-                                'headers' => [
-                                    'Authorization' => $api_key
-                                ]//, 'http_errors' => false
-                            ]);
-
-                            //get status Code    
-                            $status_code = $response_retry->getStatusCode(); 
-                           
-                            if($status_code != 200 && $tries == 2) {
-                                //throw new Exception('Error in URL!!!');  
-                                                           
-                                $failed_data["link"] = $link;
-                                $failed_data["status"] = $status_code;
-                                $this->failed_time_entries->addData($failed_data);
-                                break 2;
-                            } 
-                            
-                            if($status_code == 200) {
-                                $body = json_decode($response_retry->getBody());
-                                break;
-                            }
+                    if($status_code != 200 && $tries == 2) {
+                        $failed_data["link"] = $link;
+                        $failed_data["status"] = $status_code;
+                        $this->failed_time_entries->addData($failed_data);
+                        break 2;
                     }
-                        
-                    } else {
-                        $body = json_decode($response->getBody());
+
+                    if($status_code == 200) {
+                        $body = json_decode($response_retry->getBody());
+                        break;
                     }
-                
-                    if(count($body) != 0) {
-                        $time_entry_data = $body;
-                        $x++;
+            }
 
-                        $final_data = array();
-                        $count = 0;
-                        $len = count($time_entry_data);
-                        $not_found = array();
-                        $ids = array();  
+            } else {
+                $body = json_decode($response->getBody());
+            }
 
-                        foreach($time_entry_data as $key => $value) {
-                            $now = Carbon::now();
-                            $ids[] = $value->id;
+            if(count($body) != 0) {
+                $time_entry_data = $body;
+                $x++;
 
-                            $time_entry = array(
-                                "billable" => $value->billable,
-                                "note" => $value->note,
-                                "id" => $value->id,
-                                "timer_running" => $value->timer_running,
-                                "ticket_id" => $value->ticket_id,
-                                "agent_id" => $value->agent_id,
-                                "time_spent" => $value->time_spent,
-                                "executed_at" => Carbon::parse($value->executed_at)->setTimezone('Singapore'),
-                                "start_time" => Carbon::parse($value->start_time)->setTimezone('Singapore'),
-                                "created_at" => Carbon::parse($value->created_at)->setTimezone('Singapore'),
-                                "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Singapore'),
-                                "is_latest" => '1'
-                            );
-                            
-                            $final_data[] = $time_entry;
+                $final_data = array();
+                $count = 0;
+                $len = count($time_entry_data);
+                $not_found = array();
+                $ids = array();
 
-                            if( ($len - 1) > $key && count($final_data) == 50) {
-                                
-                                $this->jg_fd_time_entry->bulkDeleteById($ids);
-                                $this->jg_fd_time_entry->bulkInsert($final_data);
-                                $final_data = [];
-                                $ids = [];
-                            } 
+                foreach($time_entry_data as $key => $value) {
+                    $now = Carbon::now();
+                    $ids[] = $value->id;
 
-                            if( ($len - 1) == $key) {
-                                
-                                $this->jg_fd_time_entry->bulkDeleteById($ids);
-                                $this->jg_fd_time_entry->bulkInsert($final_data);
-                                $final_data = [];
-                                $ids = [];
-                            }
+                    $time_entry = array(
+                        "billable" => $value->billable,
+                        "note" => $value->note,
+                        "id" => $value->id,
+                        "timer_running" => $value->timer_running,
+                        "ticket_id" => $value->ticket_id,
+                        "agent_id" => $value->agent_id,
+                        "time_spent" => $value->time_spent,
+                        "executed_at" => Carbon::parse($value->executed_at)->setTimezone('Singapore'),
+                        "start_time" => Carbon::parse($value->start_time)->setTimezone('Singapore'),
+                        "created_at" => Carbon::parse($value->created_at)->setTimezone('Singapore'),
+                        "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Singapore'),
+                        "is_latest" => '1',
+                    );
 
-                        }
-                    
-                        if(count($not_found) > 0) {
-                            $this->bp_not_found->bulkInsert($not_found);
-                        }
+                    $final_data[] = $time_entry;
 
-                    } 
+                    if( ($len - 1) > $key && count($final_data) == 50) {
 
+                        $this->jg_fd_time_entry->bulkDeleteById($ids);
+                        $this->jg_fd_time_entry->bulkInsert($final_data);
+                        $final_data = [];
+                        $ids = [];
+                    }
+
+                    if( ($len - 1) == $key) {
+
+                        $this->jg_fd_time_entry->bulkDeleteById($ids);
+                        $this->jg_fd_time_entry->bulkInsert($final_data);
+                        $final_data = [];
+                        $ids = [];
+                    }
                 }
-        // }
-        // catch(\Throwable $e){
-        //     echo 'here';
-        //     if ($e->hasResponse()){
-        //         if ($e->getResponse()->getStatusCode() == '500') {
-        //                 echo "Got response 400";
-        //         }
-        //     }
-        // }
-        // catch(Exception $e){
-        //     echo 'or here';
-        //     echo 'exception'.$e->getmessage();
-        // }
-        $this->jg_fd_time_entry->bulkDeletePreviousMonth($date);   
-        $this->jg_fd_time_entry->bulkUpdateByNewInsert();   
+
+                if(count($not_found) > 0) {
+                    $this->bp_not_found->bulkInsert($not_found);
+                }
+
+            }
+
+        }
+        //$day_after_plus_1 = substr($date_after,8,2) + 1;
+        //$date_after = Carbon::parse(substr($date_after,0,8).$day_after_plus_1."T15:59:59Z")->setTimezone('Singapore')->format("Y-m-d");
+        $date_after = Carbon::parse('first day of -1 month')->setTimezone('Singapore')->format("Y-m-d");
+        $date_on_or_before = Carbon::parse($date_on_or_before)->setTimezone('Singapore')->format("Y-m-d");
+        //echo($date_after);
+        //echo($date_on_or_before);
+        //die;
+        $this->jg_fd_time_entry->bulkDeletePreviousMonth($date_after,$date_on_or_before);
+        $this->jg_fd_time_entry->bulkUpdateByNewInsert();
         return response()->json(['success'=> true], 200);
     }
 

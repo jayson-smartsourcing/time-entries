@@ -34,13 +34,12 @@ class CWFDTimeEntryV3 extends Model
     public function truncateTable() {
         return static::truncate();
     }
-    
-    public function bulkDeletePreviousMonth($date) {
-        return DB::table('cw_fd_time_entries_v3')->whereDate('executed_at', '>=', $date)->Where('is_latest', '=', '0')->delete();//-
+
+    public function bulkDeletePreviousMonth($date_after,$date_on_or_before) {
+        return DB::table('cw_fd_time_entries_v3')->whereDate('executed_at', '>', $date_after)->whereDate('executed_at', '<=', $date_on_or_before)->Where('is_latest', '=', '0')->delete();//-
     }
 
     public function bulkUpdateByNewInsert() {
         return DB::table('cw_fd_time_entries_v3')->where('is_latest', '=', '1')->update(array('is_latest' => 0));
     }
-
 }

@@ -749,21 +749,27 @@ class WhiteLabelFDController extends Controller
     public function getLatestTimeEntriesV3() {
         $client = new $this->guzzle();
         $data = config('constants.white_label_fd');
-        $date = Carbon::parse('first day of -1 month')->setTimezone('Singapore')->format("Y-m-d");
-        // echo($date);
-        // die;
-        $link = $data["link"]. "/api/v2/time_entries?executed_after=".$date."&per_page=100";
+        $date_after = Carbon::parse('last day of -2 month')->setTimezone('Singapore')->format("Y-m-d");
+        //$day_after_minus_1 = substr($date_after,8,2) - 1;
+        //$date_after = substr($date_after,0,4)."-".substr($date_after,5,2)."-".$day_after_minus_1."T15:59:59Z";
+        $date_after = $date_after."T15:59:59Z";
+        $date_on_or_before = date("Y-m-d")."T".date("h:m:s")."Z";
+
+
+        //$date_after = "2021-03-15T16:00:01Z"; --use date on or before plus 1 second to manually input date_after after running a manually
+        //$date_before = "2021-03-15T16:00:00Z"; --use last date you want to be inserted
+
+        //$link = $data["link"]. "/api/v2/time_entries?executed_after=".$date."&per_page=100";
+        $link = $data["link"]. "/api/v2/time_entries?executed_after=".$date_after."&executed_before=".$date_on_or_before."&per_page=100";
 
         $api_key = $data["api_key"];
         $time_entry_data = array();
         $x = 1;
         $y = 3;
 
-
-
         for( $i = 1; $i<= $x; $i++ ) {
             $link .= "&page=".$i;
-            
+
             //call to api
             $response = $client->request('GET', $link, [
                 'headers' => [
@@ -771,7 +777,7 @@ class WhiteLabelFDController extends Controller
                 ]
             ]);
             // get Status Code
-            $status_code = $response->getStatusCode();  
+            $status_code = $response->getStatusCode();
 
             if($status_code != 200 ) {
             for($tries = 0; $tries < $y; $tries++) {
@@ -781,26 +787,26 @@ class WhiteLabelFDController extends Controller
                             'Authorization' => $api_key
                         ]
                     ]);
-                    //get status Code    
-                    $status_code = $response_retry->getStatusCode(); 
+                    //get status Code
+                    $status_code = $response_retry->getStatusCode();
 
                     if($status_code != 200 && $tries == 2) {
                         $failed_data["link"] = $link;
                         $failed_data["status"] = $status_code;
                         $this->failed_time_entries->addData($failed_data);
                         break 2;
-                    } 
+                    }
 
                     if($status_code == 200) {
                         $body = json_decode($response_retry->getBody());
                         break;
                     }
             }
-                
+
             } else {
                 $body = json_decode($response->getBody());
             }
-        
+
             if(count($body) != 0) {
                 $time_entry_data = $body;
                 $x++;
@@ -809,7 +815,7 @@ class WhiteLabelFDController extends Controller
                 $count = 0;
                 $len = count($time_entry_data);
                 $not_found = array();
-                $ids = array();  
+                $ids = array();
 
                 foreach($time_entry_data as $key => $value) {
                     $now = Carbon::now();
@@ -829,35 +835,42 @@ class WhiteLabelFDController extends Controller
                         "updated_at" => Carbon::parse($value->updated_at)->setTimezone('Singapore'),
                         "is_latest" => '1',
                     );
-                    
+
                     $final_data[] = $time_entry;
 
                     if( ($len - 1) > $key && count($final_data) == 50) {
-                        
+
                         $this->white_label_time_entry->bulkDeleteById($ids);
                         $this->white_label_time_entry->bulkInsert($final_data);
                         $final_data = [];
                         $ids = [];
-                    } 
+                    }
 
                     if( ($len - 1) == $key) {
-                        
+
                         $this->white_label_time_entry->bulkDeleteById($ids);
                         $this->white_label_time_entry->bulkInsert($final_data);
                         $final_data = [];
                         $ids = [];
                     }
                 }
-            
+
                 if(count($not_found) > 0) {
                     $this->bp_not_found->bulkInsert($not_found);
                 }
 
-            } 
+            }
 
         }
-        $this->white_label_time_entry->bulkDeletePreviousMonth($date);   
-        $this->white_label_time_entry->bulkUpdateByNewInsert();  
+        //$day_after_plus_1 = substr($date_after,8,2) + 1;
+        //$date_after = Carbon::parse(substr($date_after,0,8).$day_after_plus_1."T15:59:59Z")->setTimezone('Singapore')->format("Y-m-d");
+        $date_after = Carbon::parse('first day of -1 month')->setTimezone('Singapore')->format("Y-m-d");
+        $date_on_or_before = Carbon::parse($date_on_or_before)->setTimezone('Singapore')->format("Y-m-d");
+        //echo($date_after);
+        //echo($date_on_or_before);
+        //die;
+        $this->white_label_time_entry->bulkDeletePreviousMonth($date_after,$date_on_or_before);
+        $this->white_label_time_entry->bulkUpdateByNewInsert();
         return response()->json(['success'=> true], 200);
     }
 }
