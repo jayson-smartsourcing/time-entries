@@ -557,5 +557,15 @@ Route::get("plexus-fd-tickets-latest","api\PlexusFDController@getLatestTicketExp
 Route::get("plexus-fd-time-entries","api\PlexusFDController@getLatestTimeEntriesV3");
 Route::get("plexus-fd-update-all","api\PlexusFDController@updateAll");
 
+//plexus fd
+Route::post("wb-fd-groups","api\WBFDController@getAllGroups");
+Route::post("wb-fd-companies","api\WBFDController@getAllCompanies");
+Route::post("wb-fd-agents","api\WBFDController@getAllAgents");
+Route::post("wb-fd-contacts","api\WBFDController@getAllContacts");
+Route::post("wb-fd-tickets","api\WBFDController@getAllTicketsV2");
+Route::get("wb-fd-tickets-latest","api\WBFDController@getLatestTicketExportV2");
+Route::get("wb-fd-time-entries","api\WBFDController@getLatestTimeEntriesV3");
+Route::get("wb-fd-update-all","api\WBFDController@updateAll");
+
 
 
