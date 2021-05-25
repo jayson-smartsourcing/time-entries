@@ -557,7 +557,7 @@ Route::get("plexus-fd-tickets-latest","api\PlexusFDController@getLatestTicketExp
 Route::get("plexus-fd-time-entries","api\PlexusFDController@getLatestTimeEntriesV3");
 Route::get("plexus-fd-update-all","api\PlexusFDController@updateAll");
 
-//plexus fd
+//wb fd
 Route::post("wb-fd-groups","api\WBFDController@getAllGroups");
 Route::post("wb-fd-companies","api\WBFDController@getAllCompanies");
 Route::post("wb-fd-agents","api\WBFDController@getAllAgents");
@@ -566,6 +566,17 @@ Route::post("wb-fd-tickets","api\WBFDController@getAllTicketsV2");
 Route::get("wb-fd-tickets-latest","api\WBFDController@getLatestTicketExportV2");
 Route::get("wb-fd-time-entries","api\WBFDController@getLatestTimeEntriesV3");
 Route::get("wb-fd-update-all","api\WBFDController@updateAll");
+
+
+//hennessy fd
+Route::post("hennessy-fd-groups","api\HennessyFDController@getAllGroups");
+Route::post("hennessy-fd-companies","api\HennessyFDController@getAllCompanies");
+Route::post("hennessy-fd-agents","api\HennessyFDController@getAllAgents");
+Route::post("hennessy-fd-contacts","api\HennessyFDController@getAllContacts");
+Route::post("hennessy-fd-tickets","api\HennessyFDController@getAllTicketsV2");
+Route::get("hennessy-fd-tickets-latest","api\HennessyFDController@getLatestTicketExportV2");
+Route::get("hennessy-fd-time-entries","api\HennessyFDController@getLatestTimeEntriesV3");
+Route::get("hennessy-fd-update-all","api\HennessyFDController@updateAll");
 
 
 
