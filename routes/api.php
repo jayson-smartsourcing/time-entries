@@ -579,4 +579,14 @@ Route::get("hennessy-fd-time-entries","api\HennessyFDController@getLatestTimeEnt
 Route::get("hennessy-fd-update-all","api\HennessyFDController@updateAll");
 
 
+//realhub fd
+Route::post("realhub-fd-groups","api\RealhubFDController@getAllGroups");
+Route::post("realhub-fd-companies","api\RealhubFDController@getAllCompanies");
+Route::post("realhub-fd-agents","api\RealhubFDController@getAllAgents");
+Route::post("realhub-fd-contacts","api\RealhubFDController@getAllContacts");
+Route::post("realhub-fd-tickets","api\RealhubFDController@getAllTicketsV2");
+Route::get("realhub-fd-tickets-latest","api\RealhubFDController@getLatestTicketExportV2");
+Route::get("realhub-fd-time-entries","api\RealhubFDController@getLatestTimeEntriesV3");
+Route::get("realhub-fd-update-all","api\RealhubFDController@updateAll");
+
 
