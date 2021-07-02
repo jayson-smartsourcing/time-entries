@@ -589,4 +589,11 @@ Route::get("realhub-fd-tickets-latest","api\RealhubFDController@getLatestTicketE
 Route::get("realhub-fd-time-entries","api\RealhubFDController@getLatestTimeEntriesV3");
 Route::get("realhub-fd-update-all","api\RealhubFDController@updateAll");
 
-
+//smartsourcing fs
+Route::post("smartsourcing-fs-groups","api\SmartsourcingFSController@getAllGroups");
+Route::post("smartsourcing-fs-departments","api\SmartsourcingFSController@getAllDepartments");
+Route::post("smartsourcing-fs-requesters","api\SmartsourcingFSController@getAllRequester");
+Route::post("smartsourcing-fs-agents","api\SmartsourcingFSController@getAllAgents");
+Route::post("smartsourcing-fs-tickets","api\SmartsourcingFSController@getAllTicketExportV2");
+Route::get("smartsourcing-fs-tickets-latests","api\SmartsourcingFSController@getLatestTicketExportV2");
+Route::get("smartsourcing-fs-update-all","api\SmartsourcingFSController@updateAll");
