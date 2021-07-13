@@ -55,6 +55,8 @@ use App\WBFDTimeEntry as WBFDTimeEntry;
 use App\HennessyFDTimeEntry as HennessyFDTimeEntry;
 use App\RealhubFDTimeEntry as RealhubFDTimeEntry;
 use App\SmartsourcingFSTimeEntry as SmartsourcingFSTimeEntry;
+use App\NicholsCrowderFDTimeEntry as NicholsCrowderFDTimeEntry;
+
 
 class InsertTimeEntriesController extends Controller
 {
@@ -103,7 +105,8 @@ class InsertTimeEntriesController extends Controller
         WBFDTimeEntry $wb_fd_time_entries,
         HennessyFDTimeEntry $hennessy_fd_time_entries,
         RealhubFDTimeEntry $realhub_fd_time_entries,
-        SmartsourcingFSTimeEntry $smartsourcing_fs_time_entries
+        SmartsourcingFSTimeEntry $smartsourcing_fs_time_entries,
+        NicholsCrowderFDTimeEntry $nichols_crowder_fd_time_entries
     )
     {  
         $this->guzzle = $guzzle;
@@ -151,6 +154,7 @@ class InsertTimeEntriesController extends Controller
         $this->hennessy_fd_time_entries = $hennessy_fd_time_entries;
         $this->realhub_fd_time_entries = $realhub_fd_time_entries;
         $this->smartsourcing_fs_time_entries = $smartsourcing_fs_time_entries;
+        $this->nichols_crowder_fd_time_entries = $nichols_crowder_fd_time_entries;
     }
 
     //function to convert hours into decimal 
