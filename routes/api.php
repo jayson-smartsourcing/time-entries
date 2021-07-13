@@ -597,3 +597,14 @@ Route::post("smartsourcing-fs-agents","api\SmartsourcingFSController@getAllAgent
 Route::post("smartsourcing-fs-tickets","api\SmartsourcingFSController@getAllTicketExportV2");
 Route::get("smartsourcing-fs-tickets-latests","api\SmartsourcingFSController@getLatestTicketExportV2");
 Route::get("smartsourcing-fs-update-all","api\SmartsourcingFSController@updateAll");
+
+
+//nichols crowder fd
+Route::post("nichols-crowder-fd-groups","api\NicholsCrowderFDController@getAllGroups");
+Route::post("nichols-crowder-fd-companies","api\NicholsCrowderFDController@getAllCompanies");
+Route::post("nichols-crowder-fd-agents","api\NicholsCrowderFDController@getAllAgents");
+Route::post("nichols-crowder-fd-contacts","api\NicholsCrowderFDController@getAllContacts");
+Route::post("nichols-crowder-fd-tickets","api\NicholsCrowderFDController@getAllTicketsV2");
+Route::get("nichols-crowder-fd-tickets-latest","api\NicholsCrowderFDController@getLatestTicketExportV2");
+Route::get("nichols-crowder-fd-time-entries","api\NicholsCrowderFDController@getLatestTimeEntriesV3");
+Route::get("nichols-crowder-fd-update-all","api\NicholsCrowderFDController@updateAll");
